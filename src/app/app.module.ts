@@ -9,7 +9,7 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { CardModule } from 'primeng/card';
 import { DashboardModule } from './dashboard/dashboard.module';
-
+import { SkillsModule } from './skills/skills.module';
 
 registerLocaleData(localeEs,'es');
 
@@ -25,6 +25,7 @@ registerLocaleData(localeEs,'es');
     LoginModule,
     CardModule,
     DashboardModule,
+    SkillsModule
   ],
   providers: [
     DatePipe

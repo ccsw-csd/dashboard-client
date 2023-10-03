@@ -5,6 +5,7 @@ import { RefreshTokenResolverService } from './core/services/refresh-token-resol
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { MainComponent } from './dashboard/views/main/main.component';
+import { StatisticComponent } from './skills/statistic/statistic.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,9 +17,10 @@ const routes: Routes = [
     resolve: {credentials: RefreshTokenResolverService},
     children: [
       { path: 'dashboard', component: MainComponent},
+      { path: 'statistic', component: StatisticComponent},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
-  },  
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
