@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { SkillsService } from '../../core/services/skills.service';
 @Component({
   selector: 'app-statistic',
   templateUrl: './statistic.component.html',
@@ -11,7 +11,13 @@ export class StatisticComponent implements OnInit{
  dataCapacity : any;
  dataCloudCert: any;
 
+ constructor(private skillsService: SkillsService) {}
+
  ngOnInit() {
+  this.skillsService.getPersons().subscribe(data => {
+      console.log('persons: ',data);  });
+
+
    this.dataCert = {
     labels : ['html5,javascript,css3','aws cloud','google cloud','Angular','oracle associate,java se','English'],
     datasets : [{

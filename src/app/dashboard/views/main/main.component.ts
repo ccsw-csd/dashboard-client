@@ -12,4 +12,12 @@ export class MainComponent {
   goToChart() {
     this.router.navigateByUrl('/statistic');
   }
+
+  goToList() {
+    this.router.navigateByUrl('/persons');
+  }
+
+  goToMaestro() {
+    this.router.navigateByUrl('/maestro');
+  }
 }

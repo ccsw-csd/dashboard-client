@@ -10,6 +10,7 @@ import localeEs from '@angular/common/locales/es';
 import { CardModule } from 'primeng/card';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { SkillsModule } from './skills/skills.module';
+import { HttpClientModule } from '@angular/common/http';
 
 registerLocaleData(localeEs,'es');
 
@@ -21,6 +22,7 @@ registerLocaleData(localeEs,'es');
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     CoreModule,
     LoginModule,
     CardModule,

@@ -1,0 +1,24 @@
+<div class="flex">
+  <div class="textBloc px-2 flex align-items-center" [ngStyle]="{'background': color}">
+    <p>{{totales.length}} {{ text }}</p>
+  </div>
+  <p-table [value]="data" class="{{ colorClass }}" styleClass="p-datatable-gridlines" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of columnas" id="index">{{ col }}</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-fila>
+      <tr>
+        <td *ngFor="let elem of fila">{{ elem }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" *ngIf="total">
+      <tr>
+        <td *ngFor="let t of totales">{{ t }}</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>

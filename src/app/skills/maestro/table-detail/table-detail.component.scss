@@ -1,0 +1,18 @@
+.textBloc {
+  font-size: 12px;
+  border: 1px solid lightgray;
+  width: 300px;
+  p {
+    width: 180px;
+  }
+}
+
+:host ::ng-deep {
+  .p-datatable .p-datatable-tbody>tr>td {
+    text-align: center;
+  }
+
+  .p-datatable .p-datatable-tfoot>tr>td {
+    text-align: center;
+  }
+}
