@@ -12,6 +12,10 @@
 .verde {
   background: lightgreen;
 }
+.tableTitle {
+  text-align: center;
+  background: lightgray;
+}
 
 :host ::ng-deep {
   .bgBlue {
@@ -24,4 +28,9 @@
       background: lightgreen;
     }
   }
+  .bgBiege {
+     .p-datatable .p-datatable-thead>tr>th {
+       background: #FFE699;
+     }
+   }
 }

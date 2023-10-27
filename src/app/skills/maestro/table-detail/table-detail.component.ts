@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GradesRole, Role } from 'src/app/core/interfaces/capacidades';
 
 @Component({
   selector: 'app-table-detail',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./table-detail.component.scss']
 })
 export class TableDetailComponent  implements OnInit{
-  @Input() data : any;
+  @Input() data : GradesRole[];
   @Input() columnas : string[];
   @Input() color : string;
   @Input() colorClass : string;
