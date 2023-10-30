@@ -6,12 +6,6 @@
   width: 300px;
 }
 
-.azule {
-  background: aliceblue;
-}
-.verde {
-  background: lightgreen;
-}
 .tableTitle {
   text-align: center;
   background: lightgray;
@@ -20,17 +14,37 @@
 :host ::ng-deep {
   .bgBlue {
     .p-datatable .p-datatable-thead>tr>th {
-      background: aliceblue;
+      background: #D9E1F2;
     }
   }
+
   .bgGreen {
     .p-datatable .p-datatable-thead>tr>th {
-      background: lightgreen;
+      background: #E2EFDA;
     }
   }
-  .bgBiege {
-     .p-datatable .p-datatable-thead>tr>th {
-       background: #FFE699;
-     }
-   }
+
+  .bgBeige {
+    .p-datatable .p-datatable-thead>tr>th {
+      background: #FFF2CC;
+    }
+  }
+
+  .bgOrange {
+    .p-datatable .p-datatable-thead>tr>th {
+      background: #FFE699;
+    }
+  }
+
+  .bgPink {
+    .p-datatable .p-datatable-thead>tr>th {
+      background: #FCE4D6;
+    }
+  }
+
+  .bgGray {
+    .p-datatable .p-datatable-thead>tr>th {
+      background: #F2F2F2;
+    }
+  }
 }

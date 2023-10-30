@@ -1,10 +1,14 @@
 .textBloc {
   font-size: 12px;
   border: 1px solid lightgray;
-  width: 300px;
+  //width: 300px;
   p {
     width: 180px;
   }
+}
+
+.table_container {
+  overflow-x: auto;
 }
 
 :host ::ng-deep {
