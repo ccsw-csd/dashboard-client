@@ -1,0 +1,39 @@
+<h1>Lista de empleados</h1>
+
+<h3>Filtros:</h3>
+<div class="my-4 card flex justify-content-center">
+  <form [formGroup]="formGroup">
+    <p-dropdown formControlName="skillDescription"
+    [options]="skillDescription" placeholder="select a skill"></p-dropdown>
+  </form>
+</div>
+
+<div class="card">
+  <p-table [value]="filteredData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:25%">Name</th>
+        <th style="width:25%">skill Type</th>
+        <th style="width:25%">skill Description</th>
+        <th style="width:25%">location</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-person>
+      <tr>
+        <td>{{ person.name }}</td>
+        <td>{{ person.skillType }}</td>
+        <td>{{ person.skillDescription }}</td>
+        <td>{{ person.location }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-table>
+</div>
