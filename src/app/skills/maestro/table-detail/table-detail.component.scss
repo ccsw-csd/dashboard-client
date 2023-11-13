@@ -1,5 +1,5 @@
 .textBloc {
-  font-size: 12px;
+  font-size: 14px;
   border: 1px solid lightgray;
   //width: 300px;
   p {
@@ -9,6 +9,11 @@
 
 .table_container {
   overflow-x: auto;
+}
+
+.totalCell {
+  background: #F2F2F2;
+  font-weight: 600;
 }
 
 :host ::ng-deep {

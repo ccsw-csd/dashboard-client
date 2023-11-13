@@ -1,9 +1,6 @@
 @import "./src/assets/scss/master";
 
 .private-layout {
-  .content-container {
-    overflow-x: auto;
-  }
   ::ng-deep {
     .p-sidebar {
       box-shadow: none;

@@ -12,6 +12,12 @@
 }
 
 :host ::ng-deep {
+  .p-datatable .p-datatable-thead>tr>th {
+    width: 20px;
+  }
+  .p-datatable .p-datatable-tbody>tr>td {
+    width: 20px;
+  }
   .bgBlue {
     .p-datatable .p-datatable-thead>tr>th {
       background: #D9E1F2;
