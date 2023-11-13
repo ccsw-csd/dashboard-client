@@ -1,12 +1,47 @@
 
+<!-- engagment managment -->
+<div class="tableTitle">
+  <p>Informes</p>
+</div>
+<div class="flex row">
+  <div class="card col-6">
+   <app-table-detail [data]="EMData" [columnas]="EMCol" color="#D9E1F2" colorClass="bgBlue"
+   [text]="EMText" ></app-table-detail>
+  </div>
+  <div class="card col-6">
+    <app-table-detail [data]="BAData" [columnas]="BACol" color="#FFF2CC" colorClass="bgBeige" [text]="BAText"
+      ></app-table-detail>
+  </div>
+</div>
+
+<div class="flex row">
+  <div class="card col-6">
+    <app-table-detail [data]="ARData" [columnas]="ARCol" color="#E2EFDA" colorClass="bgGreen" [text]="ARText"
+      ></app-table-detail>
+  </div>
+  <div class="card col-6">
+    <app-table-detail [data]="SEData" [columnas]="SECol" color="#FCE4D6" colorClass="bgPink" [text]="SEText"
+      ></app-table-detail>
+  </div>
+</div>
+
+<div class="py-3">
+  <app-table-detail [data]="IEData" [columnas]="IECol" color="#FFE699" colorClass="bgOrange"
+    [text]="IEText" [extraHeader]="true"></app-table-detail>
+</div>
+
+<!-- Pyramide -->
+<div class="tableTitle">
+  <p>SPECIFIC ZOOM</p>
+</div>
+
 <!-- Pyramide -->
 <div class="tableTitle">
   <p>Pyramid</p>
 </div>
 <div class="card pb-4">
- <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" color="#FFE699" colorClass="bgOrange"
- [text]="gradeRoleText" [total]="false"></app-table-detail>
+  <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" color="#FFE699" colorClass="bgOrange"
+    [text]="gradeRoleText" ></app-table-detail>
 </div>
-
 
 
