@@ -1,0 +1,27 @@
+.textBloc {
+  font-size: 14px;
+  border: 1px solid lightgray;
+  //width: 300px;
+  p {
+    width: 180px;
+  }
+}
+
+.table_container {
+  overflow-x: auto;
+}
+
+.totalCell {
+  background: #F2F2F2;
+  font-weight: 600;
+}
+
+:host ::ng-deep {
+  .p-datatable .p-datatable-tbody>tr>td {
+    text-align: center;
+  }
+
+  .p-datatable .p-datatable-tfoot>tr>td {
+    text-align: center;
+  }
+}

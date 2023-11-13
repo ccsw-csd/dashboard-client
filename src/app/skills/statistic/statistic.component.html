@@ -1,0 +1,30 @@
+<h1>Estadisticas</h1>
+
+<div class="card flex justify-content-around">
+  <div>
+    <h3>CERTIFICATES</h3>
+    <hr>
+    <p-chart type="pie" [data]="dataCert"></p-chart>
+  </div>
+
+  <div>
+    <h3>SECTORES</h3>
+    <hr>
+    <p-chart type="doughnut" [data]="dataSector"></p-chart>
+  </div>
+</div>
+
+<hr class="my-4">
+<h3>CAPACITIES</h3>
+<div class="card w-8">
+  <p-chart type="bar" [data]="dataCapacity"></p-chart>
+</div>
+
+<hr class="my-4">
+<h3>CLOUD CERTIFICATIONS</h3>
+<div class="card w-8">
+  <p-chart type="line" [data]="dataCloudCert"></p-chart>
+</div>
+
+
+

@@ -1,0 +1,31 @@
+<div class="flex">
+  <div class="textBloc px-2 flex align-items-center justify-content-center" [ngStyle]="{'background': color}">
+    <p>{{ text }}</p>
+  </div>
+  <div class="table_container">
+    <p-table [value]="data" class="{{ colorClass }}" styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <!-- <tr *ngIf="extraHeader">
+          <th colspan="2" style="background: white; border: none;"></th>
+          <th colspan="3">Product</th>
+          <th colspan="4">Sale Rate</th>
+        </tr> -->
+
+        <tr>
+          <th *ngFor="let col of columnas; index as index" id="index"
+          [ngStyle]="{'width': index == 0 ? '200px':'80px'}">{{ col }}</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-fila let-columns="columns">
+        <tr>
+          <td>{{fila.profile}}</td>
+          <td *ngFor="let elem of fila.totals; index as i"
+          [class.totalCell]="columnas[0]!='Grade' && (i == 0 || fila.profile=='Total')"
+          >{{ elem }}</td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+</div>
