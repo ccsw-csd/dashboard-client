@@ -27,12 +27,22 @@
 
 <div class="py-3">
   <app-table-detail [data]="IEData" [columnas]="IECol" color="#FFE699" colorClass="bgOrange"
-    [text]="IEText" [extraHeader]="true"></app-table-detail>
+    [text]="IEText"></app-table-detail>
 </div>
 
 <!-- Pyramide -->
 <div class="tableTitle">
   <p>SPECIFIC ZOOM</p>
+</div>
+
+<div class="py-3">
+  <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" color="#F2F2F2" colorClass="bgGray" [text]="ArSeDevText"
+    [extraHeader]="true"></app-table-detail>
+</div>
+
+<div class="py-3">
+  <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" color="#F2F2F2" colorClass="bgGray"
+    [text]="ArSeApiText"></app-table-detail>
 </div>
 
 <!-- Pyramide -->

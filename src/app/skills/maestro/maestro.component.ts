@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InformeTotal } from '../../core/interfaces/capacidades';
 import { SkillsService } from 'src/app/core/services/skills.service';
+
 @Component({
   selector: 'app-maestro',
   templateUrl: './maestro.component.html',
@@ -27,12 +28,19 @@ export class MaestroComponent implements OnInit{
   IECol : string[] = [];
   IEData : InformeTotal[];
 
+  ArSeDevText : string;
+  ArSeDevCol : string[] = [];
+  ArSeDevData : InformeTotal[];
+
+  ArSeApiText : string;
+  ArSeApiCol : string[] = [];
+  ArSeApiData : InformeTotal[];
+
   rolesCol : string[];
   gradesRoles : InformeTotal[];
   gradeRoleText : string;
 
   constructor(private skillsService: SkillsService) {}
-
 
   ngOnInit() {
     this.initEM();
@@ -40,6 +48,8 @@ export class MaestroComponent implements OnInit{
     this.initAR();
     this.initSE();
     this.initIE();
+    this.initArSeDev();
+    this.initArSeApi();
     this.initPyramide();
 
   }
@@ -116,6 +126,32 @@ export class MaestroComponent implements OnInit{
     });
     this.skillsService.getProfileTotals('Industry Experts').subscribe(data => {
       this.IEData = data;
+    });
+  }
+
+  initArSeDev() {
+    this.skillsService.getTableDetail('Architects & SE Custom Apps Development','t').subscribe(info =>{
+      this.ArSeDevText = info[0].desc; });
+    this.skillsService.getTableDetail('Architects & SE Custom Apps Development','c').subscribe(info =>{
+      info.forEach(elem => {
+        this.ArSeDevCol.push(elem.desc);
+      });
+    });
+    this.skillsService.getProfileTotals('Architects & SE Custom Apps Development').subscribe(data => {
+      this.ArSeDevData = data;
+    });
+  }
+
+  initArSeApi() {
+    this.skillsService.getTableDetail('Architects & SE Integration & APIs','t').subscribe(info =>{
+      this.ArSeApiText = info[0].desc; });
+    this.skillsService.getTableDetail('Architects & SE Integration & APIs','c').subscribe(info =>{
+      info.forEach(elem => {
+        this.ArSeApiCol.push(elem.desc);
+      });
+    });
+    this.skillsService.getProfileTotals('Architects & SE Integration & APIs').subscribe(data => {
+      this.ArSeApiData = data;
     });
   }
 
