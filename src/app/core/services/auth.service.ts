@@ -14,7 +14,7 @@ import { UserInfoSSO } from '../models/UserInfoSSO';
 })
 export class AuthService {
 
-  ssoCredentialsKey : string = 'ssoCredentials';
+  ssoCredentialsKey : string = environment.ssoCredentials;
   ssoToken : string = null;
 
   userInfoSSO: UserInfoSSO | null = null;
@@ -24,7 +24,8 @@ export class AuthService {
     private jwtHelper: JwtHelperService,
     private router: Router,
     private http: HttpClient,
-  ) { }
+  ) { 
+  }
 
 
   // *************************** //

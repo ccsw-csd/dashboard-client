@@ -16,7 +16,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ng build --configuration=production  --base-href "/dashboard/" --deploy-url "/dashboard/"
 
-ng build --configuration=production  --base-href "/dev/dashboard/" --deploy-url "/dev/dashboard/"
+ng build --configuration=pre  --base-href "/dev/dashboard/" --deploy-url "/dev/dashboard/"
 
 
 ## Running unit tests

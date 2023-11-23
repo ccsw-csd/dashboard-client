@@ -3,10 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   appCode: 'dashboard',
-  server: 'http://localhost:8080',
-  sso: 'http://frparccsw/dev/sso',
+  server: '../dashboard-data',
+  sso: '../sso',
   ssoCredentials: 'ssoCredentialsDev'
 };
 
