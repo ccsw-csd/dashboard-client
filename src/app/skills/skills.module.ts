@@ -9,12 +9,16 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
 import { MaestroComponent } from './maestro/maestro.component';
 import { TableDetailComponent } from './maestro/table-detail/table-detail.component';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { DialogModule } from 'primeng/dialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { MenuModule } from 'primeng/menu';
 @NgModule({
   declarations: [
     StatisticComponent,
     PersonsListComponent,
     MaestroComponent,
-    TableDetailComponent
+    TableDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,11 @@ import { TableDetailComponent } from './maestro/table-detail/table-detail.compon
     TableModule,
     DropdownModule,
     FormsModule,
-    ReactiveFormsModule
+    DialogModule,
+    ProgressSpinnerModule,
+    ReactiveFormsModule,
+    RadioButtonModule,
+    MenuModule
   ]
 })
 export class SkillsModule { }

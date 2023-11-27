@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { InformeTotal } from '../../core/interfaces/capacidades';
 import { SkillsService } from 'src/app/core/services/skills.service';
-
+import * as FileSaver from 'file-saver';
+import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'app-maestro',
   templateUrl: './maestro.component.html',
   styleUrls: ['./maestro.component.scss']
 })
 export class MaestroComponent implements OnInit{
+  load : boolean = false;
   EMText : string;
   EMCol : string[] = [];
   EMData : InformeTotal[];
@@ -36,9 +38,14 @@ export class MaestroComponent implements OnInit{
   ArSeApiCol : string[] = [];
   ArSeApiData : InformeTotal[];
 
-  rolesCol : string[];
+  rolesCol : string[] = [];
   gradesRoles : InformeTotal[];
   gradeRoleText : string;
+
+  selectedExcel : string = '';
+  visible: boolean = false;
+  tableList = ['Engagement Managers','Architects','Business Analyst','Software Engineer','Industry Experts','Architects & SE Custom Apps Development','Architects & SE Integration & APIs','Pyramid Grade-Rol'];
+  items: MenuItem[];
 
   constructor(private skillsService: SkillsService) {}
 
@@ -52,16 +59,20 @@ export class MaestroComponent implements OnInit{
     this.initArSeApi();
     this.initPyramide();
 
+    this.items = [
+      {label: "Export totales", icon: 'pi pi-external-link',command: () => this.exportExcelTotales()},
+      {label: "Export detalle", icon: 'pi pi-external-link',command: () => this.showDialog()}
+    ]
   }
 
   initEM() {
     this.skillsService.getTableDetail('Engagement Managers','t').subscribe(info =>{
       this.EMText = info[0].desc; });
+
     this.skillsService.getTableDetail('Engagement Managers','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.EMCol.push(elem.desc);
-      });
+      this.EMCol = info.map(el => el.desc);
     });
+
     this.skillsService.getProfileTotals('Engagement Managers').subscribe(data => {
       this.EMData = data;
     });
@@ -70,24 +81,20 @@ export class MaestroComponent implements OnInit{
   initBA() {
     this.skillsService.getTableDetail('Business Analyst','t').subscribe(info =>{
       this.BAText = info[0].desc; });
+
     this.skillsService.getTableDetail('Business Analyst','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.BACol.push(elem.desc);
-      });
-    });
+      this.BACol = info.map(el => el.desc); });
+
     this.skillsService.getProfileTotals('Business Analyst').subscribe(data => {
-      this.BAData = data;
-    });
+      this.BAData = data;  });
   }
 
   initAR() {
     this.skillsService.getTableDetail('Architects','t').subscribe(info =>{
       this.ARText = info[0].desc; });
     this.skillsService.getTableDetail('Architects','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.ARCol.push(elem.desc);
-      });
-    });
+      this.ARCol = info.map(el => el.desc);  });
+
     this.skillsService.getProfileTotals('Architects').subscribe(data => {
       this.ARData = data;
       let sum = [0,0,0];
@@ -106,62 +113,53 @@ export class MaestroComponent implements OnInit{
   initSE() {
     this.skillsService.getTableDetail('Software Engineer','t').subscribe(info =>{
       this.SEText = info[0].desc; });
+
     this.skillsService.getTableDetail('Software Engineer','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.SECol.push(elem.desc);
-      });
-    });
+      this.SECol = info.map(el => el.desc);  });
+
     this.skillsService.getProfileTotals('Software Engineer').subscribe(data => {
-      this.SEData = data;
-    });
+      this.SEData = data;  });
   }
 
   initIE() {
     this.skillsService.getTableDetail('Industry Experts','t').subscribe(info =>{
       this.IEText = info[0].desc; });
+
     this.skillsService.getTableDetail('Industry Experts','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.IECol.push(elem.desc);
-      });
-    });
+      this.IECol = info.map(el => el.desc);  });
+
     this.skillsService.getProfileTotals('Industry Experts').subscribe(data => {
-      this.IEData = data;
-    });
+      this.IEData = data;  });
   }
 
   initArSeDev() {
     this.skillsService.getTableDetail('Architects & SE Custom Apps Development','t').subscribe(info =>{
       this.ArSeDevText = info[0].desc; });
+
     this.skillsService.getTableDetail('Architects & SE Custom Apps Development','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.ArSeDevCol.push(elem.desc);
-      });
-    });
+      this.ArSeDevCol = info.map(el => el.desc);  });
+
     this.skillsService.getProfileTotals('Architects & SE Custom Apps Development').subscribe(data => {
-      this.ArSeDevData = data;
-    });
+      this.ArSeDevData = data;  });
   }
 
   initArSeApi() {
     this.skillsService.getTableDetail('Architects & SE Integration & APIs','t').subscribe(info =>{
       this.ArSeApiText = info[0].desc; });
+
     this.skillsService.getTableDetail('Architects & SE Integration & APIs','c').subscribe(info =>{
-      info.forEach(elem => {
-        this.ArSeApiCol.push(elem.desc);
-      });
-    });
+      this.ArSeApiCol = info.map(el => el.desc);  });
+
     this.skillsService.getProfileTotals('Architects & SE Integration & APIs').subscribe(data => {
-      this.ArSeApiData = data;
-    });
+      this.ArSeApiData = data;  });
   }
 
   initPyramide() {
     this.skillsService.getTableDetail('Pyramid Grade-Rol','t').subscribe(info =>{
       this.gradeRoleText = info[0].desc; });
-    this.skillsService.getRoles().subscribe(data => {
-      this.rolesCol = data.map(role => {
-        return role.role;
-      });
+
+    this.skillsService.getTableDetail('Pyramid Grade-Rol','c').subscribe(info =>{
+      this.rolesCol = info.map(el => el.desc);
       this.rolesCol.unshift("Grade");
       this.rolesCol.push("Total");
     });
@@ -182,6 +180,79 @@ export class MaestroComponent implements OnInit{
         profile : "Sum",
         totals : rolesSum
       });
+      this.load = true;
     });
+  }
+
+  formatTable(data,cols) : any {
+    let dataTable = [];
+   data.forEach(row => {
+      const line : Record<string, string> = {};
+      line[cols[0]] = row.profile;
+      row.totals.forEach((col,i) => {
+         line[cols[i+1]] = col.toString();
+      });
+      dataTable.push(line);
+    });
+    return dataTable
+  }
+
+  exportExcelTotales() {
+   let dataTable1 = this.formatTable(this.EMData,this.EMCol);
+   let dataTable2 = this.formatTable(this.ARData,this.ARCol);
+   let dataTable3 = this.formatTable(this.BAData,this.BACol);
+   let dataTable4 = this.formatTable(this.SEData,this.SECol);
+   let dataTable5 = this.formatTable(this.IEData,this.IECol);
+   let dataTable6 = this.formatTable(this.ArSeDevData,this.ArSeDevCol);
+   let dataTable7 = this.formatTable(this.ArSeApiData,this.ArSeApiCol);
+   let dataTable8 = this.formatTable(this.gradesRoles,this.rolesCol);
+
+    import("xlsx").then(xlsx => {
+        const worksheet1 = xlsx.utils.json_to_sheet(dataTable1);
+        const worksheet2 = xlsx.utils.json_to_sheet(dataTable2);
+        const worksheet3 = xlsx.utils.json_to_sheet(dataTable3);
+        const worksheet4 = xlsx.utils.json_to_sheet(dataTable4);
+        const worksheet5 = xlsx.utils.json_to_sheet(dataTable5);
+        const worksheet6 = xlsx.utils.json_to_sheet(dataTable6);
+        const worksheet7 = xlsx.utils.json_to_sheet(dataTable7);
+        const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
+
+        const workbook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(workbook, worksheet1, 'Engagement Managers');
+        xlsx.utils.book_append_sheet(workbook, worksheet2, 'Architects');
+        xlsx.utils.book_append_sheet(workbook, worksheet3, 'Business Analyst');
+        xlsx.utils.book_append_sheet(workbook, worksheet4, 'Software Engineer');
+        xlsx.utils.book_append_sheet(workbook, worksheet5, 'Industry Experts');
+        xlsx.utils.book_append_sheet(workbook, worksheet6, 'Custom Apps Development');
+        xlsx.utils.book_append_sheet(workbook, worksheet7, 'Integration & APIs');
+        xlsx.utils.book_append_sheet(workbook, worksheet8, 'Pyramid');
+        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, "Informes");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+          type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
+
+  downloadExcel() {
+    if(this.tableList.includes(this.selectedExcel)) {
+      window.open(`http://localhost:8080/profile/profilelist/${this.selectedExcel}/excel`,"_self");
+      this.closeDialog();
+    }
+  }
+
+  showDialog() {
+    this.visible = true;
+  }
+
+  closeDialog() {
+    this.visible = false;
+    this.selectedExcel = '';
   }
 }
