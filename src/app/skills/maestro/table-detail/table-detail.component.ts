@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InformeTotal } from 'src/app/core/interfaces/capacidades';
 
 @Component({
@@ -6,7 +6,7 @@ import { InformeTotal } from 'src/app/core/interfaces/capacidades';
   templateUrl: './table-detail.component.html',
   styleUrls: ['./table-detail.component.scss']
 })
-export class TableDetailComponent  implements OnInit{
+export class TableDetailComponent {
   @Input() data : InformeTotal[];
   @Input() columnas : string[];
   @Input() color : string;
@@ -14,7 +14,15 @@ export class TableDetailComponent  implements OnInit{
   @Input() text : string;
   @Input() extraHeader : string;
 
-  ngOnInit(){
 
+  getTotalIndex(): number {
+    let ind = this.columnas.findIndex(e => e.toLowerCase() == 'total');
+    return ind - 1;
+  }
+
+  isTotal(col) : boolean {
+    if( ['total','sum'].includes(col.toLowerCase()) )
+      return true;
+    return false;
   }
 }

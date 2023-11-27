@@ -1,29 +1,35 @@
 @import "./src/assets/scss/master";
 
 ::ng-deep {
-    .toolbar-header {
-        .p-toolbar {
-            background-color: $primary;
-            border-radius: 0px !important;
-        }
+  .toolbar-header {
+    height: 56px;
+
+    .p-toolbar {
+      background-color: #272936;
+      border-radius: 0px !important;
+
+      padding-top: 5px;
+      padding-bottom: 6px;
+      ;
+    }
+  }
+
+  .header-button {
+    .p-button {
+      min-width: 0px;
+      background: transparent;
+
+      .p-avatar {
+        background: transparent;
+      }
     }
 
-    .header-button {
-        .p-button {
-            min-width: 0px;
-            background: transparent;
-
-            .p-avatar{
-                background: transparent;
-            }
-        }
-
-        .p-button:enabled:focus {
-            background: transparent;
-        }
-
-        .p-button:enabled:hover {
-            background: transparent;
-        }
+    .p-button:enabled:focus {
+      background: transparent;
     }
+
+    .p-button:enabled:hover {
+      background: transparent;
+    }
+  }
 }

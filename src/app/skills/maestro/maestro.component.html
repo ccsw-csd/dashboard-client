@@ -1,8 +1,15 @@
+<p-progressSpinner *ngIf="!load" class="flex justify-content-center mt-5"></p-progressSpinner>
 
-<!-- engagment managment -->
-<div class="tableTitle">
-  <p>Informes</p>
-</div>
+
+<div *ngIf="load">
+  <div class="tableTitle">
+    <p>Informes</p>
+  </div>
+  <div class="my-2 mr-4 flex justify-content-end">
+      <button type="button" pButton pRipple icon="pi pi-file-excel"
+       class="p-button-lg m-2 p-button-outlined" (click)="menu.toggle($event)"></button>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  </div>
 <div class="flex row">
   <div class="card col-6">
    <app-table-detail [data]="EMData" [columnas]="EMCol" color="#D9E1F2" colorClass="bgBlue"
@@ -27,12 +34,22 @@
 
 <div class="py-3">
   <app-table-detail [data]="IEData" [columnas]="IECol" color="#FFE699" colorClass="bgOrange"
-    [text]="IEText" [extraHeader]="true"></app-table-detail>
+    [text]="IEText"></app-table-detail>
 </div>
 
 <!-- Pyramide -->
 <div class="tableTitle">
   <p>SPECIFIC ZOOM</p>
+</div>
+
+<div class="py-3">
+  <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" color="#F2F2F2" colorClass="bgGray" [text]="ArSeDevText"
+    [extraHeader]="true"></app-table-detail>
+</div>
+
+<div class="py-3">
+  <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" color="#F2F2F2" colorClass="bgGray"
+    [text]="ArSeApiText"></app-table-detail>
 </div>
 
 <!-- Pyramide -->
@@ -43,5 +60,21 @@
   <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" color="#FFE699" colorClass="bgOrange"
     [text]="gradeRoleText" ></app-table-detail>
 </div>
+</div>
 
+<!-- Dialog exports -->
+<p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
+  <div class="flex flex-column ml-5">
+    <div *ngFor="let elem of tableList" class="field-checkbox">
+      <p-radioButton [inputId]="elem" name="category" [value]="elem" [(ngModel)]="selectedExcel"></p-radioButton>
+      <label [for]="elem" class="ml-2">{{ elem }}</label>
+    </div>
+  </div>
 
+  <div class="flex flex-row mt-5 gap-3 justify-content-end gap-2">
+    <button pButton pRipple styleClass="" label="Cancelar" class="p-button p-button-secondary p-button-outlined"
+      (click)="closeDialog()"></button>
+    <button pButton pRipple p-button-label="10px" label="Exportar" [disabled]="selectedExcel==''"
+      (click)="downloadExcel()"></button>
+  </div>
+</p-dialog>

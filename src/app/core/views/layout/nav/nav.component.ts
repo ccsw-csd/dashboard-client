@@ -25,9 +25,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
 
     this.items = [
-      {label: "Dashboard", routerLink: '/dashboard'},
-      {label: "Punto de menu 1", routerLink: '/ruta1'},
-      {label: "Punto de menu 2", routerLink: '/ruta2'},
+      {label: "Dashboard", routerLink: '/dashboard'}
     ];
 
     this.utilsService.getAppVersion().subscribe((result: any) => {

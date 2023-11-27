@@ -1,9 +1,8 @@
 .textBloc {
   font-size: 14px;
   border: 1px solid lightgray;
-  //width: 300px;
   p {
-    width: 180px;
+    width: 200px;
   }
 }
 
@@ -20,8 +19,7 @@
   .p-datatable .p-datatable-tbody>tr>td {
     text-align: center;
   }
-
-  .p-datatable .p-datatable-tfoot>tr>td {
+  .p-datatable .p-datatable-thead>tr>th {
     text-align: center;
   }
 }

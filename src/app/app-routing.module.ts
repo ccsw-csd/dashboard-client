@@ -18,10 +18,10 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     resolve: {credentials: RefreshTokenResolverService},
     children: [
-      { path: 'dashboard', component: MainComponent},
+     // { path: 'dashboard', component: MainComponent},
       { path: 'statistic', component: StatisticComponent},
       { path: 'persons', component: PersonsListComponent},
-      { path: 'maestro', component: MaestroComponent},
+      { path: 'dashboard', component: MaestroComponent},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
   },
