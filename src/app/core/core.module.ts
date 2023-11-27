@@ -20,7 +20,7 @@ import { LayoutComponent } from './views/layout/layout.component';
 import { HeaderComponent } from './views/layout/header/header.component';
 import { NavComponent } from './views/layout/nav/nav.component';
 import { RefreshTokenResolverService } from './services/refresh-token-resolver.service';
-
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 
 @NgModule({
@@ -41,7 +41,8 @@ import { RefreshTokenResolverService } from './services/refresh-token-resolver.s
     ButtonModule,
     TooltipModule,
     MenuModule,
-    SlideMenuModule
+    SlideMenuModule,
+    PanelMenuModule
   ],
   providers: [
     HttpClientModule,

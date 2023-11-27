@@ -1,5 +1,9 @@
 @import "./src/assets/scss/master";
 
+.container {
+  overflow-x: auto;
+}
+
 .private-layout {
   ::ng-deep {
     .p-sidebar {
@@ -8,8 +12,8 @@
       position: relative;
     }
     .p-sidebar-left {
-        top:auto;
-        width: auto;
+      top: auto;
+      width: auto;
     }
   }
 }
