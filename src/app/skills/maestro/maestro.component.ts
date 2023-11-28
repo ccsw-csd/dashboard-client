@@ -3,6 +3,8 @@ import { InformeTotal } from '../../core/interfaces/capacidades';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
 import { MenuItem } from 'primeng/api';
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-maestro',
   templateUrl: './maestro.component.html',
@@ -242,7 +244,9 @@ export class MaestroComponent implements OnInit{
 
   downloadExcel() {
     if(this.tableList.includes(this.selectedExcel)) {
-      window.open(`http://localhost:8080/profile/profilelist/${this.selectedExcel}/excel`,"_self");
+      const baseUrl : string = environment.server;
+      console.log('basr ',baseUrl);
+      window.open(`${baseUrl}/profile/profilelist/${this.selectedExcel}/excel`,"_self");
       this.closeDialog();
     }
   }
