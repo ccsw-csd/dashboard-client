@@ -251,6 +251,26 @@ export class MaestroComponent implements OnInit{
     }
   }
 
+  exportar() {
+    this.skillsService.sendToExport(this.selectedExcel).subscribe(
+      result => {
+        this.downloadFile(result, "application/ms-excel");
+      }
+    );
+  }
+  downloadFile(data: any, type: string) {
+    let blob = new Blob([data], { type: type});
+    let url = window.URL.createObjectURL(blob);
+    var a: any = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = url;
+    a.download = this.selectedExcel + '.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    this.closeDialog();
+  }
+
   showDialog() {
     this.visible = true;
   }

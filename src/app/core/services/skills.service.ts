@@ -31,4 +31,9 @@ export class SkillsService {
     return this.http.get<ColumnDetails[]>(`${ this.baseUrl }/literal/config/${profile}/${infoType}`);
   }
 
+  sendToExport(selectedExcel): Observable<object>{
+    let url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
+    return this.http.get<object>(url, { responseType: 'blob' as 'json' });
+  }
+
 }
