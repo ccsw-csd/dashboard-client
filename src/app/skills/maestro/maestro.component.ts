@@ -46,7 +46,7 @@ export class MaestroComponent implements OnInit{
 
   selectedExcel : string = '';
   visible: boolean = false;
-  tableList = ['Engagement Managers','Architects','Business Analyst','Software Engineer','Industry Experts','Architects & SE Custom Apps Development','Architects & SE Integration & APIs','Pyramid Grade-Rol'];
+  tableList = ['All Profiles','Engagement Managers','Architects','Business Analyst','Software Engineer','Industry Experts','Architects & SE Custom Apps Development','Architects & SE Integration & APIs','Pyramid Grade-Rol'];
   items: MenuItem[];
 
   constructor(private skillsService: SkillsService) {}

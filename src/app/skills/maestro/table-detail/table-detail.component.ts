@@ -9,8 +9,6 @@ import { InformeTotal } from 'src/app/core/interfaces/capacidades';
 export class TableDetailComponent {
   @Input() data : InformeTotal[];
   @Input() columnas : string[];
-  @Input() color : string;
-  @Input() colorClass : string;
   @Input() text : string;
   @Input() extraHeader : string;
 

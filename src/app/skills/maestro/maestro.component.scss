@@ -11,46 +11,4 @@
   background: lightgray;
 }
 
-:host ::ng-deep {
-  .p-datatable .p-datatable-thead>tr>th {
-    width: 20px;
-  }
-  .p-datatable .p-datatable-tbody>tr>td {
-    width: 20px;
-  }
-  .bgBlue {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #D9E1F2;
-    }
-  }
 
-  .bgGreen {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #E2EFDA;
-    }
-  }
-
-  .bgBeige {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #FFF2CC;
-    }
-  }
-
-  .bgOrange {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #FFE699;
-    }
-  }
-
-  .bgPink {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #FCE4D6;
-    }
-  }
-
-  .bgGray {
-    .p-datatable .p-datatable-thead>tr>th {
-      background: #F2F2F2;
-    }
-  }
-}
