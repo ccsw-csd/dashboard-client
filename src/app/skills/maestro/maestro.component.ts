@@ -46,7 +46,7 @@ export class MaestroComponent implements OnInit{
 
   selectedExcel : string = '';
   visible: boolean = false;
-  tableList = ['Engagement Managers','Architects','Business Analyst','Software Engineer','Industry Experts','Architects & SE Custom Apps Development','Architects & SE Integration & APIs','Pyramid Grade-Rol'];
+  tableList = ['All Profiles','Engagement Managers','Architects','Business Analyst','Software Engineer','Industry Experts','Architects & SE Custom Apps Development','Architects & SE Integration & APIs','Pyramid Grade-Rol'];
   items: MenuItem[];
 
   constructor(private skillsService: SkillsService) {}
@@ -261,7 +261,7 @@ export class MaestroComponent implements OnInit{
   downloadFile(data: any, type: string) {
     let blob = new Blob([data], { type: type});
     let url = window.URL.createObjectURL(blob);
-    var a: any = document.createElement("a");
+    let a: any = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
     a.href = url;

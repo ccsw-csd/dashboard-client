@@ -4,9 +4,7 @@ import { AuthGuard } from './core/services/auth.guard';
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
-import { MainComponent } from './dashboard/views/main/main.component';
 import { StatisticComponent } from './skills/statistic/statistic.component';
-import { PersonsListComponent } from './skills/persons-list/persons-list.component';
 import { MaestroComponent } from './skills/maestro/maestro.component';
 
 const routes: Routes = [
@@ -20,7 +18,6 @@ const routes: Routes = [
     children: [
      // { path: 'dashboard', component: MainComponent},
       { path: 'statistic', component: StatisticComponent},
-      { path: 'persons', component: PersonsListComponent},
       { path: 'dashboard', component: MaestroComponent},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ]

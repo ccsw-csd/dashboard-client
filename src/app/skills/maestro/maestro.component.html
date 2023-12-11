@@ -2,63 +2,59 @@
 
 
 <div *ngIf="load">
-  <div class="tableTitle">
-    <p>Informes</p>
-  </div>
-  <div class="my-2 mr-4 flex justify-content-end">
-      <button type="button" pButton pRipple icon="pi pi-file-excel"
-       class="p-button-lg m-2 p-button-outlined" (click)="menu.toggle($event)"></button>
-      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  <div class="flex justify-content-between">
+    <h3>INFORMES</h3>
+    <div class="my-2 mr-4 flex justify-content-end">
+      <button type="button" pButton pRipple icon="pi pi-file-excel" class="m-2 p-button-outlined"
+        (click)="menu.toggle($event)" style="width: 80px;">
+        <i class="pi pi-angle-down m-2"></i>
+      </button>
+
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+
+    </div>
   </div>
 <div class="flex flex-column lg:flex-row">
   <div class="card my-3" style="margin-right: 2%;">
-   <app-table-detail [data]="EMData" [columnas]="EMCol" color="#D9E1F2" colorClass="bgBlue"
-   [text]="EMText" ></app-table-detail>
+   <app-table-detail [data]="EMData" [columnas]="EMCol" [text]="EMText" ></app-table-detail>
   </div>
   <div class="card my-3">
-    <app-table-detail [data]="BAData" [columnas]="BACol" color="#FFF2CC" colorClass="bgBeige" [text]="BAText"
+    <app-table-detail [data]="BAData" [columnas]="BACol" [text]="BAText"
       ></app-table-detail>
   </div>
 </div>
 
 <div class="flex flex-column lg:flex-row">
   <div class="card my-3" style="margin-right: 2%;">
-    <app-table-detail [data]="ARData" [columnas]="ARCol" color="#E2EFDA" colorClass="bgGreen" [text]="ARText"
+    <app-table-detail [data]="ARData" [columnas]="ARCol" [text]="ARText"
       ></app-table-detail>
   </div>
   <div class="card my-3">
-    <app-table-detail [data]="SEData" [columnas]="SECol" color="#FCE4D6" colorClass="bgPink" [text]="SEText"
+    <app-table-detail [data]="SEData" [columnas]="SECol" [text]="SEText"
       ></app-table-detail>
   </div>
 </div>
 
 <div class="py-3">
-  <app-table-detail [data]="IEData" [columnas]="IECol" color="#FFE699" colorClass="bgOrange"
-    [text]="IEText"></app-table-detail>
+  <app-table-detail [data]="IEData" [columnas]="IECol" [text]="IEText"></app-table-detail>
 </div>
 
-<!-- Pyramide -->
-<div class="tableTitle">
-  <p>SPECIFIC ZOOM</p>
-</div>
 
+
+<h3 class="my-3">SPECIFIC ZOOM</h3>
 <div class="py-3">
-  <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" color="#F2F2F2" colorClass="bgGray" [text]="ArSeDevText"
+  <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" [text]="ArSeDevText"
     [extraHeader]="true"></app-table-detail>
 </div>
 
 <div class="py-3">
-  <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" color="#F2F2F2" colorClass="bgGray"
-    [text]="ArSeApiText"></app-table-detail>
+  <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" [text]="ArSeApiText"></app-table-detail>
 </div>
 
 <!-- Pyramide -->
-<div class="tableTitle">
-  <p>Pyramid</p>
-</div>
-<div class="card pb-4">
-  <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" color="#FFE699" colorClass="bgOrange"
-    [text]="gradeRoleText" ></app-table-detail>
+<h3 class="my-3">PYRAMID</h3>
+<div class="card py-3">
+  <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" [text]="gradeRoleText" ></app-table-detail>
 </div>
 </div>
 

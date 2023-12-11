@@ -1,12 +1,11 @@
 
 <div class="flex">
-  <div class="textBloc px-2 flex align-items-center justify-content-center" [ngStyle]="{'background': color}">
+  <div class="textBloc px-2 flex align-items-center justify-content-center">
     <p>{{ text }}</p>
   </div>
   <div class="table_container">
-    <p-table [value]="data" class="{{ colorClass }}" [scrollable]="true"
-    scrollDirection="horizontal"
-    styleClass="p-datatable-gridlines">
+    <p-table [value]="data" [scrollable]="true"
+    scrollDirection="horizontal" styleClass="p-datatable-striped p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr *ngIf="extraHeader" class="h-6rem text-base font-italic">
           <th colspan="2" style="background: white;"></th>

@@ -1,13 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:400,600,700&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 
 @import 'assets/scss/master';
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  overflow: hidden;
+}
+
 
 .p-component {
   font-family: "Ubuntu", Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
@@ -15,22 +26,60 @@ body { margin: 0; font-family: "Source Sans Pro", sans-serif; }
   font-weight: 400;
 }
 
-.flex-2{
-    flex-grow: 2;
+.p-inputtext {
+  font-family: "Ubuntu", Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  font-size: 0.85rem !important;
+  font-weight: 400;
+  height: 42px;
 }
 
-.p-panel .p-panel-content {
-    border: 1px solid #e0e0e0;
+.field-error {
+  border-color: rgba(255, 0, 0, 1) !important;
+  border-width: 2px !important;
 }
 
-.no-header .p-panel-header {
-    display: none !important;
+.flex-2 {
+  flex-grow: 2;
 }
 
-.p-fieldset {
-    border: 1px solid rgba(0, 0, 0, 0.38);
+.h-1rem {
+  height: 1rem !important;
+}
+
+.h-1_5rem {
+  height: 1.5rem;
+}
+
+.h-2_5rem {
+  height: 2.5rem;
+}
+
+
+.ml-auto {
+  margin-left: 10px !important;
 }
 
 .p-sidebar .p-sidebar-content {
   padding: 0rem;
+}
+
+p-autocomplete {
+  span {
+    width: 100%;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+
+.p-menuitem-link {
+  height: 30px;
+}
+
+
+h3 {
+  color: #272936;
+  font-size: 20px;
 }
