@@ -261,7 +261,7 @@ export class MaestroComponent implements OnInit{
   downloadFile(data: any, type: string) {
     let blob = new Blob([data], { type: type});
     let url = window.URL.createObjectURL(blob);
-    var a: any = document.createElement("a");
+    let a: any = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
     a.href = url;

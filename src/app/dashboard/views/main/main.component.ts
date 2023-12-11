@@ -13,10 +13,6 @@ export class MainComponent {
     this.router.navigateByUrl('/statistic');
   }
 
-  goToList() {
-    this.router.navigateByUrl('/persons');
-  }
-
   goToMaestro() {
     this.router.navigateByUrl('/maestro');
   }

@@ -14,10 +14,6 @@ export class StatisticComponent implements OnInit{
  constructor(private skillsService: SkillsService) {}
 
  ngOnInit() {
-  this.skillsService.getPersons().subscribe(data => {
-      console.log('persons: ',data);  });
-
-
    this.dataCert = {
     labels : ['html5,javascript,css3','aws cloud','google cloud','Angular','oracle associate,java se','English'],
     datasets : [{

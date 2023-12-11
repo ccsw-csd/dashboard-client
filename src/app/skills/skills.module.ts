@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { StatisticComponent } from './statistic/statistic.component';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-import { PersonsListComponent } from './persons-list/persons-list.component';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
@@ -16,7 +15,6 @@ import { MenuModule } from 'primeng/menu';
 @NgModule({
   declarations: [
     StatisticComponent,
-    PersonsListComponent,
     MaestroComponent,
     TableDetailComponent,
   ],
