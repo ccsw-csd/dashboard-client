@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:400,600,700&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:400,600,700&display=swap");
 
 @import 'assets/scss/master';
 
@@ -19,7 +20,6 @@ body {
   overflow: hidden;
 }
 
-
 .p-component {
   font-family: "Ubuntu", Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   font-size: 0.85rem !important;
@@ -32,6 +32,7 @@ body {
   font-weight: 400;
   height: 42px;
 }
+
 
 .field-error {
   border-color: rgba(255, 0, 0, 1) !important;
