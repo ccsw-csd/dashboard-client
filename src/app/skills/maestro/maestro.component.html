@@ -58,8 +58,9 @@
 </div>
 </div>
 
+
 <!-- Dialog exports -->
-<p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
+<p-dialog *ngIf="authService.hasRole('EXPORTAR')" header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
   <div class="flex flex-column ml-5">
     <div *ngFor="let elem of tableList" class="field-checkbox">
       <p-radioButton [inputId]="elem" name="category" [value]="elem" [(ngModel)]="selectedExcel"></p-radioButton>
