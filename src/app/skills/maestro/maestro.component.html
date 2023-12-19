@@ -5,58 +5,58 @@
   <div class="flex justify-content-between">
     <h3>INFORMES</h3>
     <div class="my-2 mr-4 flex justify-content-end">
-      <button type="button" pButton pRipple icon="pi pi-file-excel" class="m-2 p-button-outlined"
-        (click)="menu.toggle($event)" style="width: 80px;">
+
+      <!--BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR"-->
+      <button *ngIf="authService.hasRole('EXPORTAR')" type="button" pButton pRipple icon="pi pi-file-excel"
+        class="m-2 p-button-outlined" (click)="menu.toggle($event)" style="width: 80px;">
         <i class="pi pi-angle-down m-2"></i>
       </button>
 
-    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
 
     </div>
   </div>
-<div class="flex flex-column lg:flex-row">
-  <div class="card my-3" style="margin-right: 2%;">
-   <app-table-detail [data]="EMData" [columnas]="EMCol" [text]="EMText" ></app-table-detail>
+  <div class="flex flex-column lg:flex-row">
+    <div class="card my-3" style="margin-right: 2%;">
+      <app-table-detail [data]="EMData" [columnas]="EMCol" [text]="EMText"></app-table-detail>
+    </div>
+    <div class="card my-3">
+      <app-table-detail [data]="BAData" [columnas]="BACol" [text]="BAText"></app-table-detail>
+    </div>
   </div>
-  <div class="card my-3">
-    <app-table-detail [data]="BAData" [columnas]="BACol" [text]="BAText"
-      ></app-table-detail>
+
+  <div class="flex flex-column lg:flex-row">
+    <div class="card my-3" style="margin-right: 2%;">
+      <app-table-detail [data]="ARData" [columnas]="ARCol" [text]="ARText"></app-table-detail>
+    </div>
+    <div class="card my-3">
+      <app-table-detail [data]="SEData" [columnas]="SECol" [text]="SEText"></app-table-detail>
+    </div>
+  </div>
+
+  <div class="py-3">
+    <app-table-detail [data]="IEData" [columnas]="IECol" [text]="IEText"></app-table-detail>
+  </div>
+
+
+
+  <h3 class="my-3">SPECIFIC ZOOM</h3>
+  <div class="py-3">
+    <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" [text]="ArSeDevText"
+      [extraHeader]="true"></app-table-detail>
+  </div>
+
+  <div class="py-3">
+    <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" [text]="ArSeApiText"></app-table-detail>
+  </div>
+
+  <!-- Pyramide -->
+  <h3 class="my-3">PYRAMID</h3>
+  <div class="card py-3">
+    <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" [text]="gradeRoleText"></app-table-detail>
   </div>
 </div>
 
-<div class="flex flex-column lg:flex-row">
-  <div class="card my-3" style="margin-right: 2%;">
-    <app-table-detail [data]="ARData" [columnas]="ARCol" [text]="ARText"
-      ></app-table-detail>
-  </div>
-  <div class="card my-3">
-    <app-table-detail [data]="SEData" [columnas]="SECol" [text]="SEText"
-      ></app-table-detail>
-  </div>
-</div>
-
-<div class="py-3">
-  <app-table-detail [data]="IEData" [columnas]="IECol" [text]="IEText"></app-table-detail>
-</div>
-
-
-
-<h3 class="my-3">SPECIFIC ZOOM</h3>
-<div class="py-3">
-  <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" [text]="ArSeDevText"
-    [extraHeader]="true"></app-table-detail>
-</div>
-
-<div class="py-3">
-  <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" [text]="ArSeApiText"></app-table-detail>
-</div>
-
-<!-- Pyramide -->
-<h3 class="my-3">PYRAMID</h3>
-<div class="card py-3">
-  <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" [text]="gradeRoleText" ></app-table-detail>
-</div>
-</div>
 
 <!-- Dialog exports -->
 <p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
