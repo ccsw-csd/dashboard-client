@@ -7,7 +7,8 @@ export const environment = {
   appCode: 'dashboard',
   server: '../dashboard-data',
   sso: '../sso',
-  ssoCredentials: 'ssoCredentialsDev'
+  ssoCredentials: 'ssoCredentialsDev',
+  ssoApp: '/dev/apps'
 };
 
 /*

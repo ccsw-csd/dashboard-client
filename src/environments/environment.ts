@@ -7,7 +7,8 @@ export const environment = {
   appCode: 'dashboard',
   server: 'http://localhost:8080',
   sso: 'http://frparccsw/dev/sso',
-  ssoCredentials: 'ssoCredentialsDev'
+  ssoCredentials: 'ssoCredentialsDev',
+  ssoApp: '/dev/apps'
 };
 
 /*

@@ -3,5 +3,6 @@ export const environment = {
   appCode: 'dashboard',
   server: '../dashboard-data',
   sso: '../sso',
-  ssoCredentials: 'ssoCredentials'
+  ssoCredentials: 'ssoCredentials',
+  ssoApp: '/apps'
 };
