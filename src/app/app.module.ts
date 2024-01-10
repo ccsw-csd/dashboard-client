@@ -16,6 +16,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { HttpInterceptorService } from './core/services/http-interceptor.service';
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
+import { CatalogModule } from './catalog/catalog.module';
 
 registerLocaleData(localeEs,'es');
 
@@ -32,7 +33,8 @@ registerLocaleData(localeEs,'es');
     LoginModule,
     CardModule,
     DashboardModule,
-    SkillsModule
+    SkillsModule,
+    CatalogModule,
   ],
   providers: [
     HttpClientModule,
