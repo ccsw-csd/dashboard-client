@@ -21,8 +21,8 @@ const routes: Routes = [
       // { path: 'dashboard', component: MainComponent},
       // { path: 'statistic', component: StatisticComponent },
       { path: 'dashboard', component: MaestroComponent, data: { role: ['DASHBOARD'] } },
-      { path: 'capabilities-list', component: CapabilitiesListComponent, data: { role: ['DASHBOARD'] }},
-      { path: 'staffing-list', component: StaffingListComponent, data: { role: ['DASHBOARD'] }},
+      { path: 'capabilities', component: CapabilitiesListComponent, data: { role: ['DASHBOARD'] }},
+      { path: 'staffing', component: StaffingListComponent, data: { role: ['DASHBOARD'] }},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
   },

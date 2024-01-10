@@ -1,1 +1,37 @@
-<p>capabilities-list works!</p>
+<div class="flex flex-row justify-content-between mb-3">
+    <div class="flex justify-content-start">
+        <h3 class="p-0 m-0">
+            Listado de Versiones de Capaciades
+        </h3>
+    </div> 
+</div>
+
+<p-table [value]="capabilities">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Tipo de Interfaz</th>
+        <th>Versión de Staffing</th>
+        <th>Línea Base</th>
+        <th>Importación</th>
+        <th>Número de Registros</th>
+        <th>Nombre de Archivo</th>
+        <th>Descripción</th>
+        <th>Comentarios</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-capacity>
+      <tr>
+        <td>{{ capacity.id }}</td>
+        <td>{{ capacity.id_tipo_interfaz }}</td>
+        <td>{{ capacity.id_version_staffing }}</td>
+        <td>{{ capacity.Linea_base }}</td>
+        <td>{{ capacity.Importacion }}</td>
+        <td>{{ capacity.num_Registros }}</td>
+        <td>{{ capacity.nombre_Fichero }}</td>
+        <td>{{ capacity.Descripcion }}</td>
+        <td>{{ capacity.Comentarios }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  
