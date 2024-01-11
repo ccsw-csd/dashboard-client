@@ -18,7 +18,7 @@ import { HttpInterceptorService } from './core/services/http-interceptor.service
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
 import { CatalogModule } from './catalog/catalog.module';
 
-registerLocaleData(localeEs,'es');
+registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ registerLocaleData(localeEs,'es');
     CardModule,
     DashboardModule,
     SkillsModule,
-    CatalogModule,
+    CatalogModule
   ],
   providers: [
     HttpClientModule,

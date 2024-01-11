@@ -1,37 +1,50 @@
-<div class="flex flex-row justify-content-between mb-3">
-    <div class="flex justify-content-start">
-        <h3 class="p-0 m-0">
-            Listado de Versiones de Capaciades
-        </h3>
-    </div> 
+<div class="flex flex-row justify-content-between">
+  <div class="flex justify-content-start">
+    <h3 class="p-0 m-0 mb-2">
+      Listado de Versiones de Capacidades
+    </h3>
+  </div>
 </div>
 
-<p-table [value]="capabilities">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>ID</th>
-        <th>Tipo de Interfaz</th>
-        <th>Versión de Staffing</th>
-        <th>Línea Base</th>
-        <th>Importación</th>
-        <th>Número de Registros</th>
-        <th>Nombre de Archivo</th>
-        <th>Descripción</th>
-        <th>Comentarios</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-capacity>
-      <tr>
-        <td>{{ capacity.id }}</td>
-        <td>{{ capacity.id_tipo_interfaz }}</td>
-        <td>{{ capacity.id_version_staffing }}</td>
-        <td>{{ capacity.Linea_base }}</td>
-        <td>{{ capacity.Importacion }}</td>
-        <td>{{ capacity.num_Registros }}</td>
-        <td>{{ capacity.nombre_Fichero }}</td>
-        <td>{{ capacity.Descripcion }}</td>
-        <td>{{ capacity.Comentarios }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
-  
+<p-table [style]="{'height': 'calc(100vh - 55px)', 'width': '100%'}" [scrollable]="true" selectionMode="single"
+  scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped" [(filters)]="defaultFilters"
+  sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="true" (onColReorder)="onColReorder($event)"
+  (sortFunction)="customSort($event)" [customSort]="true" autoLayout="true">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columnNames" class="{{col.field}} flex flex-column" pReorderableColumn>
+        <div class="flex flex-row w-full top-header" pSortableColumn="{{col.composeField}}">
+          <span class="flex flex-1 justify-content-center">{{col.header}}</span>
+          <p-sortIcon field="{{col.composeField}}"></p-sortIcon>
+        </div>
+        <div class="w-full foot-header">
+          <p-columnFilter *ngIf="col.filterType == 'input'" class="w-full" type="text" field="{{col.composeField}}"
+            [showMenu]="false" [showClearButton]="false"
+            matchMode="{{col.matchMode != null ? col.matchMode : 'contains-and-null'}}">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <input tabindex="1" type="text" pInputText [ngModel]="value" (ngModelChange)="filter($event)"
+                class="p-inputtext">
+            </ng-template>
+          </p-columnFilter>
+        </div>
+      </th>
+      <th class="buttons flex flex-column">
+        <div class="flex flex-row w-full top-header"></div>
+        <div class="w-full foot-header"></div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-capability let-columns="columns">
+    <tr [pSelectableRow]="capability">
+      <td *ngFor="let col of columnNames" class={{col.field}}>
+        <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{capability[col.field]}}"
+          tooltipPosition="top">
+          {{capability[col.field]}}
+        </div>
+      </td>
+      <td class="buttons ">
+        <!-- TODO -->
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
