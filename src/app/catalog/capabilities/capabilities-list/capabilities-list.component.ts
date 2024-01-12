@@ -3,6 +3,7 @@ import { CapabilitiesService } from '../capabilities.service';
 import { Capability } from '../model/Capability';
 import { SortEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-capabilities-list',
@@ -13,16 +14,16 @@ import { DialogService } from 'primeng/dynamicdialog';
 export class CapabilitiesListComponent implements OnInit {
 
   capabilities: Capability[];
-  tableWidth: string = 'calc(100vw - 55px)';
+  tableWidth: string;
   defaultFilters: any = {};
   selectedColumnNames: any[];
   columnNames: any[] = [
     { header: 'Descripción', composeField: 'Descripcion', field: 'Descripcion', filterType: 'input' },
-    { header: 'Tipo de Interfaz', composeField: 'id_tipo_interfaz', field: 'id_tipo_interfaz', filterType: 'input' },
-    { header: 'Nº de Registros', composeField: 'num_Registros', field: 'num_Registros', filterType: 'input' },
+    { header: 'Tipo Interfaz', composeField: 'id_tipo_interfaz', field: 'id_tipo_interfaz', filterType: 'input' },
+    { header: 'NºRegistros', composeField: 'num_Registros', field: 'num_Registros', filterType: 'input' },
     { header: 'Título', composeField: 'nombre_Fichero', field: 'nombre_Fichero', filterType: 'input' },
     { header: 'Comentarios', composeField: 'Comentarios', field: 'Comentarios', filterType: 'input' },
-    { header: 'Fecha', composeField: 'Fecha', field: 'Fecha', filterType: 'input' }, // Corregí el campo 'Fecha'
+    { header: 'Fecha', composeField: 'Importacion', field: 'Importacion', filterType: 'input' },
     { header: 'Versión', composeField: 'id_version_staffing', field: 'id_version_staffing', filterType: 'input' }
   ];
 
@@ -76,5 +77,13 @@ export class CapabilitiesListComponent implements OnInit {
 
   onColReorder(event): void {
     this.saveSelected(this.columnNames);
+  }
+
+  resizeTable() {
+    if (document.getElementById('p-slideMenu')) {
+      this.tableWidth = 'calc(100vw - 255px)';
+    } else {
+      this.tableWidth = 'calc(100vw - 55px)';
+    }
   }
 }

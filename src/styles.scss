@@ -2,35 +2,32 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:400,600,700&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+@import "primeicons/primeicons.css";
 
 @import 'assets/scss/master';
 
 
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: "Ubuntu", sans-serif;
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    font-family: "Ubuntu", sans-serif; 
     font-size: 0.85rem;
-    font-weight: 400;
+    font-weight: 400;    
     overflow: hidden;
 }
 
 
 .p-component {
-    font-family: "Ubuntu", Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-family: "Ubuntu",Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
     font-size: 0.85rem !important;
-    font-weight: 400;
+    font-weight: 400;    
 }
 
 .p-inputtext {
-    font-family: "Ubuntu", Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-family: "Ubuntu",Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
     font-size: 0.85rem !important;
-    font-weight: 400;
-    height: 42px;
+    font-weight: 400;   
+    height: 42px; 
 }
 
 .field-error {
@@ -38,12 +35,12 @@ body {
     border-width: 2px !important;
 }
 
-.flex-2 {
+.flex-2{
     flex-grow: 2;
 }
 
 .h-1rem {
-    height: 1rem !important;
+    height: 1rem!important;
 }
 
 .h-1_5rem {
@@ -56,20 +53,17 @@ body {
 
 
 .ml-auto {
-    margin-left: 10px !important;
+    margin-left: 10px!important;
 }
 
 .p-sidebar .p-sidebar-content {
-    padding: 0rem;
+    padding: 0rem; 
 }
 
 p-autocomplete {
     span {
         width: 100%;
-
-        input {
-            width: 100%;
-        }
+        input { width: 100%; }
     }
 }
 

@@ -1,21 +1,22 @@
 <div class="flex flex-row justify-content-between">
   <div class="flex justify-content-start">
-    <h3 class="p-0 m-0 mb-2">
+    <h3 class="p-0 m-0 mb-5">
       Listado de Versiones de Capacidades
     </h3>
   </div>
 </div>
 
-<p-table [style]="{'height': 'calc(100vh - 55px)', 'width': '100%'}" [scrollable]="true" selectionMode="single"
+<p-table [style]="{'height': 'calc(100vh - 165px)', 'width': 'calc(100vh + 380px)'}" [scrollable]="true" selectionMode="single"
   scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped" [(filters)]="defaultFilters"
-  sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="true" (onColReorder)="onColReorder($event)"
+  sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="false" (onColReorder)="onColReorder($event)"
   (sortFunction)="customSort($event)" [customSort]="true" autoLayout="true">
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of columnNames" class="{{col.field}} flex flex-column" pReorderableColumn>
-        <div class="flex flex-row w-full top-header" pSortableColumn="{{col.composeField}}">
-          <span class="flex flex-1 justify-content-center">{{col.header}}</span>
-          <p-sortIcon field="{{col.composeField}}"></p-sortIcon>
+      <th *ngFor="let col of columnNames"
+        class="{{col.field}} flex flex-1 flex-column align-items-center justify-content-center" pReorderableColumn>
+        <div class="flex flex-row top-header" pSortableColumn="{{col.composeField}}">
+          <span class="flex flex-1 justify-content-center pb-2">{{col.header}}</span>
+          <p-sortIcon field="{{col.composeField}}" class="pb-2"></p-sortIcon>
         </div>
         <div class="w-full foot-header">
           <p-columnFilter *ngIf="col.filterType == 'input'" class="w-full" type="text" field="{{col.composeField}}"
@@ -28,22 +29,31 @@
           </p-columnFilter>
         </div>
       </th>
-      <th class="buttons flex flex-column">
-        <div class="flex flex-row w-full top-header"></div>
-        <div class="w-full foot-header"></div>
+      <th class="flex flex-column align-items-center justify-content-center sticky-header">
+        <span>Acciones</span>
       </th>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="body" let-capability let-columns="columns">
     <tr [pSelectableRow]="capability">
-      <td *ngFor="let col of columnNames" class={{col.field}}>
+      <td pResizableColumn *ngFor="let col of columnNames"
+        class="{{col.field}} flex flex-1 flex-column align-items-center justify-content-center">
         <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{capability[col.field]}}"
           tooltipPosition="top">
-          {{capability[col.field]}}
+          <ng-container *ngIf="col.field === 'id_tipo_interfaz' && capability[col.field] === 2">
+            Capabilities
+          </ng-container>
+          <ng-container *ngIf="col.field !== 'id_tipo_interfaz' || capability[col.field] !== 2">
+            {{capability[col.field]}}
+          </ng-container>
         </div>
       </td>
       <td class="buttons ">
-        <!-- TODO -->
+        <button pButton pRipple icon="pi pi-file-excel" style="font-size: 0.5rem"
+          class="p-button p-button-outlined mr-2"></button>
+        <button pButton pRipple icon="pi pi-trash" style="font-size: 0.5rem"
+          class="p-button p-button-outlined"></button>
       </td>
     </tr>
   </ng-template>

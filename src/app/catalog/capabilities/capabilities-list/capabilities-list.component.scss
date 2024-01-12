@@ -1,3 +1,81 @@
+:host ::ng-deep .p-datatable {
+    overflow-x: auto;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+
+.Descripcion {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.id_tipo_interfaz {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.num_Registros {
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.nombre_Fichero {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.Comentarios {
+    min-width: 150px;
+    max-width: 180px;
+}
+
+.Fecha {
+    min-width: 150px;
+    max-width: 180px;
+}
+
+.id_version_staffing {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.p-inputtext {
+    font-weight: 400;
+    height: 30px;
+    padding: 3px;
+}
+
+.p-datatable-thead {
+    margin: 10px;
+}
+
+.col.field {
+    text-align: center;
+}
+
+.p-inputtext {
+    height: 28px;
+}
+
 td {
     text-align: center;
+}
+
+.buttons {
+    min-width: 125px;
+    max-width: 125px;
+}
+
+.sticky-header {
+    min-width: none;
+    max-width: 120px;
 }
