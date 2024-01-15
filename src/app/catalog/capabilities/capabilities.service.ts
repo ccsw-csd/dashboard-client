@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Capability } from './model/Capability';
-import { capabilities_mock } from './model/mock-capabilities';
+import { Capability } from 'src/app/core/interfaces/Capability';
+import { capabilities_mock } from 'src/app/core/interfaces/mock-capabilities';
+
 
 
 @Injectable({

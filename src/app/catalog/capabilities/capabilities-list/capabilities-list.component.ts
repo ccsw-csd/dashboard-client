@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CapabilitiesService } from '../capabilities.service';
-import { Capability } from '../model/Capability';
 import { SortEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
+import { Capability } from 'src/app/core/interfaces/Capability';
 
 @Component({
   selector: 'app-capabilities-list',
@@ -18,13 +18,13 @@ export class CapabilitiesListComponent implements OnInit {
   defaultFilters: any = {};
   selectedColumnNames: any[];
   columnNames: any[] = [
-    { header: 'Descripción', composeField: 'Descripcion', field: 'Descripcion', filterType: 'input' },
-    { header: 'Tipo Interfaz', composeField: 'id_tipo_interfaz', field: 'id_tipo_interfaz', filterType: 'input' },
-    { header: 'NºRegistros', composeField: 'num_Registros', field: 'num_Registros', filterType: 'input' },
-    { header: 'Título', composeField: 'nombre_Fichero', field: 'nombre_Fichero', filterType: 'input' },
-    { header: 'Comentarios', composeField: 'Comentarios', field: 'Comentarios', filterType: 'input' },
-    { header: 'Fecha', composeField: 'Importacion', field: 'Importacion', filterType: 'input' },
-    { header: 'Versión', composeField: 'id_version_staffing', field: 'id_version_staffing', filterType: 'input' }
+    { header: 'Descripción', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
+    { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
+    { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
+    { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
+    { header: 'Comentarios', composeField: 'comentarios', field: 'comentarios', filterType: 'input' },
+    { header: 'Fecha', composeField: 'fechaImportacion', field: 'fechaImportacion', filterType: 'input' },
+    { header: 'Versión', composeField: 'idVersionStaffing', field: 'idVersionStaffing', filterType: 'input' }
   ];
 
   constructor(private capabilitiesService: CapabilitiesService) { }

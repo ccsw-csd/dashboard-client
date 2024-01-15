@@ -7,10 +7,10 @@ import { InformeTotal } from 'src/app/core/interfaces/capacidades';
   styleUrls: ['./table-detail.component.scss']
 })
 export class TableDetailComponent {
-  @Input() data : InformeTotal[];
-  @Input() columnas : string[];
-  @Input() text : string;
-  @Input() extraHeader : string;
+  @Input() data: InformeTotal[];
+  @Input() columnas: string[];
+  @Input() text: string;
+  @Input() extraHeader: string;
 
 
   getTotalIndex(): number {
@@ -18,8 +18,8 @@ export class TableDetailComponent {
     return ind - 1;
   }
 
-  isTotal(col) : boolean {
-    if( ['total','sum'].includes(col.toLowerCase()) )
+  isTotal(col): boolean {
+    if (['total', 'sum'].includes(col.toLowerCase()))
       return true;
     return false;
   }

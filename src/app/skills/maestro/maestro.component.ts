@@ -5,6 +5,7 @@ import * as FileSaver from 'file-saver';
 import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Capability } from '../../core/interfaces/Capability';
 
 @Component({
   selector: 'app-maestro',
@@ -49,6 +50,10 @@ export class MaestroComponent implements OnInit {
   visible: boolean = false;
   tableList = ['All Profiles', 'Engagement Managers', 'Architects', 'Business Analyst', 'Software Engineer', 'Industry Experts', 'Architects & SE Custom Apps Development', 'Architects & SE Integration & APIs', 'Pyramid Grade-Rol'];
   items: MenuItem[];
+  idVersion: number = 4;
+  staffingYears: number[];
+  roleYears: number[];
+  versions: Capability[];
 
   constructor(private skillsService: SkillsService, public authService: AuthService) { }
 
@@ -68,6 +73,33 @@ export class MaestroComponent implements OnInit {
     ]
   }
 
+  initYears() {
+    this.getRoleYears();
+    this.getStaffingYears();
+  }
+
+  getRoleYears() {
+    this.skillsService.getRoleImportsAvailableYears().subscribe(
+      data => {
+        this.roleYears = data;
+      },
+      error => {
+        console.error('Error al obtener los años de roleimports', error);
+      }
+    );
+  }
+
+  getStaffingYears() {
+    this.skillsService.getStaffingAvailableYears().subscribe(
+      data => {
+        this.staffingYears = data;
+      },
+      error => {
+        console.error('Error al obtener los años de staffingimports', error);
+      }
+    );
+  }
+
   initEM() {
     this.skillsService.getTableDetail('Engagement Managers', 't').subscribe(info => {
       this.EMText = info[0].desc;
@@ -77,7 +109,7 @@ export class MaestroComponent implements OnInit {
       this.EMCol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Engagement Managers').subscribe(data => {
+    this.skillsService.getProfileTotals('Engagement Managers', this.idVersion).subscribe(data => {
       this.EMData = data;
     });
   }
@@ -91,7 +123,7 @@ export class MaestroComponent implements OnInit {
       this.BACol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Business Analyst').subscribe(data => {
+    this.skillsService.getProfileTotals('Business Analyst',this.idVersion).subscribe(data => {
       this.BAData = data;
     });
   }
@@ -104,7 +136,7 @@ export class MaestroComponent implements OnInit {
       this.ARCol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Architects').subscribe(data => {
+    this.skillsService.getProfileTotals('Architects', this.idVersion).subscribe(data => {
       this.ARData = data;
       let sum = [0, 0, 0];
       this.ARData.forEach(el => {
@@ -128,7 +160,7 @@ export class MaestroComponent implements OnInit {
       this.SECol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Software Engineer').subscribe(data => {
+    this.skillsService.getProfileTotals('Software Engineer', this.idVersion).subscribe(data => {
       this.SEData = data;
     });
   }
@@ -142,7 +174,7 @@ export class MaestroComponent implements OnInit {
       this.IECol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Industry Experts').subscribe(data => {
+    this.skillsService.getProfileTotals('Industry Experts', this.idVersion).subscribe(data => {
       this.IEData = data;
     });
   }
@@ -156,7 +188,7 @@ export class MaestroComponent implements OnInit {
       this.ArSeDevCol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Architects & SE Custom Apps Development').subscribe(data => {
+    this.skillsService.getProfileTotals('Architects & SE Custom Apps Development', this.idVersion).subscribe(data => {
       this.ArSeDevData = data;
     });
   }
@@ -170,7 +202,7 @@ export class MaestroComponent implements OnInit {
       this.ArSeApiCol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Architects & SE Integration & APIs').subscribe(data => {
+    this.skillsService.getProfileTotals('Architects & SE Integration & APIs', this.idVersion).subscribe(data => {
       this.ArSeApiData = data;
     });
   }
@@ -186,7 +218,7 @@ export class MaestroComponent implements OnInit {
       this.rolesCol.push("Total");
     });
 
-    this.skillsService.getGradesRoles().subscribe(data => {
+    this.skillsService.getGradesRoles(this.idVersion).subscribe(data => {
       let rolesSum = [0, 0, 0, 0, 0];
       this.gradesRoles = data.map(elem => {
         let lineSum: number = 0;
@@ -272,12 +304,13 @@ export class MaestroComponent implements OnInit {
   }
 
   exportar() {
-    this.skillsService.sendToExport(this.selectedExcel).subscribe(
+    this.skillsService.sendToExport(this.selectedExcel, this.idVersion).subscribe(
       result => {
         this.downloadFile(result, "application/ms-excel");
       }
     );
   }
+
   downloadFile(data: any, type: string) {
     let blob = new Blob([data], { type: type });
     let url = window.URL.createObjectURL(blob);
@@ -299,4 +332,5 @@ export class MaestroComponent implements OnInit {
     this.visible = false;
     this.selectedExcel = '';
   }
+  
 }

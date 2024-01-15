@@ -1,11 +1,10 @@
-
 <div class="flex">
   <div class="textBloc px-2 flex align-items-center justify-content-center">
     <p>{{ text }}</p>
   </div>
   <div class="table_container">
-    <p-table [value]="data" [scrollable]="true"
-    scrollDirection="horizontal" styleClass="p-datatable-striped p-datatable-gridlines">
+    <p-table [value]="data" [scrollable]="true" scrollDirection="horizontal"
+      styleClass="p-datatable-striped p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr *ngIf="extraHeader" class="h-6rem text-base font-italic">
           <th colspan="2" style="background: white;"></th>
@@ -16,7 +15,7 @@
 
         <tr>
           <th *ngFor="let col of columnas; index as index" id="index"
-          [ngStyle]="{'width': index == 0 ? '200px':'70px'}">{{ col }}</th>
+            [ngStyle]="{'width': index == 0 ? '200px':'90px'}">{{ col }}</th>
         </tr>
       </ng-template>
 
@@ -24,8 +23,7 @@
         <tr>
           <td [ngStyle]="{'font-weight': isTotal(fila.profile)?'600':''}">{{fila.profile}}</td>
           <td *ngFor="let elem of fila.totals; index as i"
-          [class.totalCell]="i == getTotalIndex() || fila.profile=='Total' || fila.profile=='Sum'"
-          >{{ elem }}</td>
+            [class.totalCell]="i == getTotalIndex() || fila.profile=='Total' || fila.profile=='Sum'">{{ elem }}</td>
         </tr>
       </ng-template>
 

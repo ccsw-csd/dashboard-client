@@ -2,6 +2,9 @@
   font-size: 14px;
   border: 1px solid #babfc7;
   background: #F8F8F8;
+  align-items: center;
+  justify-content: center;
+
   p {
     width: 210px;
   }
@@ -9,17 +12,26 @@
 
 .table_container {
   overflow-x: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .totalCell {
   font-weight: 600;
+  align-items: center;
+  justify-content: center;
 }
 
 :host ::ng-deep {
   .p-datatable .p-datatable-tbody>tr>td {
     text-align: center;
+    align-items: center;
+    justify-content: center;
   }
+
   .p-datatable .p-datatable-thead>tr>th {
     text-align: center;
+    align-items: center;
+    justify-content: center;
   }
 }
