@@ -37,20 +37,20 @@ export class SkillsService {
     return this.http.get<object>(url, { params: { idImport: idImport.toString() }, responseType: 'blob' as 'json' });
   }
 
-  getRoleImportsAvailableYears(): Observable<number[]> {
-    return this.http.get<number[]>(`${this.baseUrl}/roleimports/years`);
+  getRoleImportsAvailableYears(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/roleimports/years`);
   }
 
-  getRoleImportsVersionsByYear(year: number): Observable<Capability[]> {
+  getRoleImportsVersionsByYear(year: string): Observable<Capability[]> {
     return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all/${year}`);
   }
 
-  getStaffingAvailableYears(): Observable<number[]> {
-    return this.http.get<number[]>(`${this.baseUrl}/staffingimports/years`);
+  getStaffingAvailableYears(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/staffingimports/years`);
   }
 
-  getStaffingVersionsByYear(year: number): Observable<Capability[]> {
+  getStaffingVersionsByYear(year: string): Observable<Capability[]> {
     return this.http.get<Capability[]>(`${this.baseUrl}/staffingimports/all/${year}`);
   }
-
+  
 }

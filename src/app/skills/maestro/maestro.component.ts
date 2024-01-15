@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Capability } from '../../core/interfaces/Capability';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-maestro',
@@ -51,9 +52,12 @@ export class MaestroComponent implements OnInit {
   tableList = ['All Profiles', 'Engagement Managers', 'Architects', 'Business Analyst', 'Software Engineer', 'Industry Experts', 'Architects & SE Custom Apps Development', 'Architects & SE Integration & APIs', 'Pyramid Grade-Rol'];
   items: MenuItem[];
   idVersion: number = 4;
-  staffingYears: number[];
-  roleYears: number[];
-  versions: Capability[];
+  staffingYears: string[];
+  roleYears: string[];
+  roleVersions: Capability[];
+  year: string;
+  selectedRoleYear: string;
+  selectedRoleVersion: string;
 
   constructor(private skillsService: SkillsService, public authService: AuthService) { }
 
@@ -71,6 +75,20 @@ export class MaestroComponent implements OnInit {
       { label: "Export totales", icon: 'pi pi-external-link', command: () => this.exportExcelTotales() },
       { label: "Export detalle", icon: 'pi pi-external-link', command: () => this.showDialog() }
     ]
+
+    this.skillsService.getRoleImportsAvailableYears().subscribe(
+      data => {
+        console.log('Años disponibles:', data);
+        this.roleYears = data;
+        this.selectedRoleYear = this.roleYears.length > 0 ? this.roleYears[0] : null;
+
+        // Cargar versiones por año seleccionado
+        this.loadRoleVersions();
+      },
+      error => {
+        console.error('Error al obtener los años de roleimports', error);
+      }
+    );
   }
 
   initYears() {
@@ -123,7 +141,7 @@ export class MaestroComponent implements OnInit {
       this.BACol = info.map(el => el.desc);
     });
 
-    this.skillsService.getProfileTotals('Business Analyst',this.idVersion).subscribe(data => {
+    this.skillsService.getProfileTotals('Business Analyst', this.idVersion).subscribe(data => {
       this.BAData = data;
     });
   }
@@ -332,5 +350,33 @@ export class MaestroComponent implements OnInit {
     this.visible = false;
     this.selectedExcel = '';
   }
-  
+
+  // Método para cargar las versiones de acuerdo al año seleccionado
+  loadRoleVersions() {
+    this.skillsService.getRoleImportsVersionsByYear(this.selectedRoleYear).subscribe(
+      data => {
+        // Ordenar las versiones por id de manera descendente
+        this.roleVersions = data.sort((a, b) => b.id - a.id);
+
+        this.selectedRoleVersion = this.roleVersions.length > 0 ? this.roleVersions[0].nombreFichero : null;
+
+        // Realizar las inicializaciones necesarias después de obtener las versiones
+        // Puedes llamar aquí a cualquier método que necesite la información de la versión seleccionada
+
+        // Ejemplo:
+        // this.initEM();
+        // this.initBA();
+        // ...
+        this.load = true; // Esto indica que la carga ha finalizado y puede mostrar los datos.
+      },
+      error => {
+        console.error('Error al obtener las versiones de roleimports', error);
+      }
+    );
+  }
+
+  onRoleYearChange() {
+    this.loadRoleVersions();
+  }
+
 }

@@ -15,7 +15,7 @@
 
 .descripcion {
     min-width: 250px;
-    max-width: 250px;
+    max-width: 300px;
 }
 
 .idTipoInterfaz {
@@ -35,7 +35,9 @@
 
 .comentarios {
     min-width: 150px;
-    max-width: 180px;
+    max-width: 6580px;
+    text-overflow: ellipsis;
+    display: flex;
 }
 
 .fechaImportacion {
@@ -50,8 +52,8 @@
 
 .p-inputtext {
     font-weight: 400;
-    height: 30px;
-    padding: 3px;
+    height: 25px;
+    padding: 2px;
 }
 
 .p-datatable-thead {
@@ -60,10 +62,6 @@
 
 .col.field {
     text-align: center;
-}
-
-.p-inputtext {
-    height: 28px;
 }
 
 td {

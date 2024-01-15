@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<p-table [style]="{'height': 'calc(100vh - 165px)', 'width': 'calc(100vh + 380px)'}" [scrollable]="true" selectionMode="single"
+<p-table [style]="{'height': 'calc(100vh - 165px)', 'width':tableWidth }" [scrollable]="true" selectionMode="single"
   scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped" [(filters)]="defaultFilters"
   sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="false" (onColReorder)="onColReorder($event)"
   (sortFunction)="customSort($event)" [customSort]="true" autoLayout="true">
@@ -15,8 +15,8 @@
       <th *ngFor="let col of columnNames"
         class="{{col.field}} flex flex-1 flex-column align-items-center justify-content-center" pReorderableColumn>
         <div class="flex flex-row top-header" pSortableColumn="{{col.composeField}}">
-          <span class="flex flex-1 justify-content-center pb-2">{{col.header}}</span>
-          <p-sortIcon field="{{col.composeField}}" class="pb-2"></p-sortIcon>
+          <span class="flex flex-1 justify-content-center pb-1">{{col.header}}</span>
+          <p-sortIcon field="{{col.composeField}}" class="pb-1"></p-sortIcon>
         </div>
         <div class="w-full foot-header">
           <p-columnFilter *ngIf="col.filterType == 'input'" class="w-full" type="text" field="{{col.composeField}}"
@@ -38,13 +38,16 @@
   <ng-template pTemplate="body" let-capability let-columns="columns">
     <tr [pSelectableRow]="capability">
       <td pResizableColumn *ngFor="let col of columnNames"
-        class="{{col.field}} flex flex-1 flex-column align-items-center justify-content-center">
+        class="{{col.field}} flex flex-1 flex-column justify-content-center">
         <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{capability[col.field]}}"
           tooltipPosition="top">
-          <ng-container *ngIf="col.field === 'id_tipo_interfaz' && capability[col.field] === 2">
+          <ng-container *ngIf="col.field === 'idTipoInterfaz' && capability[col.field] === 2">
             Capabilities
           </ng-container>
-          <ng-container *ngIf="col.field !== 'id_tipo_interfaz' || capability[col.field] !== 2">
+          <ng-container *ngIf="col.field === 'descripcion' || col.field === 'comentarios'" class="text-left">
+            {{capability[col.field]}}
+          </ng-container>
+          <ng-container *ngIf="col.field !== 'descripcion' && col.field !== 'comentarios'">
             {{capability[col.field]}}
           </ng-container>
         </div>
