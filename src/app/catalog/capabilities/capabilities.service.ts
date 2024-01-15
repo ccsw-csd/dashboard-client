@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Capability } from 'src/app/core/interfaces/Capability';
-import { capabilities_mock } from 'src/app/core/interfaces/mock-capabilities';
+// import { capabilities_mock } from 'src/app/core/interfaces/mock-capabilities';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -10,11 +12,21 @@ import { capabilities_mock } from 'src/app/core/interfaces/mock-capabilities';
 })
 export class CapabilitiesService {
 
-  private capabilities: Capability[] = capabilities_mock;
+  private baseUrl: string = environment.server;
+  // private capabilities: Capability[] = capabilities_mock;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getCapabilities(): Observable<Capability[]> {
+  /* getCapabilities(): Observable<Capability[]> {
     return of(this.capabilities);
+  } */
+
+  getRoleImportsVersionsByYear(year: number): Observable<Capability[]> {
+    return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all/${year}`);
   }
+
+  getRolesAvailableYears(): Observable<number[]> {
+    return this.http.get<number[]>(`${this.baseUrl}/roleimports/years`);
+  }
+
 }

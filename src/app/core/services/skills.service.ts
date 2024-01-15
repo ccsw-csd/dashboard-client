@@ -11,10 +11,10 @@ import { Capability } from '../interfaces/Capability';
 })
 
 export class SkillsService {
-  getAvailableYears() {
-    throw new Error('Method not implemented.');
-  }
+
   private baseUrl: string = environment.server;
+  idImport: number;
+
   constructor(private http: HttpClient) { }
 
   getRoles(): Observable<Role[]> {
@@ -31,7 +31,7 @@ export class SkillsService {
   getTableDetail(profile, infoType): Observable<ColumnDetails[]> {
     return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config/${profile}/${infoType}`);
   }
-  
+
   sendToExport(selectedExcel, idImport): Observable<object> {
     let url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
     return this.http.get<object>(url, { params: { idImport: idImport.toString() }, responseType: 'blob' as 'json' });

@@ -34,7 +34,7 @@ export class CapabilitiesListComponent implements OnInit {
   }
 
   loadData() {
-    this.capabilitiesService.getCapabilities().subscribe(
+    this.capabilitiesService.getRoleImportsVersionsByYear(2024).subscribe(
       capabilities => {
         this.capabilities = capabilities;
         this.setDefaultFilters();
