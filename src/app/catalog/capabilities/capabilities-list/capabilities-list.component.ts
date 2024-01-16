@@ -16,6 +16,8 @@ export class CapabilitiesListComponent implements OnInit {
   tableWidth: string;
   defaultFilters: any = {};
   selectedColumnNames: any[];
+  years: number[];
+  selectedYear: number;
   columnNames: any[] = [
     { header: 'Descripción', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
     { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
@@ -28,14 +30,11 @@ export class CapabilitiesListComponent implements OnInit {
 
   constructor(private capabilitiesService: CapabilitiesService) { }
 
-  years: number[];
-  selectedYear: number;
-
   ngOnInit() {
 
     this.capabilitiesService.getRolesAvailableYears().subscribe(
       years => {
-        console.log(years); // Agrega este console.log
+        console.log(years);
         this.years = years;
 
         if (this.years && this.years.length > 0) {
@@ -50,7 +49,7 @@ export class CapabilitiesListComponent implements OnInit {
   loadData(selectedYear) {
     this.capabilitiesService.getRoleImportsVersionsByYear(selectedYear).subscribe(
       capabilities => {
-        console.log(capabilities); // Agrega este console.log
+        console.log(capabilities);
         this.capabilities = capabilities;
         this.setDefaultFilters();
       }

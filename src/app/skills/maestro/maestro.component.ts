@@ -81,7 +81,6 @@ export class MaestroComponent implements OnInit {
         this.roleYears = data;
         this.selectedRoleYear = this.roleYears.length > 0 ? this.roleYears[0] : null;
 
-        // Cargar versiones por año seleccionado
         this.loadRoleVersions();
       },
       error => {
@@ -354,12 +353,10 @@ export class MaestroComponent implements OnInit {
   loadRoleVersions() {
     this.skillsService.getRoleImportsVersionsByYear(this.selectedRoleYear).subscribe(
       data => {
-        // Ordenar las versiones por id de manera descendente
         this.roleVersions = data.sort((a, b) => b.id - a.id);
-
         this.selectedRoleVersion = this.roleVersions.length > 0 ? this.roleVersions[0].nombreFichero : null;
 
-        this.load = true; // Esto indica que la carga ha finalizado y puede mostrar los datos.
+        this.load = true;
       },
       error => {
         console.error('Error al obtener las versiones de roleimports', error);

@@ -6,7 +6,7 @@
     <p-table [value]="data" [scrollable]="true" scrollDirection="horizontal"
       styleClass="p-datatable-striped p-datatable-gridlines">
       <ng-template pTemplate="header">
-        <tr *ngIf="extraHeader" class="h-6rem text-base font-italic">
+        <tr *ngIf="extraHeader" class="h-4rem text-base font-italic">
           <th colspan="2" style="background: white;"></th>
           <th colspan="8">Custom apps development (only pick one/pers)</th>
           <th colspan="4">with Cloud Native Expertise</th>
@@ -15,7 +15,7 @@
 
         <tr>
           <th *ngFor="let col of columnas; index as index" id="index"
-            [ngStyle]="{'width': index == 0 ? '200px':'90px'}">{{ col }}</th>
+            [ngStyle]="{'width': index == 0 ? '180px':'80px'}">{{ col }}</th>
         </tr>
       </ng-template>
 

@@ -20,8 +20,8 @@ import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
-    StaffingListComponent,
-    CapabilitiesListComponent
+    CapabilitiesListComponent,
+    StaffingListComponent
   ],
   imports: [
     CommonModule,

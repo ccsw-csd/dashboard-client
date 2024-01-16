@@ -13,9 +13,9 @@
 </div>
 
 <p-table [style]="{'height': 'calc(100vh - 165px)', 'width':tableWidth }" [scrollable]="true" selectionMode="single"
-  scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped"
-  [(filters)]="defaultFilters" sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="false"
-  (onColReorder)="onColReorder($event)" (sortFunction)="customSort($event)" [customSort]="true" autoLayout="true">
+  scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped" [(filters)]="defaultFilters"
+  sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="false" (onColReorder)="onColReorder($event)"
+  (sortFunction)="customSort($event)" [customSort]="true" autoLayout="true">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columnNames"

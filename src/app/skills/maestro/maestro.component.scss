@@ -1,18 +1,11 @@
-/* Estilo para bloques de texto */
 .textBloc {
-  font-size: 10px;
+  font-size: 12px;
   border: 1px solid lightgray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300px; /* Ajusta la altura según tus necesidades */
+  align-items: lest;
+  width: 280px;
 }
 
-/* Estilo para títulos de tabla */
 .tableTitle {
   text-align: center;
   background: lightgray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
