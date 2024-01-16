@@ -64,10 +64,6 @@
     text-align: center;
 }
 
-td {
-    text-align: center;
-}
-
 .buttons {
     min-width: 125px;
     max-width: 125px;
@@ -77,3 +73,7 @@ td {
     min-width: none;
     max-width: 120px;
 }
+
+.text-left {
+    text-align: left;
+  }

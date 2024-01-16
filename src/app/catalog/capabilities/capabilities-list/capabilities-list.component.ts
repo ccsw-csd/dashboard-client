@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CapabilitiesService } from '../capabilities.service';
 import { SortEvent } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { MenuItem } from 'primeng/api';
 import { Capability } from 'src/app/core/interfaces/Capability';
 
 @Component({
@@ -29,13 +28,29 @@ export class CapabilitiesListComponent implements OnInit {
 
   constructor(private capabilitiesService: CapabilitiesService) { }
 
+  years: number[];
+  selectedYear: number;
+
   ngOnInit() {
-    this.loadData();
+
+    this.capabilitiesService.getRolesAvailableYears().subscribe(
+      years => {
+        console.log(years); // Agrega este console.log
+        this.years = years;
+
+        if (this.years && this.years.length > 0) {
+          this.selectedYear = this.years[0];
+          this.loadData(this.selectedYear);
+        }
+      }
+    );
+
   }
 
-  loadData() {
-    this.capabilitiesService.getRoleImportsVersionsByYear(2024).subscribe(
+  loadData(selectedYear) {
+    this.capabilitiesService.getRoleImportsVersionsByYear(selectedYear).subscribe(
       capabilities => {
+        console.log(capabilities); // Agrega este console.log
         this.capabilities = capabilities;
         this.setDefaultFilters();
       }
@@ -77,6 +92,10 @@ export class CapabilitiesListComponent implements OnInit {
 
   onColReorder(event): void {
     this.saveSelected(this.columnNames);
+  }
+
+  onYearChange() {
+    this.loadData(this.selectedYear);
   }
 
   resizeTable() {

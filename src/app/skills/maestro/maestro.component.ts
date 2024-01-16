@@ -6,7 +6,6 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Capability } from '../../core/interfaces/Capability';
-import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-maestro',
@@ -360,13 +359,6 @@ export class MaestroComponent implements OnInit {
 
         this.selectedRoleVersion = this.roleVersions.length > 0 ? this.roleVersions[0].nombreFichero : null;
 
-        // Realizar las inicializaciones necesarias después de obtener las versiones
-        // Puedes llamar aquí a cualquier método que necesite la información de la versión seleccionada
-
-        // Ejemplo:
-        // this.initEM();
-        // this.initBA();
-        // ...
         this.load = true; // Esto indica que la carga ha finalizado y puede mostrar los datos.
       },
       error => {
