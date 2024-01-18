@@ -1,11 +1,45 @@
 .textBloc {
   font-size: 12px;
   border: 1px solid lightgray;
-  align-items: lest;
-  width: 280px;
+  align-items: center;
+  width: 300px;
 }
 
 .tableTitle {
   text-align: center;
   background: lightgray;
 }
+
+.small-input-switch {
+  .p-inputswitch {
+    height: 1.2rem;
+    width: 2.4rem;
+
+    &.p-inputswitch-checked {
+      .p-inputswitch-slider::before {
+        transform: translateX(1rem);
+      }
+    }
+
+    .p-inputswitch-slider::before {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .p-datatable .p-datatable-tbody>tr>td,
+  .p-datatable .p-datatable-thead>tr>th {
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .totalCell {
+    font-weight: 600;
+    text-align: center !important;
+  }
+}
+

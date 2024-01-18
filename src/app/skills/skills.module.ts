@@ -12,6 +12,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MenuModule } from 'primeng/menu';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
 @NgModule({
   declarations: [
     StatisticComponent,
@@ -29,7 +31,11 @@ import { MenuModule } from 'primeng/menu';
     ProgressSpinnerModule,
     ReactiveFormsModule,
     RadioButtonModule,
-    MenuModule
+    MenuModule,
+    DropdownModule,
+    CheckboxModule,
+    InputSwitchModule,
+    FormsModule,
   ]
 })
 export class SkillsModule { }

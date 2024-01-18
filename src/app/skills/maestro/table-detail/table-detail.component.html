@@ -21,7 +21,7 @@
 
       <ng-template pTemplate="body" let-fila let-columns="columns">
         <tr>
-          <td [ngStyle]="{'font-weight': isTotal(fila.profile)?'600':''}">{{fila.profile}}</td>
+          <td [ngStyle]="{'font-weight': isTotal(fila.profile)?'600':''}">{{ fila.profile }}</td>
           <td *ngFor="let elem of fila.totals; index as i"
             [class.totalCell]="i == getTotalIndex() || fila.profile=='Total' || fila.profile=='Sum'">{{ elem }}</td>
         </tr>

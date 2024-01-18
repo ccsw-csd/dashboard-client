@@ -1,5 +1,5 @@
 .textBloc {
-  font-size: 12px;
+  font-size: 14px;
   border: 1px solid #babfc7;
   background: #F8F8F8;
 
@@ -10,21 +10,31 @@
 
 .table_container {
   overflow-x: auto;
-  text-align: center;
 }
 
-.totalCell {
-  font-weight: 600;
-  padding: 2px;
-  text-align: center;
-}
 
 :host ::ng-deep {
-  .p-datatable .p-datatable-tbody>tr>td {
-    text-align: center;
+  .p-datatable .p-datatable-thead>tr>th {
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 3px;
+    
   }
 
-  .p-datatable .p-datatable-thead>tr>th {
-    text-align: center;
+  .p-datatable .p-datatable-tbody>tr>td {
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 3px;
+  }
+
+  .totalCell {
+    font-weight: 600;
+    text-align: center !important;
   }
 }

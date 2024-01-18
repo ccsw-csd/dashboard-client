@@ -6,6 +6,12 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Capability } from '../../core/interfaces/Capability';
+import { InputSwitchModule } from 'primeng/inputswitch';
+
+
+interface Screenshot {
+  name: string;
+}
 
 @Component({
   selector: 'app-maestro',
@@ -58,9 +64,14 @@ export class MaestroComponent implements OnInit {
   selectedRoleYear: string;
   selectedRoleVersion: string;
 
+  screenshotsOptions: Screenshot[] | undefined;
+  selectedScreenshot: Screenshot | undefined;
+  isScreenshotOn: boolean = false;
+
   constructor(private skillsService: SkillsService, public authService: AuthService) { }
 
   ngOnInit() {
+
     this.initEM();
     this.initBA();
     this.initAR();
@@ -75,18 +86,24 @@ export class MaestroComponent implements OnInit {
       { label: "Export detalle", icon: 'pi pi-external-link', command: () => this.showDialog() }
     ]
 
+    this.screenshotsOptions = [
+      { name: 'Sí' },
+      { name: 'No' },
+      { name: 'Mostrar Todas' }
+    ];
+
     this.skillsService.getRoleImportsAvailableYears().subscribe(
       data => {
         console.log('Años disponibles:', data);
         this.roleYears = data;
         this.selectedRoleYear = this.roleYears.length > 0 ? this.roleYears[0] : null;
-
         this.loadRoleVersions();
       },
       error => {
         console.error('Error al obtener los años de roleimports', error);
       }
     );
+
   }
 
   initYears() {
