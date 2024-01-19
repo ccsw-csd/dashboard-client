@@ -6,7 +6,6 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Capability } from '../../core/interfaces/Capability';
-import { InputSwitchModule } from 'primeng/inputswitch';
 
 
 interface Screenshot {

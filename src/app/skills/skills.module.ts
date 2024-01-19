@@ -14,6 +14,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { MenuModule } from 'primeng/menu';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DividerModule } from 'primeng/divider';
+
 @NgModule({
   declarations: [
     StatisticComponent,
@@ -36,6 +38,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CheckboxModule,
     InputSwitchModule,
     FormsModule,
+    DividerModule    
   ]
 })
 export class SkillsModule { }

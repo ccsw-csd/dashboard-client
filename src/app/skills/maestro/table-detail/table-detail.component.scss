@@ -12,29 +12,3 @@
   overflow-x: auto;
 }
 
-
-:host ::ng-deep {
-  .p-datatable .p-datatable-thead>tr>th {
-    text-align: center !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 3px;
-    
-  }
-
-  .p-datatable .p-datatable-tbody>tr>td {
-    text-align: center !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 3px;
-  }
-
-  .totalCell {
-    font-weight: 600;
-    text-align: center !important;
-  }
-}
