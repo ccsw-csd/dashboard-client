@@ -5,13 +5,17 @@ import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaestroComponent } from './maestro/maestro.component';
 import { TableDetailComponent } from './maestro/table-detail/table-detail.component';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MenuModule } from 'primeng/menu';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { DividerModule } from 'primeng/divider';
+
 @NgModule({
   declarations: [
     StatisticComponent,
@@ -29,7 +33,12 @@ import { MenuModule } from 'primeng/menu';
     ProgressSpinnerModule,
     ReactiveFormsModule,
     RadioButtonModule,
-    MenuModule
+    MenuModule,
+    DropdownModule,
+    CheckboxModule,
+    InputSwitchModule,
+    FormsModule,
+    DividerModule    
   ]
 })
 export class SkillsModule { }

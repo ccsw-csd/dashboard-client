@@ -2,6 +2,7 @@
   font-size: 14px;
   border: 1px solid #babfc7;
   background: #F8F8F8;
+
   p {
     width: 210px;
   }
@@ -11,15 +12,3 @@
   overflow-x: auto;
 }
 
-.totalCell {
-  font-weight: 600;
-}
-
-:host ::ng-deep {
-  .p-datatable .p-datatable-tbody>tr>td {
-    text-align: center;
-  }
-  .p-datatable .p-datatable-thead>tr>th {
-    text-align: center;
-  }
-}

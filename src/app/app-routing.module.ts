@@ -5,6 +5,8 @@ import { RefreshTokenResolverService } from './core/services/refresh-token-resol
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { MaestroComponent } from './skills/maestro/maestro.component';
+import { CapabilitiesListComponent } from './catalog/capabilities/capabilities-list/capabilities-list.component';
+import { StaffingListComponent } from './catalog/staffing/staffing-list/staffing-list.component';
 
 
 const routes: Routes = [
@@ -19,6 +21,8 @@ const routes: Routes = [
       // { path: 'dashboard', component: MainComponent},
       // { path: 'statistic', component: StatisticComponent },
       { path: 'dashboard', component: MaestroComponent, data: { role: ['DASHBOARD'] } },
+      { path: 'capabilities', component: CapabilitiesListComponent, data: { role: ['DASHBOARD'] }},
+      { path: 'staffing', component: StaffingListComponent, data: { role: ['DASHBOARD'] }},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
   },

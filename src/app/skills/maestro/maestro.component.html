@@ -6,9 +6,24 @@
     <h3>INFORMES</h3>
     <div class="my-2 mr-4 flex justify-content-end">
 
-      <!--BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR"-->
+      <!-- SELECCIONAR SI ES SCREENSHOT -->
+      <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedScreenshot" optionLabel="name"
+        [showClear]="true" placeholder="  Versión Screenshot">
+      </p-dropdown>
+
+      <!-- SELECCIONAR AÑO -->
+      <p-dropdown [options]="roleYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedRoleYear" (ngModelChange)="onRoleYearChange()"
+        [showClear]="true" placeholder="Seleccione un Año">
+      </p-dropdown>
+
+      <!-- SELECCIONAR VERSION -->
+      <p-dropdown [options]="roleVersions" class="m-2" [style]="{'width': '240px'}" [(ngModel)]="selectedRoleVersion" optionLabel="nombreFichero"
+        [showClear]="true" placeholder="Seleccione una Versión">
+      </p-dropdown>
+
+      <!-- BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR" -->
       <button *ngIf="authService.hasRole('EXPORTAR')" type="button" pButton pRipple icon="pi pi-file-excel"
-        class="m-2 p-button-outlined" (click)="menu.toggle($event)" style="width: 80px;">
+        class="p-button-outlined m-2" (click)="menu.toggle($event)" style="width: 80px;">
         <i class="pi pi-angle-down m-2"></i>
       </button>
 
@@ -16,6 +31,7 @@
 
     </div>
   </div>
+
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%;">
       <app-table-detail [data]="EMData" [columnas]="EMCol" [text]="EMText"></app-table-detail>
@@ -38,25 +54,45 @@
     <app-table-detail [data]="IEData" [columnas]="IECol" [text]="IEText"></app-table-detail>
   </div>
 
-
-
-  <h3 class="my-3">SPECIFIC ZOOM</h3>
-  <div class="py-3">
+  <h3 class="card my-3">SPECIFIC ZOOM</h3>
+  <div class="card py-3">
     <app-table-detail [data]="ArSeDevData" [columnas]="ArSeDevCol" [text]="ArSeDevText"
       [extraHeader]="true"></app-table-detail>
   </div>
 
-  <div class="py-3">
+  <div class="my-3">
     <app-table-detail [data]="ArSeApiData" [columnas]="ArSeApiCol" [text]="ArSeApiText"></app-table-detail>
   </div>
 
   <!-- Pyramide -->
-  <h3 class="my-3">PYRAMID</h3>
+  <h3 class="card my-3">PYRAMID</h3>
   <div class="card py-3">
     <app-table-detail [data]="gradesRoles" [columnas]="rolesCol" [text]="gradeRoleText"></app-table-detail>
   </div>
-</div>
 
+  <p-divider></p-divider>
+
+  <!-- Switch screenshot-->
+  <div class="flex items-center ml-2 mt-4">
+    <div class="small-input-switch">
+      <p-inputSwitch [(ngModel)]="foo" (onChange)="foo" label="Screenshot"></p-inputSwitch>
+    </div>
+    <span style="margin-left: 0.5rem;">Screenshot</span>
+  </div>
+
+  <!-- Comentarios-->
+  <div class="py-3 mt-2 flex">
+    <span class="p-float-label">
+      <textarea id="float-input" rows="10" cols="140" pInputTextarea></textarea>
+      <label for="float-input">Comentarios</label>
+    </span>
+  </div>
+  <div class="flex">
+    <button pButton pRipple styleClass="" label="Guardar" icon="pi pi-save"
+      class="p-button p-button-primary p-button-outlined mt-2" (click)="foo()">
+    </button>
+  </div>
+</div>
 
 <!-- Dialog exports -->
 <p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">

@@ -12,8 +12,8 @@ import packageInfo from '../../../../../../package.json';
 })
 export class NavComponent implements OnInit {
 
-  frontVersion : string = packageInfo.version;
-  backVersion : string = "1.0.0";
+  frontVersion: string = packageInfo.version;
+  backVersion: string = "1.0.0";
   items: MenuItem[];
 
   constructor(
@@ -25,7 +25,16 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
 
     this.items = [
-      {label: "Dashboard", routerLink: '/dashboard'}
+      { label: "Dashboard", routerLink: '/dashboard' },
+      {
+        label: "Catálogo",
+        expanded: false,
+        visible: this.authService.hasRole('DASHBOARD'),
+        items: [
+          { label: "Lista Capacidades", routerLink: '/capabilities' },
+          { label: "Lista Staffing", routerLink: '/staffing' }
+        ]
+      }
     ];
 
     this.utilsService.getAppVersion().subscribe((result: any) => {
