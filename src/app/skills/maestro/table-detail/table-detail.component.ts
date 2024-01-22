@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { InformeTotal } from 'src/app/core/interfaces/capacidades';
+import { InformeTotal } from 'src/app/core/interfaces/Capabilities';
 
 @Component({
   selector: 'app-table-detail',

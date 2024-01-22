@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InformeTotal } from '../../core/interfaces/capacidades';
+import { InformeTotal } from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
 import { MenuItem } from 'primeng/api';
@@ -335,7 +335,7 @@ export class MaestroComponent implements OnInit {
     }
   }
 
-  exportar() {
+  exportExcel() {
     this.skillsService.sendToExport(this.selectedExcel, this.idVersion).subscribe(
       result => {
         this.downloadFile(result, "application/ms-excel");

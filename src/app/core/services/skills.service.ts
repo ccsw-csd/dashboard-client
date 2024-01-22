@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Role, GradesRole, InformeTotal, ColumnDetails } from '../interfaces/capacidades'
+import { Role, GradesRole, InformeTotal, ColumnDetails } from '../interfaces/Capabilities'
 import { Capability } from '../interfaces/Capability';
 
 
@@ -52,5 +52,5 @@ export class SkillsService {
   getStaffingVersionsByYear(year: string): Observable<Capability[]> {
     return this.http.get<Capability[]>(`${this.baseUrl}/staffingimports/all/${year}`);
   }
-  
+
 }
