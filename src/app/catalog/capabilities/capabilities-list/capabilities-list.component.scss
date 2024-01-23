@@ -63,9 +63,13 @@
     text-align: center;
 }
 
-.buttons {
-    min-width: 125px;
-    max-width: 125px;
+.buttons{
+    min-width: 80px;
+    max-width: 80px;
+}
+.p-button.p-button-icon-only.p-button-rounded{
+    width: 2rem;
+    height: 2rem;
 }
 
 .sticky-header {
