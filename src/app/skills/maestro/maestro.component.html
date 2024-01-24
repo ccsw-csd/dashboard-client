@@ -12,12 +12,12 @@
       </p-dropdown>
 
       <!-- SELECCIONAR AÑO -->
-      <p-dropdown [options]="roleYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedRoleYear" (ngModelChange)="onRoleYearChange()"
+      <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedRReportYear" (ngModelChange)="onReportYearChange()"
         [showClear]="true" placeholder="Seleccione un Año">
       </p-dropdown>
 
       <!-- SELECCIONAR VERSION -->
-      <p-dropdown [options]="roleVersions" class="m-2" [style]="{'width': '240px'}" [(ngModel)]="selectedRoleVersion" optionLabel="nombreFichero"
+      <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}" [(ngModel)]="selectedReportVersion" optionLabel="nombreFichero"
         [showClear]="true" placeholder="Seleccione una Versión">
       </p-dropdown>
 

@@ -5,7 +5,7 @@ import * as FileSaver from 'file-saver';
 import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Capability } from '../../core/interfaces/Capability';
+import { Report } from '../../core/interfaces/Report';
 
 
 interface Screenshot {
@@ -55,13 +55,13 @@ export class MaestroComponent implements OnInit {
   visible: boolean = false;
   tableList = ['All Profiles', 'Engagement Managers', 'Architects', 'Business Analyst', 'Software Engineer', 'Industry Experts', 'Architects & SE Custom Apps Development', 'Architects & SE Integration & APIs', 'Pyramid Grade-Rol'];
   items: MenuItem[];
-  idVersion: number = 4;
+  idVersion: string = "1";
   staffingYears: string[];
-  roleYears: string[];
-  roleVersions: Capability[];
+  reportYears: string[];
+  reportVersions: Report[];
   year: string;
-  selectedRoleYear: string;
-  selectedRoleVersion: string;
+  selectedReportYear: string;
+  selectedReportVersion: string;
 
   screenshotsOptions: Screenshot[] | undefined;
   selectedScreenshot: Screenshot | undefined;
@@ -91,12 +91,12 @@ export class MaestroComponent implements OnInit {
       { name: 'Mostrar Todas' }
     ];
 
-    this.skillsService.getRoleImportsAvailableYears().subscribe(
+    this.skillsService.getReportImportsAvailableYears().subscribe(
       data => {
         console.log('Años disponibles:', data);
-        this.roleYears = data;
-        this.selectedRoleYear = this.roleYears.length > 0 ? this.roleYears[0] : null;
-        this.loadRoleVersions();
+        this.reportYears = data;
+        this.selectedReportYear = this.reportYears.length > 0 ? this.reportYears[0] : null;
+        this.loadReportVersions();
       },
       error => {
         console.error('Error al obtener los años de roleimports', error);
@@ -105,31 +105,21 @@ export class MaestroComponent implements OnInit {
 
   }
 
-  initYears() {
-    this.getRoleYears();
-    this.getStaffingYears();
-  }
-
-  getRoleYears() {
-    this.skillsService.getRoleImportsAvailableYears().subscribe(
+  loadReportVersions() {
+    this.skillsService.getReportImportsVersionsByYear(this.selectedReportYear).subscribe(
       data => {
-        this.roleYears = data;
+        this.reportVersions = data.sort((a, b) => b.id - a.id);
+        this.selectedReportVersion = this.reportVersions.length > 0 ? this.reportVersions[0].descripcion : null;
+        this.load = true;
       },
       error => {
-        console.error('Error al obtener los años de roleimports', error);
+        console.error('Error al obtener las versiones de reportImports', error);
       }
     );
   }
 
-  getStaffingYears() {
-    this.skillsService.getStaffingAvailableYears().subscribe(
-      data => {
-        this.staffingYears = data;
-      },
-      error => {
-        console.error('Error al obtener los años de staffingimports', error);
-      }
-    );
+  onReportYearChange() {
+    this.loadReportVersions();
   }
 
   initEM() {
@@ -363,25 +353,6 @@ export class MaestroComponent implements OnInit {
   closeDialog() {
     this.visible = false;
     this.selectedExcel = '';
-  }
-
-  // Método para cargar las versiones de acuerdo al año seleccionado
-  loadRoleVersions() {
-    this.skillsService.getRoleImportsVersionsByYear(this.selectedRoleYear).subscribe(
-      data => {
-        this.roleVersions = data.sort((a, b) => b.id - a.id);
-        this.selectedRoleVersion = this.roleVersions.length > 0 ? this.roleVersions[0].nombreFichero : null;
-
-        this.load = true;
-      },
-      error => {
-        console.error('Error al obtener las versiones de roleimports', error);
-      }
-    );
-  }
-
-  onRoleYearChange() {
-    this.loadRoleVersions();
   }
 
 }
