@@ -6,11 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
-
-
-interface Screenshot {
-  name: string;
-}
+import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 
 @Component({
   selector: 'app-maestro',
@@ -55,17 +51,17 @@ export class MaestroComponent implements OnInit {
   visible: boolean = false;
   tableList = ['All Profiles', 'Engagement Managers', 'Architects', 'Business Analyst', 'Software Engineer', 'Industry Experts', 'Architects & SE Custom Apps Development', 'Architects & SE Integration & APIs', 'Pyramid Grade-Rol'];
   items: MenuItem[];
+
   idVersion: string = "1";
-  staffingYears: string[];
+
   reportYears: string[];
   reportVersions: Report[];
-  year: string;
-  selectedReportYear: string;
-  selectedReportVersion: string;
 
-  screenshotsOptions: Screenshot[] | undefined;
-  selectedScreenshot: Screenshot | undefined;
-  isScreenshotOn: boolean = false;
+  selectedReportYear: string;
+  selectedReportVersion: Report;
+
+  screenshotsOptions: Screenshot[];
+  selectedScreenshotOption: Screenshot;
 
   constructor(private skillsService: SkillsService, public authService: AuthService) { }
 
@@ -88,8 +84,10 @@ export class MaestroComponent implements OnInit {
     this.screenshotsOptions = [
       { name: 'Sí' },
       { name: 'No' },
-      { name: 'Mostrar Todas' }
+      { name: 'Todas' }
     ];
+
+    console.log('Opciones de scrrenshot:', this.screenshotsOptions);
 
     this.skillsService.getReportImportsAvailableYears().subscribe(
       data => {
@@ -97,9 +95,10 @@ export class MaestroComponent implements OnInit {
         this.reportYears = data;
         this.selectedReportYear = this.reportYears.length > 0 ? this.reportYears[0] : null;
         this.loadReportVersions();
+
       },
       error => {
-        console.error('Error al obtener los años de roleimports', error);
+        console.error('Error al obtener los años de reportimports', error);
       }
     );
 
@@ -108,9 +107,9 @@ export class MaestroComponent implements OnInit {
   loadReportVersions() {
     this.skillsService.getReportImportsVersionsByYear(this.selectedReportYear).subscribe(
       data => {
-        this.reportVersions = data.sort((a, b) => b.id - a.id);
-        this.selectedReportVersion = this.reportVersions.length > 0 ? this.reportVersions[0].descripcion : null;
-        this.load = true;
+        console.log('Versiones disponibles:', data);
+        this.reportVersions = data;
+        this.selectedReportVersion = this.reportVersions.length > 0 ? this.reportVersions[0] : null;
       },
       error => {
         console.error('Error al obtener las versiones de reportImports', error);
@@ -118,8 +117,10 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  onReportYearChange() {
-    this.loadReportVersions();
+  onYearSelected() {}
+
+  searchVersion() {
+    console.log("Buscar versión")
   }
 
   initEM() {

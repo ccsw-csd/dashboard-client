@@ -7,19 +7,23 @@
     <div class="my-2 mr-4 flex justify-content-end">
 
       <!-- SELECCIONAR SI ES SCREENSHOT -->
-      <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedScreenshot" optionLabel="name"
-        [showClear]="true" placeholder="  Versión Screenshot">
+      <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}"
+        [(ngModel)]="selectedScreenshot" optionLabel="name" [showClear]="false" placeholder="Versión Screenshot">
       </p-dropdown>
 
       <!-- SELECCIONAR AÑO -->
-      <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedRReportYear" (ngModelChange)="onReportYearChange()"
-        [showClear]="true" placeholder="Seleccione un Año">
+      <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedReportYear"
+        [showClear]="false" placeholder="Seleccione un Año">
       </p-dropdown>
 
       <!-- SELECCIONAR VERSION -->
-      <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}" [(ngModel)]="selectedReportVersion" optionLabel="nombreFichero"
-        [showClear]="true" placeholder="Seleccione una Versión">
+      <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}"
+        [(ngModel)]="selectedReportVersion" optionLabel="descripcion" [showClear]="false"
+        placeholder="Seleccione una versión">
       </p-dropdown>
+
+      <button pButton type="button" pRipple icon="pi pi-search" class="p-button-outlined m-2" (click)="searchVersion()"
+        style="width: 80px;"></button>
 
       <!-- BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR" -->
       <button *ngIf="authService.hasRole('EXPORTAR')" type="button" pButton pRipple icon="pi pi-file-excel"

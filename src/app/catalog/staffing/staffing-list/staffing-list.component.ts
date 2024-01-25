@@ -22,7 +22,7 @@ export class StaffingListComponent {
     { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
     { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
     { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
-    { header: 'Comentarios', composeField: 'comentarios', field: 'comentarios', filterType: 'input' },
+    { header: 'Usuario', composeField: 'usuario', field: 'usuario', filterType: 'input' },
     { header: 'Fecha', composeField: 'fechaImportacion', field: 'fechaImportacion', filterType: 'input' },
   ];
 

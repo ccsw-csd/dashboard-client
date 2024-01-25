@@ -6,6 +6,6 @@ export interface Report {
     "fechaImportacion": Date,
     "descripcion": string,
     "usuario": string,
-    "fechaModificacion": null,
+    "fechaModificacion": Date,
     "comentarios": string
 }

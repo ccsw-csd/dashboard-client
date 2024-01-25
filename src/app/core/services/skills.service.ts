@@ -22,7 +22,7 @@ export class SkillsService {
     return this.http.get<Role[]>(`${this.baseUrl}/role/config`);
   }
   getGradesRoles(idReport): Observable<GradesRole[]> {
-    return this.http.get<GradesRole[]>(`${this.baseUrl}/grade-role/gradetotals`, { params: { idImport: idReport.toString() } });
+    return this.http.get<GradesRole[]>(`${this.baseUrl}/grade-role/gradetotals`, { params: { idReport: idReport.toString() } });
   }
 
   getProfileTotals(profile, idReport): Observable<InformeTotal[]> {

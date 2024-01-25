@@ -15,17 +15,18 @@
 
 .descripcion {
     min-width: 250px;
-    max-width: 300px;
+    max-width: 280px;
+    display: flex;
 }
 
 .idTipoInterfaz {
     min-width: 150px;
-    max-width: 150px;
+    max-width: 180px;
 }
 
 .numRegistros {
     min-width: 140px;
-    max-width: 140px;
+    max-width: 180px;
 }
 
 .nombreFichero {
@@ -33,11 +34,9 @@
     max-width: 250px;
 }
 
-.comentarios {
-    min-width: 150px;
-    max-width: 6580px;
-    text-overflow: ellipsis;
-    display: flex;
+.usuario {
+    min-width: 100px;
+    max-width: 300px;
 }
 
 .fechaImportacion {
@@ -62,15 +61,6 @@
 
 .col.field {
     text-align: center;
-}
-
-.buttons{
-    min-width: 80px;
-    max-width: 80px;
-}
-.p-button.p-button-icon-only.p-button-rounded{
-    width: 2rem;
-    height: 2rem;
 }
 
 .sticky-header {

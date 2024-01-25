@@ -5,5 +5,5 @@ export interface Staffing {
     numRegistros: number;
     nombreFichero: string;
     descripcion: string;
-    comentarios: string;
+    usuario: string;
 }
