@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Version } from '@angular/core';
 import { InformeTotal } from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-maestro',
@@ -68,7 +70,15 @@ export class MaestroComponent implements OnInit {
   screenshotEnabled: boolean;
   comentarios: string;
 
-  constructor(private skillsService: SkillsService, public authService: AuthService) { }
+  selectedScreenshot: string; // propiedad para almacenar la opción seleccionada de screenshot
+  selectedYear: string; // propiedad para almacenar el año seleccionado
+  selectedVersion: Report;
+
+  constructor(
+    private skillsService: SkillsService,
+    public authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -77,13 +87,7 @@ export class MaestroComponent implements OnInit {
       { label: "Export detalle", icon: 'pi pi-external-link', command: () => this.showDialog() }
     ]
 
-    this.screenshotsOptions = [
-      { name: 'Sí' },
-      { name: 'No' },
-      { name: 'Todas' }
-    ];
-
-    console.log('Opciones de scrrenshot:', this.screenshotsOptions);
+    this.loadInitialDropdownData();
 
     this.skillsService.getAllReports().subscribe(
 
@@ -127,12 +131,23 @@ export class MaestroComponent implements OnInit {
     return reports.reduce((latest, report) => (latest && latest.id > report.id) ? latest : report, undefined);
   }
 
-  loadReportVersions() {
-    this.skillsService.getReportImportsVersionsByYear(this.selectedReportYear).subscribe(
+  loadInitialDropdownData() {
+    // Cargar opciones de screenshot
+    this.screenshotsOptions = [
+      { name: 'Sí' },
+      { name: 'No' },
+      { name: 'Todas' }
+    ];
+
+    this.loadReportYears()
+
+  }
+
+  loadReportVersionsByYear(selectedYear) {
+    this.skillsService.getReportImportsVersionsByYear(selectedYear).subscribe(
       data => {
         console.log('Versiones disponibles:', data);
         this.reportVersions = data;
-        this.selectedReportVersion = this.reportVersions.length > 0 ? this.reportVersions[0] : null;
       },
       error => {
         console.error('Error al obtener las versiones de reportImports', error);
@@ -140,10 +155,66 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  toggleScreenshot() {}
+  loadReportYears() {
+    this.skillsService.getReportImportsAvailableYears().subscribe(
+      data => {
+        console.log('Años disponibles:', data);
+        this.reportYears = data;
+      },
+      error => {
+        console.error('Error al obtener los años de reportImports', error);
+      }
+    );
+  }
+
+  onScreenshotChange() {
+    console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
+    this.loadReportYears();
+  }
+
+  onYearChange() {
+    console.log('Año seleccionado:', this.selectedYear);
+    this.loadReportVersionsByYear(this.selectedYear);
+  }
+
+  onVersionChange() {
+    console.log('Versión seleccionada:', this.selectedVersion);
+  }
+
+  reloadComponent() {
+
+    if (this.selectedVersion) {
+      
+      this.load = false;
+
+      console.log("Componente recargado con idVersion:", this.selectedVersion.id);
+      this.idVersion = this.selectedVersion.id;
+      this.titleVersion = this.selectedVersion.descripcion;
+      this.titleScreenshot = this.selectedVersion.screenshot;
+
+      this.initEM();
+      this.initBA();
+      this.initAR();
+      this.initSE();
+      this.initIE();
+      this.initArSeDev();
+      this.initArSeApi();
+      this.initPyramide();
+
+      this.screenshotEnabled = this.selectedVersion.screenshot !== 0;
+      this.comentarios = this.selectedVersion.comentarios || '';
+
+    }
+  }
+
+  toggleScreenshot() { }
 
   searchVersion() {
     console.log("Buscar versión")
+  }
+
+  saveVersion () {
+    console.log("Guardada versión")
   }
 
   initEM() {

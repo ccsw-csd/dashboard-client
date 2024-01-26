@@ -5,11 +5,11 @@
 
     <h3>{{ titleVersion }}</h3>
 
-    <div class="my-2 mr-4 flex justify-content-end">
+    <div class="my-2 flex justify-content-end">
 
       <!-- BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR" -->
       <button *ngIf="authService.hasRole('EXPORTAR')" type="button" pButton pRipple icon="pi pi-file-excel"
-        class="p-button-outlined m-2" (click)="menu.toggle($event)" style="width: 80px;">
+        class="p-button-outlined my-2" (click)="menu.toggle($event)" style="width: 80px;">
         <i class="pi pi-angle-down m-2"></i>
       </button>
 
@@ -19,29 +19,33 @@
 
   </div>
 
-  <h3 *ngIf="titleScreenshot !== 1" style="color: rgb(156, 11, 11);">(Screenshot)</h3>
+  <h3 *ngIf="titleScreenshot == 1" style="color: rgb(156, 11, 11);">(Screenshot)</h3>
 
   <p-accordion [activeIndex]="-1">
     <p-accordionTab header="Filtros">
       <div class="flex flex-wrap justify-content-center gap-3">
-        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR SI ES SCREENSHOT -->
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR SI ES SCREENSHOT -->
           <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}"
-            [(ngModel)]="selectedScreenshot" optionLabel="name" [showClear]="false" placeholder="Versión Screenshot">
+            [(ngModel)]="selectedScreenshot" optionLabel="name" [showClear]="false" placeholder="Versión Screenshot"
+            (onChange)="onScreenshotChange()">
           </p-dropdown>
         </div>
-        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR AÑO -->
-          <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedReportYear"
-            [showClear]="false" placeholder="Seleccione un Año">
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR AÑO -->
+          <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedYear"
+            [showClear]="false" placeholder="Seleccione un Año" (onChange)="onYearChange()">
           </p-dropdown>
         </div>
-        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR VERSION -->
-          <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}"
-            [(ngModel)]="selectedReportVersion" optionLabel="descripcion" [showClear]="false"
-            placeholder="Seleccione una versión">
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR VERSION -->
+          <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '340px'}" [(ngModel)]="selectedVersion"
+            optionLabel="descripcion" [showClear]="false" placeholder="Seleccione una versión"
+            (onChange)="onVersionChange()">
           </p-dropdown>
         </div>
         <div class="flex align-items-center justify-content-center"><button pButton type="button" pRipple
-            icon="pi pi-search" class="p-button-outlined m-2" (click)="searchVersion()" style="width: 80px;"></button>
+            icon="pi pi-search" class="p-button-outlined m-2" (click)="reloadComponent()" style="width: 80px;"></button>
         </div>
       </div>
     </p-accordionTab>
@@ -96,11 +100,17 @@
   </div>
 
   <!-- Comentarios-->
-  <div class="py-3 mt-2 flex">
+  <div class="py-4 mt-2 flex">
     <span class="p-float-label">
-      <textarea id="float-input" rows="10" cols="140" pInputTextarea [(ngModel)]="comentarios"></textarea>
+      <textarea class="p-6" id="float-input" rows="10" cols="140" pInputTextarea [(ngModel)]="comentarios"></textarea>
       <label for="float-input">Comentarios</label>
     </span>
+  </div>
+
+  <!-- Botón guardar-->
+  <div class="flex align-items-center justify-content-between"><button pButton type="button" label="Guardar" pRipple
+      icon="pi pi-save" class="p-button p-button-primary p-button-outlined my-2" (click)="saveVersion()"
+      style="width: 80px;"></button>
   </div>
 
   <!-- Dialog exports -->
