@@ -1,9 +1,10 @@
 <p-progressSpinner *ngIf="!load" class="flex justify-content-center mt-5"></p-progressSpinner>
 
-
 <div *ngIf="load">
   <div class="flex justify-content-between">
-    <h3>INFORMES</h3>
+    
+    <h3>{{ titleVersion }}</h3>
+    
     <div class="my-2 mr-4 flex justify-content-end">
 
       <!-- SELECCIONAR SI ES SCREENSHOT -->
@@ -34,7 +35,10 @@
       <p-menu #menu [popup]="true" [model]="items"></p-menu>
 
     </div>
+
   </div>
+
+  <h3 *ngIf="titleScreenshot !== 1" style="color: red;">(Screenshot)</h3>
 
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%;">
@@ -83,7 +87,7 @@
     </div>
     <span style="margin-left: 0.5rem;">Screenshot</span>
   </div>
-  
+
   <!-- Comentarios-->
   <div class="py-3 mt-2 flex">
     <span class="p-float-label">
@@ -92,19 +96,19 @@
     </span>
   </div>
 
-<!-- Dialog exports -->
-<p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
-  <div class="flex flex-column ml-5">
-    <div *ngFor="let elem of tableList" class="field-checkbox">
-      <p-radioButton [inputId]="elem" name="category" [value]="elem" [(ngModel)]="selectedExcel"></p-radioButton>
-      <label [for]="elem" class="ml-2">{{ elem }}</label>
+  <!-- Dialog exports -->
+  <p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
+    <div class="flex flex-column ml-5">
+      <div *ngFor="let elem of tableList" class="field-checkbox">
+        <p-radioButton [inputId]="elem" name="category" [value]="elem" [(ngModel)]="selectedExcel"></p-radioButton>
+        <label [for]="elem" class="ml-2">{{ elem }}</label>
+      </div>
     </div>
-  </div>
 
-  <div class="flex flex-row mt-5 gap-3 justify-content-end gap-2">
-    <button pButton pRipple styleClass="" label="Cancelar" class="p-button p-button-secondary p-button-outlined"
-      (click)="closeDialog()"></button>
-    <button pButton pRipple p-button-label="10px" label="Exportar" [disabled]="selectedExcel==''"
-      (click)="exportExcel()"></button>
-  </div>
-</p-dialog>
+    <div class="flex flex-row mt-5 gap-3 justify-content-end gap-2">
+      <button pButton pRipple styleClass="" label="Cancelar" class="p-button p-button-secondary p-button-outlined"
+        (click)="closeDialog()"></button>
+      <button pButton pRipple p-button-label="10px" label="Exportar" [disabled]="selectedExcel==''"
+        (click)="exportExcel()"></button>
+    </div>
+  </p-dialog>

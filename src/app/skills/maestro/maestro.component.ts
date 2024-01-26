@@ -53,6 +53,8 @@ export class MaestroComponent implements OnInit {
   items: MenuItem[];
 
   idVersion: number;
+  titleVersion: string;
+  titleScreenshot: number;
 
   reportYears: string[];
   reportVersions: Report[];
@@ -96,6 +98,8 @@ export class MaestroComponent implements OnInit {
         if (latestReport) {
 
           this.idVersion = latestReport.id;
+          this.titleVersion = latestReport.descripcion;
+          this.titleScreenshot = latestReport.screenshot;
 
           this.screenshotEnabled = latestReport.screenshot !== 0;
           this.comentarios = latestReport.comentarios || '';
