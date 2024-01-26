@@ -52,7 +52,7 @@ export class MaestroComponent implements OnInit {
   tableList = ['All Profiles', 'Engagement Managers', 'Architects', 'Business Analyst', 'Software Engineer', 'Industry Experts', 'Architects & SE Custom Apps Development', 'Architects & SE Integration & APIs', 'Pyramid Grade-Rol'];
   items: MenuItem[];
 
-  idVersion: string = "1";
+  idVersion: number;
 
   reportYears: string[];
   reportVersions: Report[];
@@ -67,15 +67,6 @@ export class MaestroComponent implements OnInit {
 
   ngOnInit() {
 
-    this.initEM();
-    this.initBA();
-    this.initAR();
-    this.initSE();
-    this.initIE();
-    this.initArSeDev();
-    this.initArSeApi();
-    this.initPyramide();
-
     this.items = [
       { label: "Export totales", icon: 'pi pi-external-link', command: () => this.exportExcelTotales() },
       { label: "Export detalle", icon: 'pi pi-external-link', command: () => this.showDialog() }
@@ -89,18 +80,41 @@ export class MaestroComponent implements OnInit {
 
     console.log('Opciones de scrrenshot:', this.screenshotsOptions);
 
-    this.skillsService.getReportImportsAvailableYears().subscribe(
+    this.skillsService.getAllReports().subscribe(
+      
       data => {
-        console.log('Años disponibles:', data);
-        this.reportYears = data;
-        this.selectedReportYear = this.reportYears.length > 0 ? this.reportYears[0] : null;
-        this.loadReportVersions();
+        
+        console.log('Todos los informes:', data);
+
+        const latestReport = this.getLatestReport(data);
+
+        console.log('Última versión del informe:', latestReport);
+
+        if (latestReport) {
+          
+          this.idVersion = latestReport.id;
+
+          this.initEM();
+          this.initBA();
+          this.initAR();
+          this.initSE();
+          this.initIE();
+          this.initArSeDev();
+          this.initArSeApi();
+          this.initPyramide();
+
+        }
 
       },
       error => {
-        console.error('Error al obtener los años de reportimports', error);
+        console.error('Error al obtener todos los informes', error);
       }
     );
+
+  }
+
+  getLatestReport(reports: Report[]): Report | undefined {
+    return reports.reduce((latest, report) => (latest && latest.id > report.id) ? latest : report, undefined);
   }
 
   loadReportVersions() {
@@ -115,8 +129,6 @@ export class MaestroComponent implements OnInit {
       }
     );
   }
-
-  onYearSelected() {}
 
   searchVersion() {
     console.log("Buscar versión")

@@ -47,7 +47,7 @@ export class SkillsService {
   }
 
   getAllReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(`${this.baseUrl}/reportimports/al`);
+    return this.http.get<Report[]>(`${this.baseUrl}/reportimports/all`);
   }
 
 }
