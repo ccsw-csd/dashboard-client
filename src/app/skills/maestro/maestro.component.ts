@@ -63,6 +63,9 @@ export class MaestroComponent implements OnInit {
   screenshotsOptions: Screenshot[];
   selectedScreenshotOption: Screenshot;
 
+  screenshotEnabled: boolean;
+  comentarios: string;
+
   constructor(private skillsService: SkillsService, public authService: AuthService) { }
 
   ngOnInit() {
@@ -81,9 +84,9 @@ export class MaestroComponent implements OnInit {
     console.log('Opciones de scrrenshot:', this.screenshotsOptions);
 
     this.skillsService.getAllReports().subscribe(
-      
+
       data => {
-        
+
         console.log('Todos los informes:', data);
 
         const latestReport = this.getLatestReport(data);
@@ -91,8 +94,11 @@ export class MaestroComponent implements OnInit {
         console.log('Última versión del informe:', latestReport);
 
         if (latestReport) {
-          
+
           this.idVersion = latestReport.id;
+
+          this.screenshotEnabled = latestReport.screenshot !== 0;
+          this.comentarios = latestReport.comentarios || '';
 
           this.initEM();
           this.initBA();
@@ -129,6 +135,8 @@ export class MaestroComponent implements OnInit {
       }
     );
   }
+
+  toggleScreenshot() {}
 
   searchVersion() {
     console.log("Buscar versión")

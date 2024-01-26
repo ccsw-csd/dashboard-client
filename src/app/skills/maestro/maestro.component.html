@@ -77,27 +77,20 @@
 
   <p-divider></p-divider>
 
-  <!-- Switch screenshot-->
   <div class="flex items-center ml-2 mt-4">
     <div class="small-input-switch">
-      <p-inputSwitch [(ngModel)]="foo" (onChange)="foo" label="Screenshot"></p-inputSwitch>
+      <p-inputSwitch [(ngModel)]="screenshotEnabled" (onChange)="toggleScreenshot()" label="Screenshot"></p-inputSwitch>
     </div>
     <span style="margin-left: 0.5rem;">Screenshot</span>
   </div>
-
+  
   <!-- Comentarios-->
   <div class="py-3 mt-2 flex">
     <span class="p-float-label">
-      <textarea id="float-input" rows="10" cols="140" pInputTextarea></textarea>
+      <textarea id="float-input" rows="10" cols="140" pInputTextarea [(ngModel)]="comentarios"></textarea>
       <label for="float-input">Comentarios</label>
     </span>
   </div>
-  <div class="flex">
-    <button pButton pRipple styleClass="" label="Guardar" icon="pi pi-save"
-      class="p-button p-button-primary p-button-outlined mt-2" (click)="foo()">
-    </button>
-  </div>
-</div>
 
 <!-- Dialog exports -->
 <p-dialog header="Selecciona tu lista:" [(visible)]="visible" [style]="{width: '50vw'}" [closable]="false">
