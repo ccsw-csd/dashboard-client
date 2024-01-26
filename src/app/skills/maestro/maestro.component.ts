@@ -101,7 +101,6 @@ export class MaestroComponent implements OnInit {
         console.error('Error al obtener los años de reportimports', error);
       }
     );
-
   }
 
   loadReportVersions() {

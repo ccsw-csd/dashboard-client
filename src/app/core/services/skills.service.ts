@@ -41,8 +41,13 @@ export class SkillsService {
   getReportImportsAvailableYears(): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`);
   }
+
   getReportImportsVersionsByYear(year: string): Observable<Report[]> {
     return this.http.get<Report[]>(`${this.baseUrl}/reportimports/all/${year}`);
+  }
+
+  getAllReports(): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.baseUrl}/reportimports/al`);
   }
 
 }

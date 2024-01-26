@@ -24,6 +24,7 @@ export class StaffingListComponent {
     { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
     { header: 'Usuario', composeField: 'usuario', field: 'usuario', filterType: 'input' },
     { header: 'Fecha', composeField: 'fechaImportacion', field: 'fechaImportacion', filterType: 'input' },
+    { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' }
   ];
 
   constructor(private staffingService: StaffingService) { }
