@@ -15,6 +15,8 @@ import { MenuModule } from 'primeng/menu';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DividerModule } from 'primeng/divider';
+import { AccordionModule } from 'primeng/accordion';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { DividerModule } from 'primeng/divider';
     CheckboxModule,
     InputSwitchModule,
     FormsModule,
-    DividerModule    
+    DividerModule,
+    AccordionModule  
   ]
 })
 export class SkillsModule { }

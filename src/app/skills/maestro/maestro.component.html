@@ -2,29 +2,10 @@
 
 <div *ngIf="load">
   <div class="flex justify-content-between">
-    
+
     <h3>{{ titleVersion }}</h3>
-    
+
     <div class="my-2 mr-4 flex justify-content-end">
-
-      <!-- SELECCIONAR SI ES SCREENSHOT -->
-      <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}"
-        [(ngModel)]="selectedScreenshot" optionLabel="name" [showClear]="false" placeholder="Versión Screenshot">
-      </p-dropdown>
-
-      <!-- SELECCIONAR AÑO -->
-      <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedReportYear"
-        [showClear]="false" placeholder="Seleccione un Año">
-      </p-dropdown>
-
-      <!-- SELECCIONAR VERSION -->
-      <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}"
-        [(ngModel)]="selectedReportVersion" optionLabel="descripcion" [showClear]="false"
-        placeholder="Seleccione una versión">
-      </p-dropdown>
-
-      <button pButton type="button" pRipple icon="pi pi-search" class="p-button-outlined m-2" (click)="searchVersion()"
-        style="width: 80px;"></button>
 
       <!-- BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR" -->
       <button *ngIf="authService.hasRole('EXPORTAR')" type="button" pButton pRipple icon="pi pi-file-excel"
@@ -38,7 +19,33 @@
 
   </div>
 
-  <h3 *ngIf="titleScreenshot !== 1" style="color: red;">(Screenshot)</h3>
+  <h3 *ngIf="titleScreenshot !== 1" style="color: rgb(156, 11, 11);">(Screenshot)</h3>
+
+  <p-accordion [activeIndex]="-1">
+    <p-accordionTab header="Filtros">
+      <div class="flex flex-wrap justify-content-center gap-3">
+        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR SI ES SCREENSHOT -->
+          <p-dropdown [options]="screenshotsOptions" class="m-2" [style]="{'width': '210px'}"
+            [(ngModel)]="selectedScreenshot" optionLabel="name" [showClear]="false" placeholder="Versión Screenshot">
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR AÑO -->
+          <p-dropdown [options]="reportYears" class="m-2" [style]="{'width': '210px'}" [(ngModel)]="selectedReportYear"
+            [showClear]="false" placeholder="Seleccione un Año">
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center"><!-- SELECCIONAR VERSION -->
+          <p-dropdown [options]="reportVersions" class="m-2" [style]="{'width': '240px'}"
+            [(ngModel)]="selectedReportVersion" optionLabel="descripcion" [showClear]="false"
+            placeholder="Seleccione una versión">
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center"><button pButton type="button" pRipple
+            icon="pi pi-search" class="p-button-outlined m-2" (click)="searchVersion()" style="width: 80px;"></button>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
 
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%;">
