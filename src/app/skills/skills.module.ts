@@ -16,6 +16,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
+import { ChipModule } from 'primeng/chip';
+
 
 
 
@@ -42,7 +44,8 @@ import { AccordionModule } from 'primeng/accordion';
     InputSwitchModule,
     FormsModule,
     DividerModule,
-    AccordionModule  
+    AccordionModule,
+    ChipModule
   ]
 })
 export class SkillsModule { }
