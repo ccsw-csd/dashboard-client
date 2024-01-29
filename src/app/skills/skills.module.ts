@@ -18,15 +18,8 @@ import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
 import { ChipModule } from 'primeng/chip';
 
-
-
-
 @NgModule({
-  declarations: [
-    StatisticComponent,
-    MaestroComponent,
-    TableDetailComponent,
-  ],
+  declarations: [StatisticComponent, MaestroComponent, TableDetailComponent],
   imports: [
     CommonModule,
     ChartModule,
@@ -45,7 +38,7 @@ import { ChipModule } from 'primeng/chip';
     FormsModule,
     DividerModule,
     AccordionModule,
-    ChipModule
-  ]
+    ChipModule,
+  ],
 })
-export class SkillsModule { }
+export class SkillsModule {}

@@ -6,7 +6,7 @@
 <div *ngIf="load">
   <div class="flex justify-content-between">
     <h3>
-      {{ titleVersion }}
+      {{ selectedReportName }}
       <span
         ><p-chip *ngIf="titleScreenshot == 1" label="Screenshot"></p-chip
       ></span>
@@ -54,7 +54,7 @@
             [options]="reportYears"
             class="m-2"
             [style]="{ width: '210px' }"
-            [(ngModel)]="selectedYear"
+            [(ngModel)]="selectedReportYear"
             [showClear]="false"
             placeholder="Seleccione un Año"
             (onChange)="onYearChange()"

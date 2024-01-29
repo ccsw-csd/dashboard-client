@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-maestro',
@@ -61,33 +60,32 @@ export class MaestroComponent implements OnInit {
     'Architects & SE Integration & APIs',
     'Pyramid Grade-Rol',
   ];
-  items: MenuItem[];
 
-  idVersion: number;
-  titleVersion: string;
-  titleScreenshot: number;
+  items: MenuItem[];
 
   userName: string;
 
+  idVersion: number;
+  selectedReportName: string;
+  titleScreenshotChip: number;
+
   reportYears: string[];
   reportVersions: Report[];
-
-  selectedReportYear: string;
-  selectedReportVersion: Report;
 
   screenshotsOptions: Screenshot[];
   selectedScreenshotOption: Screenshot;
 
   screenshotEnabled: boolean;
+  hasScreenshotChanged: boolean;
   comentarios: string;
 
   selectedScreenshot: string;
-  selectedYear: string;
-  selectedVersion: Report;
+  selectedReportYear: string;
+  selectedReportVersion: Report;
 
   constructor(
     private skillsService: SkillsService,
-    public authService: AuthService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -107,7 +105,6 @@ export class MaestroComponent implements OnInit {
     this.loadInitialDropdownData();
     this.userName = this.authService.userInfoSSO.displayName;
 
-
     this.skillsService.getAllReports().subscribe(
       (data) => {
         console.log('Todos los informes:', data);
@@ -118,8 +115,8 @@ export class MaestroComponent implements OnInit {
 
         if (latestReport) {
           this.idVersion = latestReport.id;
-          this.titleVersion = latestReport.descripcion;
-          this.titleScreenshot = latestReport.screenshot;
+          this.selectedReportName = latestReport.descripcion;
+          this.titleScreenshotChip = latestReport.screenshot;
 
           this.screenshotEnabled = latestReport.screenshot !== 0;
           this.comentarios = latestReport.comentarios || '';
@@ -132,6 +129,9 @@ export class MaestroComponent implements OnInit {
           this.initArSeDev();
           this.initArSeApi();
           this.initPyramide();
+
+          this.selectedReportVersion = latestReport;
+          console.log(this.selectedReportVersion);
         }
       },
       (error) => {
@@ -158,16 +158,21 @@ export class MaestroComponent implements OnInit {
     this.loadReportYears();
   }
 
-  loadReportVersionsByYear(selectedYear) {
-    this.skillsService.getReportImportsVersionsByYear(selectedYear).subscribe(
-      (data) => {
-        console.log('Versiones disponibles:', data);
-        this.reportVersions = data;
-      },
-      (error) => {
-        console.error('Error al obtener las versiones de reportImports', error);
-      }
-    );
+  loadReportVersionsByYear(selectedReportYear) {
+    this.skillsService
+      .getReportImportsVersionsByYear(selectedReportYear)
+      .subscribe(
+        (data) => {
+          console.log('Versiones disponibles:', data);
+          this.reportVersions = data;
+        },
+        (error) => {
+          console.error(
+            'Error al obtener las versiones de reportImports',
+            error
+          );
+        }
+      );
   }
 
   loadReportYears() {
@@ -188,26 +193,26 @@ export class MaestroComponent implements OnInit {
   }
 
   onYearChange() {
-    console.log('Año seleccionado:', this.selectedYear);
-    this.loadReportVersionsByYear(this.selectedYear);
+    console.log('Año seleccionado:', this.selectedReportYear);
+    this.loadReportVersionsByYear(this.selectedReportYear);
   }
 
   onVersionChange() {
-    console.log('Versión seleccionada:', this.selectedVersion);
+    console.log('Versión seleccionada:', this.selectedReportVersion);
   }
 
   reloadComponent() {
-    if (this.selectedVersion) {
+    if (this.selectedReportVersion) {
       this.load = false;
 
       console.log(
         'Componente recargado con idVersion:',
-        this.selectedVersion.id
+        this.selectedReportVersion.id
       );
 
-      this.idVersion = this.selectedVersion.id;
-      this.titleVersion = this.selectedVersion.descripcion;
-      this.titleScreenshot = this.selectedVersion.screenshot;
+      this.idVersion = this.selectedReportVersion.id;
+      this.selectedReportName = this.selectedReportVersion.descripcion;
+      this.titleScreenshotChip = this.selectedReportVersion.screenshot;
 
       this.initEM();
       this.initBA();
@@ -218,18 +223,19 @@ export class MaestroComponent implements OnInit {
       this.initArSeApi();
       this.initPyramide();
 
-      this.screenshotEnabled = this.selectedVersion.screenshot !== 0;
-      this.comentarios = this.selectedVersion.comentarios || '';
+      this.screenshotEnabled = this.selectedReportVersion.screenshot !== 0;
+      this.comentarios = this.selectedReportVersion.comentarios || '';
     }
   }
 
-  toggleScreenshot() {}
-
-  searchVersion() {
-    console.log('Buscar versión');
+  toggleScreenshot() {
+    if (this.selectedReportVersion) {
+      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      console.log(this.selectedReportVersion.screenshot);
+    }
   }
 
-  saveVersion() {
+  updateReport() {
     console.log('Guardada versión');
   }
 
