@@ -236,7 +236,20 @@ export class MaestroComponent implements OnInit {
   }
 
   updateReport() {
-    console.log('Guardada versión');
+    if (this.selectedReportVersion) {
+      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.selectedReportVersion.comentarios = this.comentarios;
+  
+      // Llamar al servicio para actualizar el informe
+      this.skillsService.updateReport(this.selectedReportVersion).subscribe(
+        (updatedReport) => {
+          console.log('Informe actualizado:', updatedReport);
+        },
+        (error) => {
+          console.error('Error al actualizar el informe', error);
+        }
+      );
+    }
   }
 
   initEM() {

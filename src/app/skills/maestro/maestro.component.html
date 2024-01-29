@@ -67,7 +67,7 @@
             [options]="reportVersions"
             class="m-2"
             [style]="{ width: '340px' }"
-            [(ngModel)]="selectedVersion"
+            [(ngModel)]="selectedReportVersion"
             optionLabel="descripcion"
             [showClear]="false"
             placeholder="Seleccione una versión"
@@ -198,7 +198,7 @@
       pRipple
       icon="pi pi-save"
       class="p-button p-button-primary p-button-outlined my-2"
-      (click)="saveVersion()"
+      (click)="updateReport()"
       style="width: 80px"
     ></button>
   </div>

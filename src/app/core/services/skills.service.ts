@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   Role,
@@ -14,39 +15,51 @@ import { Report } from '../interfaces/Report';
   providedIn: 'root',
 })
 export class SkillsService {
-  private baseUrl: string = environment.server;
+  private readonly baseUrl: string = environment.server;
 
   constructor(private http: HttpClient) {}
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(`${this.baseUrl}/role/config`);
   }
-  getGradesRoles(idReport): Observable<GradesRole[]> {
+
+  getGradesRoles(idReport: number): Observable<GradesRole[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
     return this.http.get<GradesRole[]>(
       `${this.baseUrl}/grade-role/gradetotals`,
-      { params: { idReport: idReport.toString() } }
+      { params }
     );
   }
 
-  getProfileTotals(profile, idReport): Observable<InformeTotal[]> {
+  getProfileTotals(
+    profile: string,
+    idReport: number
+  ): Observable<InformeTotal[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
     return this.http.get<InformeTotal[]>(
       `${this.baseUrl}/profile/profiletotals/${profile}`,
-      { params: { idReport: idReport.toString() } }
+      { params }
     );
   }
 
-  getTableDetail(profile, infoType): Observable<ColumnDetails[]> {
+  getTableDetail(
+    profile: string,
+    infoType: string
+  ): Observable<ColumnDetails[]> {
     return this.http.get<ColumnDetails[]>(
       `${this.baseUrl}/literal/config/${profile}/${infoType}`
     );
   }
 
-  sendToExport(selectedExcel, idReport): Observable<object> {
-    let url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
-    return this.http.get<object>(url, {
-      params: { idReport: idReport.toString() },
-      responseType: 'blob' as 'json',
-    });
+  sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    const url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
+    return this.http.get(url, { params, responseType: 'blob' }).pipe(
+      catchError((error) => {
+        console.error('Error en la solicitud de exportación:', error);
+        return throwError(error); // Puedes lanzar una nueva excepción o devolver un observable de respaldo según tu necesidad
+      })
+    );
   }
 
   getReportImportsAvailableYears(): Observable<string[]> {
