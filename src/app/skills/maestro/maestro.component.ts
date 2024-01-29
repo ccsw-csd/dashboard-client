@@ -67,6 +67,8 @@ export class MaestroComponent implements OnInit {
   titleVersion: string;
   titleScreenshot: number;
 
+  userName: string;
+
   reportYears: string[];
   reportVersions: Report[];
 
@@ -79,15 +81,13 @@ export class MaestroComponent implements OnInit {
   screenshotEnabled: boolean;
   comentarios: string;
 
-  selectedScreenshot: string; // propiedad para almacenar la opción seleccionada de screenshot
-  selectedYear: string; // propiedad para almacenar el año seleccionado
+  selectedScreenshot: string;
+  selectedYear: string;
   selectedVersion: Report;
 
   constructor(
     private skillsService: SkillsService,
     public authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -105,6 +105,8 @@ export class MaestroComponent implements OnInit {
     ];
 
     this.loadInitialDropdownData();
+    this.userName = this.authService.userInfoSSO.displayName;
+
 
     this.skillsService.getAllReports().subscribe(
       (data) => {
