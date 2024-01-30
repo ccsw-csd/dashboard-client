@@ -69,7 +69,7 @@ export class MaestroComponent implements OnInit {
   selectedReportName: string;
   titleScreenshotChip: number;
   selectedReportNameModificationDate: Date;
-  selectedReportNameUserName: string
+  selectedReportNameUserName: string;
 
   reportYears: string[];
   reportVersions: Report[];
@@ -121,7 +121,8 @@ export class MaestroComponent implements OnInit {
           this.idVersion = latestReport.id;
           this.selectedReportName = latestReport.descripcion;
           this.titleScreenshotChip = latestReport.screenshot;
-          this.selectedReportNameModificationDate = latestReport.fechaModificacion;
+          this.selectedReportNameModificationDate =
+            latestReport.fechaModificacion;
           this.selectedReportNameUserName = latestReport.usuario;
 
           this.screenshotEnabled = latestReport.screenshot !== 0;
@@ -220,9 +221,9 @@ export class MaestroComponent implements OnInit {
       this.idVersion = this.selectedReportVersion.id;
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
-      this.selectedReportNameModificationDate = this.selectedReportVersion.fechaModificacion;
+      this.selectedReportNameModificationDate =
+        this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
-
 
       this.initEM();
       this.initBA();
