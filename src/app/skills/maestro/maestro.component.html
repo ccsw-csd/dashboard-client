@@ -30,6 +30,13 @@
       <p-menu #menu [popup]="true" [model]="items"></p-menu>
     </div>
   </div>
+  <div class="flex justify-content-between">
+    <h4 *ngIf="titleScreenshotChip == 1">
+      Marcado como ScreenShot el
+      {{ selectedReportNameModificationDate | date : "d/M/yy" }} por
+      {{ selectedReportNameUserName }}
+    </h4>
+  </div>
 
   <p-accordion [activeIndex]="-1">
     <p-accordionTab header="Filtros">
