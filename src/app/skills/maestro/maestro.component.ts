@@ -2,7 +2,7 @@ import { Component, OnInit, Version } from '@angular/core';
 import { InformeTotal } from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
@@ -83,9 +83,14 @@ export class MaestroComponent implements OnInit {
   selectedReportYear: string;
   selectedReportVersion: Report;
 
+  enableReportYearSelection = true;
+  enableReportVersionSelection = true;
+
   constructor(
     private skillsService: SkillsService,
-    public authService: AuthService
+    public authService: AuthService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -190,11 +195,13 @@ export class MaestroComponent implements OnInit {
   onScreenshotChange() {
     console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
     this.loadReportYears();
+    this.enableReportYearSelection = false;
   }
 
   onYearChange() {
     console.log('Año seleccionado:', this.selectedReportYear);
     this.loadReportVersionsByYear(this.selectedReportYear);
+    this.enableReportVersionSelection = false;
   }
 
   onVersionChange() {
@@ -214,6 +221,9 @@ export class MaestroComponent implements OnInit {
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
 
+      this.enableReportYearSelection = true;
+      this.enableReportVersionSelection = true;
+
       this.initEM();
       this.initBA();
       this.initAR();
@@ -231,25 +241,28 @@ export class MaestroComponent implements OnInit {
   toggleScreenshot() {
     if (this.selectedReportVersion) {
       this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.hasScreenshotChanged = !this.hasScreenshotChanged;
       console.log(this.selectedReportVersion.screenshot);
+      console.log(this.hasScreenshotChanged);
     }
   }
 
   updateReport() {
-    if (this.selectedReportVersion) {
+    if (this.hasScreenshotChanged) {
       this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
-      this.selectedReportVersion.comentarios = this.comentarios;
-  
-      // Llamar al servicio para actualizar el informe
-      this.skillsService.updateReport(this.selectedReportVersion).subscribe(
-        (updatedReport) => {
-          console.log('Informe actualizado:', updatedReport);
-        },
-        (error) => {
-          console.error('Error al actualizar el informe', error);
-        }
-      );
+      this.selectedReportVersion.usuario = this.userName;
     }
+
+    this.skillsService.updateReport(this.selectedReportVersion).subscribe(
+      (updatedReport) => {
+        console.log('Informe actualizado');
+      },
+      (error) => {
+        console.error('Error al actualizar el informe', error);
+      }
+    );
+
+    this.hasScreenshotChanged = false;
   }
 
   initEM() {

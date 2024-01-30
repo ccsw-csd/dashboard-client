@@ -17,6 +17,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
 import { ChipModule } from 'primeng/chip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [StatisticComponent, MaestroComponent, TableDetailComponent],
@@ -39,6 +41,8 @@ import { ChipModule } from 'primeng/chip';
     DividerModule,
     AccordionModule,
     ChipModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
 })
 export class SkillsModule {}

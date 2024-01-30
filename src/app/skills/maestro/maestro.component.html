@@ -8,7 +8,7 @@
     <h3>
       {{ selectedReportName }}
       <span
-        ><p-chip *ngIf="titleScreenshot == 1" label="Screenshot"></p-chip
+        ><p-chip *ngIf="titleScreenshotChip == 1" label="Screenshot"></p-chip
       ></span>
     </h3>
 
@@ -58,6 +58,7 @@
             [showClear]="false"
             placeholder="Seleccione un Año"
             (onChange)="onYearChange()"
+            [disable]="enableReportYearSelection"
           >
           </p-dropdown>
         </div>
@@ -72,6 +73,7 @@
             [showClear]="false"
             placeholder="Seleccione una versión"
             (onChange)="onVersionChange()"
+            [disable]="enableReportVersionSelection"
           >
           </p-dropdown>
         </div>
@@ -172,6 +174,9 @@
       ></p-inputSwitch>
     </div>
     <span style="margin-left: 0.5rem">Screenshot</span>
+    <span *ngIf="hasScreenshotChanged" class="ml-3"
+      >El informe ha cambiado. Pulse guardar</span
+    >
   </div>
 
   <!-- Comentarios-->
