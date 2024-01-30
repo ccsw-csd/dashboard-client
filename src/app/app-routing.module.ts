@@ -8,7 +8,6 @@ import { MaestroComponent } from './skills/maestro/maestro.component';
 import { CapabilitiesListComponent } from './catalog/capabilities/capabilities-list/capabilities-list.component';
 import { StaffingListComponent } from './catalog/staffing/staffing-list/staffing-list.component';
 
-
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -20,22 +19,34 @@ const routes: Routes = [
     children: [
       // { path: 'dashboard', component: MainComponent},
       // { path: 'statistic', component: StatisticComponent },
-      { path: 'dashboard', component: MaestroComponent, data: { role: ['DASHBOARD'] } },
-      { path: 'capabilities', component: CapabilitiesListComponent, data: { role: ['DASHBOARD'] }},
-      { path: 'staffing', component: StaffingListComponent, data: { role: ['DASHBOARD'] }},
+      {
+        path: 'dashboard',
+        component: MaestroComponent,
+        data: { role: ['DASHBOARD'] },
+      },
+      {
+        path: 'capabilities',
+        component: CapabilitiesListComponent,
+        data: { role: ['DASHBOARD'] },
+      },
+      {
+        path: 'staffing',
+        component: StaffingListComponent,
+        data: { role: ['DASHBOARD'] },
+      },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
-    ]
+    ],
   },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       useHash: true,
-      enableTracing: false
+      enableTracing: false,
     }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

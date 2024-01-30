@@ -15,13 +15,13 @@ import { MenuModule } from 'primeng/menu';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DividerModule } from 'primeng/divider';
+import { AccordionModule } from 'primeng/accordion';
+import { ChipModule } from 'primeng/chip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
-  declarations: [
-    StatisticComponent,
-    MaestroComponent,
-    TableDetailComponent,
-  ],
+  declarations: [StatisticComponent, MaestroComponent, TableDetailComponent],
   imports: [
     CommonModule,
     ChartModule,
@@ -38,7 +38,11 @@ import { DividerModule } from 'primeng/divider';
     CheckboxModule,
     InputSwitchModule,
     FormsModule,
-    DividerModule    
-  ]
+    DividerModule,
+    AccordionModule,
+    ChipModule,
+    ConfirmDialogModule,
+  ],
+  providers: [ConfirmationService],
 })
-export class SkillsModule { }
+export class SkillsModule {}

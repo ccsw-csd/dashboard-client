@@ -1,56 +1,81 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Role, GradesRole, InformeTotal, ColumnDetails } from '../interfaces/capacidades'
-import { Capability } from '../interfaces/Capability';
-
+import {
+  Role,
+  GradesRole,
+  InformeTotal,
+  ColumnDetails,
+} from '../interfaces/Capabilities';
+import { Report } from '../interfaces/Report';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class SkillsService {
+  private readonly baseUrl: string = environment.server;
 
-  private baseUrl: string = environment.server;
-  idImport: number;
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(`${this.baseUrl}/role/config`);
   }
-  getGradesRoles(idImport): Observable<GradesRole[]> {
-    return this.http.get<GradesRole[]>(`${this.baseUrl}/grade-role/gradetotals`, { params: { idImport: idImport.toString() } });
+
+  getGradesRoles(idReport: number): Observable<GradesRole[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    return this.http.get<GradesRole[]>(
+      `${this.baseUrl}/grade-role/gradetotals`,
+      { params }
+    );
   }
 
-  getProfileTotals(profile, idImport): Observable<InformeTotal[]> {
-    return this.http.get<InformeTotal[]>(`${this.baseUrl}/profile/profiletotals/${profile}`, { params: { idImport: idImport.toString() } });
+  getProfileTotals(
+    profile: string,
+    idReport: number
+  ): Observable<InformeTotal[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    return this.http.get<InformeTotal[]>(
+      `${this.baseUrl}/profile/profiletotals/${profile}`,
+      { params }
+    );
   }
 
-  getTableDetail(profile, infoType): Observable<ColumnDetails[]> {
-    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config/${profile}/${infoType}`);
+  getTableDetail(
+    profile: string,
+    infoType: string
+  ): Observable<ColumnDetails[]> {
+    return this.http.get<ColumnDetails[]>(
+      `${this.baseUrl}/literal/config/${profile}/${infoType}`
+    );
   }
 
-  sendToExport(selectedExcel, idImport): Observable<object> {
-    let url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
-    return this.http.get<object>(url, { params: { idImport: idImport.toString() }, responseType: 'blob' as 'json' });
+  sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    const url = `${this.baseUrl}/profile/profilelist/${selectedExcel}/excel`;
+    return this.http.get(url, { params, responseType: 'blob' }).pipe(
+      catchError((error) => {
+        console.error('Error en la solicitud de exportación:', error);
+        return throwError(error); // Puedes lanzar una nueva excepción o devolver un observable de respaldo según tu necesidad
+      })
+    );
   }
 
-  getRoleImportsAvailableYears(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/roleimports/years`);
+  getReportImportsAvailableYears(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`);
   }
 
-  getRoleImportsVersionsByYear(year: string): Observable<Capability[]> {
-    return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all/${year}`);
+  getReportImportsVersionsByYear(year: string): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.baseUrl}/reportimports/all/${year}`);
   }
 
-  getStaffingAvailableYears(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/staffingimports/years`);
+  getAllReports(): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.baseUrl}/reportimports/all`);
   }
 
-  getStaffingVersionsByYear(year: string): Observable<Capability[]> {
-    return this.http.get<Capability[]>(`${this.baseUrl}/staffingimports/all/${year}`);
+  updateReport(report: Report): Observable<Report> {
+    const url = `${this.baseUrl}/reportimports/${report.id}`;
+    return this.http.put<Report>(url, report);
   }
-  
 }

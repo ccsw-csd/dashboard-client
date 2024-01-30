@@ -7,23 +7,28 @@
       styleClass="p-datatable-striped p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr *ngIf="extraHeader" class="h-4rem text-base font-italic">
-          <th colspan="2" style="background: white;"></th>
-          <th colspan="8">Custom apps development (only pick one/pers)</th>
-          <th colspan="4">with Cloud Native Expertise</th>
-          <th colspan="4">with Low Code Expertise</th>
+          <th style="background: white; width: 260px" class="flex-none"></th>
+          <th style="width: 640px" class="flex-none">Custom apps development (only pick one/pers)</th>
+          <th style="width: 320px" class="flex-none">with Cloud Native Expertise</th>
+          <th style="width: 320px" class="flex-none">with Low Code Expertise</th>
         </tr>
 
         <tr>
-          <th *ngFor="let col of columnas; index as index" id="index"
+          <th *ngFor="let col of columnas; index as index" id="index" class="flex-none"
             [ngStyle]="{'width': index == 0 ? '180px':'80px'}">{{ col }}</th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-fila let-columns="columns">
         <tr>
-          <td [ngStyle]="{'font-weight': isTotal(fila.profile)?'600':''}">{{ fila.profile }}</td>
+          <td [ngStyle]="{'font-weight': isTotal(fila.profile)?'600':''}" style="width: 180px; text-align: center" class="flex-none; ">
+            {{ fila.profile }}
+          </td>
           <td *ngFor="let elem of fila.totals; index as i"
-            [class.totalCell]="i == getTotalIndex() || fila.profile=='Total' || fila.profile=='Sum'">{{ elem }}</td>
+            [class.totalCell]="i == getTotalIndex() || fila.profile=='Total' || fila.profile=='Sum'" class="flex-none"
+            style="width:80px">
+            {{ elem }}
+          </td>
         </tr>
       </ng-template>
 
