@@ -83,9 +83,6 @@ export class MaestroComponent implements OnInit {
   selectedReportYear: string;
   selectedReportVersion: Report;
 
-  enableReportYearSelection = true;
-  enableReportVersionSelection = true;
-
   constructor(
     private skillsService: SkillsService,
     public authService: AuthService,
@@ -195,16 +192,15 @@ export class MaestroComponent implements OnInit {
   onScreenshotChange() {
     console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
     this.loadReportYears();
-    this.enableReportYearSelection = false;
   }
 
   onYearChange() {
     console.log('Año seleccionado:', this.selectedReportYear);
     this.loadReportVersionsByYear(this.selectedReportYear);
-    this.enableReportVersionSelection = false;
   }
 
   onVersionChange() {
+    this.idVersion = this.selectedReportVersion.id;
     console.log('Versión seleccionada:', this.selectedReportVersion);
   }
 
@@ -220,9 +216,6 @@ export class MaestroComponent implements OnInit {
       this.idVersion = this.selectedReportVersion.id;
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
-
-      this.enableReportYearSelection = true;
-      this.enableReportVersionSelection = true;
 
       this.initEM();
       this.initBA();
@@ -250,6 +243,7 @@ export class MaestroComponent implements OnInit {
   updateReport() {
     if (this.hasScreenshotChanged) {
       this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.selectedReportVersion.comentarios = this.comentarios;
       this.selectedReportVersion.usuario = this.userName;
     }
 
@@ -263,6 +257,38 @@ export class MaestroComponent implements OnInit {
     );
 
     this.hasScreenshotChanged = false;
+  }
+
+  confirmUpdateReport(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Quiere guardar los cambios?',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
+      acceptButtonStyleClass:
+        'p-button p-button-success p-button-outlined mx-2',
+      rejectButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
+      accept: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Se han guardado los cambios',
+        });
+        this.updateReport();
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'No se han guardado los cambios',
+          life: 3000,
+        });
+      },
+    });
   }
 
   initEM() {

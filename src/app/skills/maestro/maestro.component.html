@@ -58,7 +58,6 @@
             [showClear]="false"
             placeholder="Seleccione un Año"
             (onChange)="onYearChange()"
-            [disable]="enableReportYearSelection"
           >
           </p-dropdown>
         </div>
@@ -73,7 +72,6 @@
             [showClear]="false"
             placeholder="Seleccione una versión"
             (onChange)="onVersionChange()"
-            [disable]="enableReportVersionSelection"
           >
           </p-dropdown>
         </div>
@@ -165,18 +163,22 @@
 
   <p-divider></p-divider>
 
-  <div class="flex items-center ml-2 mt-4">
+  <div class="flex items-centerml-2 mt-4">
     <div class="small-input-switch">
       <p-inputSwitch
         [(ngModel)]="screenshotEnabled"
         (onChange)="toggleScreenshot()"
         label="Screenshot"
+        class="small-input-switch mt-3"
       ></p-inputSwitch>
     </div>
     <span style="margin-left: 0.5rem">Screenshot</span>
-    <span *ngIf="hasScreenshotChanged" class="ml-3"
-      >El informe ha cambiado. Pulse guardar</span
-    >
+    <div class="ml-3">
+      <p-chip
+        *ngIf="hasScreenshotChanged"
+        label="El informe ha cambiado. Pulse guardar"
+      ></p-chip>
+    </div>
   </div>
 
   <!-- Comentarios-->
@@ -195,16 +197,18 @@
   </div>
 
   <!-- Botón guardar-->
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
   <div class="flex align-items-center justify-content-between">
     <button
       pButton
       type="button"
-      label="Guardar"
+      (click)="confirmUpdateReport($event)"
       pRipple
       icon="pi pi-save"
+      label="Guardar"
       class="p-button p-button-primary p-button-outlined my-2"
-      (click)="updateReport()"
-      style="width: 80px"
+      tyle="width: 80px"
     ></button>
   </div>
 
@@ -227,7 +231,7 @@
       </div>
     </div>
 
-    <div class="flex flex-row mt-5 gap-3 justify-content-end gap-2">
+    <div class="flex flex-row mt-5 gap-2 justify-content-end gap-2">
       <button
         pButton
         pRipple
