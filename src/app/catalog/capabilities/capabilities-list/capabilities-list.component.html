@@ -1,17 +1,78 @@
 <div class="flex flex-row justify-content-between">
   <div class="flex justify-content-start">
-    <h3 class="p-0 m-0 mb-5">
-      Listado de Versiones de Capacidades
-    </h3>
+    <h3 class="p-0 m-0 mb-5">Listado de Versiones de Capacidades</h3>
   </div>
   <div class="my-2 flex justify-content-end">
     <!-- SELECCIONAR AÑO -->
-    <p-dropdown [options]="years" class="mb-2" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange()"
-      [showClear]="true" [placeholder]="selectedYear">
+    <p-dropdown
+      [options]="years"
+      class="mb-2"
+      [(ngModel)]="selectedYear"
+      (ngModelChange)="onYearChange()"
+      [showClear]="true"
+      [placeholder]="selectedYear"
+    >
     </p-dropdown>
   </div>
 </div>
 
+<p-table
+  [style]="{ height: 'calc(100vh - 210px)', width: tableWidth }"
+  [scrollable]="true"
+  selectionMode="single"
+  scrollHeight="flex"
+  [value]="capabilities"
+  styleClass="p-datatable-striped"
+  [(filters)]="defaultFilters"
+  sortMode="single"
+  [columns]="selectedColumnNames"
+  [reorderableColumns]="false"
+  (onColReorder)="onColReorder($event)"
+  (sortFunction)="customSort($event)"
+  [customSort]="true"
+  autoLayout="true"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th
+        *ngFor="let col of columnNames"
+        class="{{
+          col.field
+        }} flex flex-1 flex-column align-items-center justify-content-center"
+        pReorderableColumn
+      >
+        <div
+          class="flex flex-row top-header"
+          pSortableColumn="{{ col.composeField }}"
+        >
+          <span class="flex flex-1 justify-content-center">{{
+            col.header
+          }}</span>
+          <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
+        </div>
+        <div class="w-full foot-header">
+          <p-columnFilter
+            *ngIf="col.filterType == 'input'"
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="contains-and-null"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                tabindex="1"
+                type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
 <p-table [style]="{'height': 'calc(100vh - 210px)', 'width':tableWidth }" [scrollable]="true" selectionMode="single"
   scrollHeight="flex" [value]="capabilities" styleClass="p-datatable-striped" [(filters)]="defaultFilters"
   sortMode="single" [columns]="selectedColumnNames" [reorderableColumns]="false" (onColReorder)="onColReorder($event)"
@@ -34,31 +95,49 @@
           </p-columnFilter>
         </div>
       </th>
-      <th class="flex flex-column align-items-center justify-content-center sticky-header">
+      <th
+        class="flex flex-column align-items-center justify-content-center sticky-header"
+      >
         <span>Acciones</span>
       </th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-capability let-columns="columns">
+  <ng-template pTemplate="body" let-capability let-columns="columns" >
     <tr [pSelectableRow]="capability">
-      <td pResizableColumn *ngFor="let col of columnNames"
-        class="{{col.field}} flex flex-1 flex-column justify-content-center">
-        <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{capability[col.field]}}"
-          tooltipPosition="top">
+      <td
+        pResizableColumn
+        *ngFor="let col of columnNames"
+        class="{{ col.field }} flex flex-1 flex-column justify-content-center"
+      >
+        <div
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{ capability[col.field] }}"
+          tooltipPosition="top"
+        >
           <ng-container *ngIf="capability[col.field] === 2">
             Capabilities
           </ng-container>
           <ng-container>
-            {{capability[col.field]}}
+            {{ capability[col.field] }}
           </ng-container>
         </div>
       </td>
-      <td class="buttons ">
-        <button pButton pRipple icon="pi pi-file-excel" style="font-size: 0.5rem"
-          class="p-button p-button-outlined mr-2 ml-2"></button>
-        <button pButton pRipple icon="pi pi-trash" style="font-size: 0.5rem"
-          class="p-button p-button-outlined"></button>
+      <td class="buttons">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          style="font-size: 0.5rem"
+          class="p-button p-button-outlined mr-2 ml-2"
+        ></button>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-trash"
+          style="font-size: 0.5rem"
+          class="p-button p-button-outlined"
+        ></button>
       </td>
     </tr>
   </ng-template>

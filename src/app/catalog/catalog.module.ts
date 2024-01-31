@@ -16,13 +16,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 
-
-
 @NgModule({
-  declarations: [
-    CapabilitiesListComponent,
-    StaffingListComponent
-  ],
+  declarations: [CapabilitiesListComponent, StaffingListComponent],
   imports: [
     CommonModule,
     TableModule,
@@ -41,6 +36,6 @@ import { TooltipModule } from 'primeng/tooltip';
     TabViewModule,
     InputSwitchModule,
     ScrollPanelModule,
-  ]
+  ],
 })
-export class CatalogModule { }
+export class CatalogModule {}

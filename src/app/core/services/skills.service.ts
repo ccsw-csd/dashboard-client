@@ -57,7 +57,7 @@ export class SkillsService {
     return this.http.get(url, { params, responseType: 'blob' }).pipe(
       catchError((error) => {
         console.error('Error en la solicitud de exportación:', error);
-        return throwError(error); // Puedes lanzar una nueva excepción o devolver un observable de respaldo según tu necesidad
+        return throwError(error);
       })
     );
   }

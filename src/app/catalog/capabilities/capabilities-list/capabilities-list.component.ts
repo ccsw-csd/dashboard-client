@@ -8,10 +8,9 @@ import { Capability } from 'src/app/core/interfaces/Capability';
   selector: 'app-capabilities-list',
   templateUrl: './capabilities-list.component.html',
   styleUrls: ['./capabilities-list.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService],
 })
 export class CapabilitiesListComponent implements OnInit {
-
   capabilities: Capability[];
   tableWidth: string;
   defaultFilters: any = {};
@@ -19,6 +18,43 @@ export class CapabilitiesListComponent implements OnInit {
   years: number[];
   selectedYear: number;
   columnNames: any[] = [
+    {
+      header: 'Descripción',
+      composeField: 'descripcion',
+      field: 'descripcion',
+      filterType: 'input',
+    },
+    {
+      header: 'Tipo Interfaz',
+      composeField: 'idTipoInterfaz',
+      field: 'idTipoInterfaz',
+      filterType: 'input',
+    },
+    {
+      header: 'NºRegistros',
+      composeField: 'numRegistros',
+      field: 'numRegistros',
+      filterType: 'input',
+    },
+    {
+      header: 'Título',
+      composeField: 'nombreFichero',
+      field: 'nombreFichero',
+      filterType: 'input',
+    },
+    {
+      header: 'Usuario',
+      composeField: 'usuario',
+      field: 'usuario',
+      filterType: 'input',
+    },
+    {
+      header: 'Fecha',
+      composeField: 'fechaImportacion',
+      field: 'fechaImportacion',
+      filterType: 'input',
+    },
+    { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' },
     { header: 'Descripción', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
     { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
     { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
@@ -28,32 +64,28 @@ export class CapabilitiesListComponent implements OnInit {
     { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' }
   ];
 
-  constructor(private capabilitiesService: CapabilitiesService) { }
+  constructor(private capabilitiesService: CapabilitiesService) {}
 
   ngOnInit() {
+    this.capabilitiesService.getRolesAvailableYears().subscribe((years) => {
+      console.log(years);
+      this.years = years;
 
-    this.capabilitiesService.getRolesAvailableYears().subscribe(
-      years => {
-        console.log(years);
-        this.years = years;
-
-        if (this.years && this.years.length > 0) {
-          this.selectedYear = this.years[0];
-          this.loadData(this.selectedYear);
-        }
+      if (this.years && this.years.length > 0) {
+        this.selectedYear = this.years[0];
+        this.loadData(this.selectedYear);
       }
-    );
-
+    });
   }
 
   loadData(selectedYear) {
-    this.capabilitiesService.getRoleImportsVersionsByYear(selectedYear).subscribe(
-      capabilities => {
+    this.capabilitiesService
+      .getRoleImportsVersionsByYear(selectedYear)
+      .subscribe((capabilities) => {
         console.log(capabilities);
         this.capabilities = capabilities;
         this.setDefaultFilters();
-      }
-    );
+      });
   }
 
   setDefaultFilters() {
@@ -75,18 +107,30 @@ export class CapabilitiesListComponent implements OnInit {
       if (value1 == null && value2 != null) result = -1;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
+      else if (typeof value1 === 'string' && typeof value2 === 'string')
+        result = value1.localeCompare(value2);
       else if (Array.isArray(value1) && Array.isArray(value2)) {
-        result = value1.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', ').localeCompare(value2.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', '));
-      }
-      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+        result = value1
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((t) => t.name)
+          .join(', ')
+          .localeCompare(
+            value2
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((t) => t.name)
+              .join(', ')
+          );
+      } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
     });
   }
 
   saveSelected(columnNames: any[]) {
-    localStorage.setItem('capabilities', JSON.stringify(this.columnNames.map(e => e.header)));
+    localStorage.setItem(
+      'capabilities',
+      JSON.stringify(this.columnNames.map((e) => e.header))
+    );
   }
 
   onColReorder(event): void {

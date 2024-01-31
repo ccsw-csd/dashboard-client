@@ -68,6 +68,9 @@ export class MaestroComponent implements OnInit {
   idVersion: number;
   selectedReportName: string;
   titleScreenshotChip: number;
+    
+  selectedReportNameModificationDate: Date;
+  selectedReportNameUserName: string;
 
   reportYears: string[];
   reportVersions: Report[];
@@ -83,8 +86,9 @@ export class MaestroComponent implements OnInit {
   selectedReportYear: string;
   selectedReportVersion: Report;
 
-  enableReportYearSelection = true;
-  enableReportVersionSelection = true;
+  disableYearDrop: boolean = true;
+  disableVersionDrop: boolean = true;
+  disableButtonSearch: boolean = true;
 
   constructor(
     private skillsService: SkillsService,
@@ -122,6 +126,9 @@ export class MaestroComponent implements OnInit {
           this.idVersion = latestReport.id;
           this.selectedReportName = latestReport.descripcion;
           this.titleScreenshotChip = latestReport.screenshot;
+          this.selectedReportNameModificationDate =
+            latestReport.fechaModificacion;
+          this.selectedReportNameUserName = latestReport.usuario;
 
           this.screenshotEnabled = latestReport.screenshot !== 0;
           this.comentarios = latestReport.comentarios || '';
@@ -195,6 +202,111 @@ export class MaestroComponent implements OnInit {
   onScreenshotChange() {
     console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
     this.loadReportYears();
+    this.disableYearDrop = false;
+  }
+
+  onYearChange() {
+    console.log('Año seleccionado:', this.selectedReportYear);
+    this.loadReportVersionsByYear(this.selectedReportYear);
+    this.disableVersionDrop = false;
+  }
+
+  onVersionChange() {
+    this.idVersion = this.selectedReportVersion.id;
+    console.log('Versión seleccionada:', this.selectedReportVersion);
+    this.disableButtonSearch = false;
+  }
+
+  reloadComponent() {
+    if (this.selectedReportVersion) {
+      this.load = false;
+
+      this.disableButtonSearch = true;
+
+      console.log(
+        'Componente recargado con idVersion:',
+        this.selectedReportVersion.id
+      );
+
+      this.idVersion = this.selectedReportVersion.id;
+      this.selectedReportName = this.selectedReportVersion.descripcion;
+      this.titleScreenshotChip = this.selectedReportVersion.screenshot;
+      this.selectedReportNameModificationDate =
+        this.selectedReportVersion.fechaModificacion;
+      this.selectedReportNameUserName = this.selectedReportVersion.usuario;
+
+      this.initEM();
+      this.initBA();
+      this.initAR();
+      this.initSE();
+      this.initIE();
+      this.initArSeDev();
+      this.initArSeApi();
+      this.initPyramide();
+
+      this.screenshotEnabled = this.selectedReportVersion.screenshot !== 0;
+      this.comentarios = this.selectedReportVersion.comentarios || '';
+    }
+  }
+
+  toggleScreenshot() {
+    if (this.selectedReportVersion) {
+      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.hasScreenshotChanged = !this.hasScreenshotChanged;
+      console.log(this.selectedReportVersion.screenshot);
+      console.log(this.hasScreenshotChanged);
+    }
+  }
+
+  updateReport() {
+    if (this.hasScreenshotChanged) {
+      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.selectedReportVersion.comentarios = this.comentarios;
+      this.selectedReportVersion.usuario = this.userName;
+    }
+
+    this.skillsService.updateReport(this.selectedReportVersion).subscribe(
+      (updatedReport) => {
+        console.log('Informe actualizado');
+      },
+      (error) => {
+        console.error('Error al actualizar el informe', error);
+      }
+    );
+
+    this.hasScreenshotChanged = false;
+  }
+
+  confirmUpdateReport(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Quiere guardar los cambios?',
+      header: 'Confirmación',
+      icon: 'pi pi-question-circle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
+      acceptButtonStyleClass:
+        'p-button p-button-success p-button-outlined mx-2',
+      rejectButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
+      accept: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Se han guardado los cambios',
+        });
+        this.updateReport();
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'No se han guardado los cambios',
+          life: 3000,
+        });
+      },
+    });
     this.enableReportYearSelection = false;
   }
 
