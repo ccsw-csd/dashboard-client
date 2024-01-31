@@ -68,7 +68,6 @@ export class MaestroComponent implements OnInit {
   idVersion: number;
   selectedReportName: string;
   titleScreenshotChip: number;
-    
   selectedReportNameModificationDate: Date;
   selectedReportNameUserName: string;
 
@@ -307,74 +306,6 @@ export class MaestroComponent implements OnInit {
         });
       },
     });
-    this.enableReportYearSelection = false;
-  }
-
-  onYearChange() {
-    console.log('Año seleccionado:', this.selectedReportYear);
-    this.loadReportVersionsByYear(this.selectedReportYear);
-    this.enableReportVersionSelection = false;
-  }
-
-  onVersionChange() {
-    console.log('Versión seleccionada:', this.selectedReportVersion);
-  }
-
-  reloadComponent() {
-    if (this.selectedReportVersion) {
-      this.load = false;
-
-      console.log(
-        'Componente recargado con idVersion:',
-        this.selectedReportVersion.id
-      );
-
-      this.idVersion = this.selectedReportVersion.id;
-      this.selectedReportName = this.selectedReportVersion.descripcion;
-      this.titleScreenshotChip = this.selectedReportVersion.screenshot;
-
-      this.enableReportYearSelection = true;
-      this.enableReportVersionSelection = true;
-
-      this.initEM();
-      this.initBA();
-      this.initAR();
-      this.initSE();
-      this.initIE();
-      this.initArSeDev();
-      this.initArSeApi();
-      this.initPyramide();
-
-      this.screenshotEnabled = this.selectedReportVersion.screenshot !== 0;
-      this.comentarios = this.selectedReportVersion.comentarios || '';
-    }
-  }
-
-  toggleScreenshot() {
-    if (this.selectedReportVersion) {
-      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
-      this.hasScreenshotChanged = !this.hasScreenshotChanged;
-      console.log(this.selectedReportVersion.screenshot);
-      console.log(this.hasScreenshotChanged);
-    }
-  }
-
-  updateReport() {
-    if (this.hasScreenshotChanged) {
-      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
-      this.selectedReportVersion.usuario = this.userName;
-    }
-
-    this.skillsService.updateReport(this.selectedReportVersion).subscribe(
-      (updatedReport) => {
-        console.log('Informe actualizado');
-      },
-      (error) => {
-        console.error('Error al actualizar el informe', error);
-      }
-    );
-
-    this.hasScreenshotChanged = false;
   }
 
   initEM() {
