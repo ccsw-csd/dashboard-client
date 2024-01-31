@@ -89,7 +89,6 @@ export class MaestroComponent implements OnInit {
   disableVersionDrop: boolean = true;
   disableButtonSearch: boolean = true;
 
-
   constructor(
     private skillsService: SkillsService,
     public authService: AuthService,
@@ -220,6 +219,8 @@ export class MaestroComponent implements OnInit {
   reloadComponent() {
     if (this.selectedReportVersion) {
       this.load = false;
+
+      this.disableButtonSearch = true;
 
       console.log(
         'Componente recargado con idVersion:',

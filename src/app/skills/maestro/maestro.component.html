@@ -30,7 +30,15 @@
     </div>
   </div>
   <div class="flex justify-content-between">
-    <h4 *ngIf="titleScreenshotChip == 1" style="color: #711f1f">
+    <h4
+      *ngIf="titleScreenshotChip == 1"
+      style="
+        color: #ffffff;
+        background-color: #29abe2;
+        padding: 12px;
+        border-radius: 12px;
+      "
+    >
       Marcado como ScreenShot el
       {{ selectedReportNameModificationDate | date : "d/M/yy" }} por
       {{ selectedReportNameUserName }}
@@ -188,7 +196,15 @@
     </div>
     <span style="margin-left: 0.5rem">Screenshot</span>
     <div class="ml-3">
-      <span *ngIf="hasScreenshotChanged" class="ml-2" style="color: #711f1f">
+      <span
+        *ngIf="hasScreenshotChanged"
+        style="
+          color: #ffffff;
+          background-color: #29abe2;
+          padding: 12px;
+          border-radius: 12px;
+        "
+      >
         El informe ha cambiado. Pulse guardar
       </span>
     </div>
