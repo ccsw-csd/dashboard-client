@@ -85,6 +85,11 @@ export class MaestroComponent implements OnInit {
   selectedReportYear: string;
   selectedReportVersion: Report;
 
+  disableYearDrop: boolean = true;
+  disableVersionDrop: boolean = true;
+  disableButtonSearch: boolean = true;
+
+
   constructor(
     private skillsService: SkillsService,
     public authService: AuthService,
@@ -197,16 +202,19 @@ export class MaestroComponent implements OnInit {
   onScreenshotChange() {
     console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
     this.loadReportYears();
+    this.disableYearDrop = false;
   }
 
   onYearChange() {
     console.log('Año seleccionado:', this.selectedReportYear);
     this.loadReportVersionsByYear(this.selectedReportYear);
+    this.disableVersionDrop = false;
   }
 
   onVersionChange() {
     this.idVersion = this.selectedReportVersion.id;
     console.log('Versión seleccionada:', this.selectedReportVersion);
+    this.disableButtonSearch = false;
   }
 
   reloadComponent() {
@@ -272,7 +280,7 @@ export class MaestroComponent implements OnInit {
       target: event.target as EventTarget,
       message: '¿Quiere guardar los cambios?',
       header: 'Confirmación',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'pi pi-question-circle',
       acceptIcon: 'none',
       rejectIcon: 'none',
       acceptLabel: 'Si',

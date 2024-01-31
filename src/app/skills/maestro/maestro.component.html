@@ -26,7 +26,6 @@
       >
         <i class="pi pi-angle-down m-2"></i>
       </button>
-
       <p-menu #menu [popup]="true" [model]="items"></p-menu>
     </div>
   </div>
@@ -70,6 +69,7 @@
             [showClear]="false"
             placeholder="Seleccione un Año"
             (onChange)="onYearChange()"
+            [disabled]="disableYearDrop"
           >
           </p-dropdown>
         </div>
@@ -84,6 +84,7 @@
             [showClear]="false"
             placeholder="Seleccione una versión"
             (onChange)="onVersionChange()"
+            [disabled]="disableVersionDrop"
           >
           </p-dropdown>
         </div>
@@ -96,6 +97,7 @@
             class="p-button-outlined m-2"
             (click)="reloadComponent()"
             style="width: 80px"
+            [disabled]="disableButtonSearch"
           ></button>
         </div>
       </div>
