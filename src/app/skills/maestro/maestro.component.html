@@ -116,6 +116,67 @@
     </p-accordionTab>
   </p-accordion>
 
+  <p-accordion [activeIndex]="-1">
+    <p-accordionTab header="Filtros">
+      <div class="flex flex-wrap justify-content-center gap-3">
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR SI ES SCREENSHOT -->
+          <p-dropdown
+            [options]="screenshotsOptions"
+            class="m-2"
+            [style]="{ width: '210px' }"
+            [(ngModel)]="selectedScreenshot"
+            optionLabel="name"
+            [showClear]="false"
+            placeholder="Versión Screenshot"
+            (onChange)="onScreenshotChange()"
+          >
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR AÑO -->
+          <p-dropdown
+            [options]="reportYears"
+            class="m-2"
+            [style]="{ width: '210px' }"
+            [(ngModel)]="selectedReportYear"
+            [showClear]="false"
+            placeholder="Seleccione un Año"
+            (onChange)="onYearChange()"
+            [disable]="enableReportYearSelection"
+          >
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center">
+          <!-- SELECCIONAR VERSION -->
+          <p-dropdown
+            [options]="reportVersions"
+            class="m-2"
+            [style]="{ width: '340px' }"
+            [(ngModel)]="selectedReportVersion"
+            optionLabel="descripcion"
+            [showClear]="false"
+            placeholder="Seleccione una versión"
+            (onChange)="onVersionChange()"
+            [disable]="enableReportVersionSelection"
+          >
+          </p-dropdown>
+        </div>
+        <div class="flex align-items-center justify-content-center">
+          <button
+            pButton
+            type="button"
+            pRipple
+            icon="pi pi-search"
+            class="p-button-outlined m-2"
+            (click)="reloadComponent()"
+            style="width: 80px"
+          ></button>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%">
       <app-table-detail
@@ -212,6 +273,12 @@
         El informe ha cambiado. Pulse guardar
       </span>
     </div>
+      ></p-inputSwitch>
+    </div>
+    <span style="margin-left: 0.5rem">Screenshot</span>
+    <span *ngIf="hasScreenshotChanged" class="ml-3"
+      >El informe ha cambiado. Pulse guardar</span
+    >
   </div>
 
   <!-- Comentarios-->
@@ -242,6 +309,12 @@
       label="Guardar"
       class="p-button p-button-primary p-button-outlined my-2"
       tyle="width: 80px"
+      label="Guardar"
+      pRipple
+      icon="pi pi-save"
+      class="p-button p-button-primary p-button-outlined my-2"
+      (click)="updateReport()"
+      style="width: 80px"
     ></button>
   </div>
 
@@ -263,7 +336,6 @@
         <label [for]="elem" class="ml-2">{{ elem }}</label>
       </div>
     </div>
-
     <div class="flex flex-row mt-5 gap-2 justify-content-end gap-2">
       <button
         pButton

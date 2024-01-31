@@ -55,6 +55,13 @@ export class CapabilitiesListComponent implements OnInit {
       filterType: 'input',
     },
     { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' },
+    { header: 'Descripción', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
+    { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
+    { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
+    { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
+    { header: 'Usuario', composeField: 'usuario', field: 'usuario', filterType: 'input' },
+    { header: 'Fecha', composeField: 'fechaImportacion', field: 'fechaImportacion', filterType: 'input' },
+    { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' }
   ];
 
   constructor(private capabilitiesService: CapabilitiesService) {}
