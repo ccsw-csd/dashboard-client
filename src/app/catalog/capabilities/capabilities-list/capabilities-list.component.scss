@@ -1,77 +1,49 @@
-:host ::ng-deep .p-datatable {
-    overflow-x: auto;
-}
-
-:host ::ng-deep .p-datatable .p-datatable-thead>tr {
-    display: flex;
-    flex-wrap: nowrap;
-}
-
-:host ::ng-deep .p-datatable .p-datatable-tbody {
-    width: 100%;
-    display: block;
-    // overflow-x: auto;
-}
-
-.descripcion {
-    min-width: 350px;
-    max-width: 350px;
-    display: flex;
-}
-
-.idTipoInterfaz {
-    min-width: 150px;
-    max-width: 150px;
-}
-
-.numRegistros {
-    min-width: 150px;
-    max-width: 150px;
-}
-
-.nombreFichero {
-    min-width: 360px;
-    max-width: 360px;
-}
-
-.usuario {
+.id {
+    min-width: 100px;
+    max-width: 100px;
+  }
+  .descripcion {
+    min-width: 280px;
+    max-width: 400px;
+  }
+  .idTipoInterfaz {
     min-width: 140px;
     max-width: 140px;
-}
-
-.fechaImportacion {
+  }
+  .numRegistros {
     min-width: 240px;
     max-width: 240px;
-}
-
-.id {
+  }
+  .nombreFichero {
+    min-width: 330px;
+  }
+  .usuario {
     min-width: 140px;
     max-width: 140px;
-}
-
-.p-inputtext {
-    font-weight: 400;
-    height: 24px;
-    padding: 2px;
-}
-
-.p-datatable-thead {
-    margin: 16px;
-}
-
-.col.field {
-    text-align: center;
-}
-
-.sticky-header {
-    min-width: none;
-    max-width: 120px;
-}
-
-.text-left {
-    text-align: left;
-}
-
-.p-datatable table, tr, td {
-    table-layout: auto;
-}
+  }
+  .fechaImportacion {
+    min-width: 240px;
+    max-width: 240px;
+  }
+  .active {
+    min-width: 100px;
+    max-width: 100px;
+  }
+  
+  .parents {
+    min-width: 140px;
+    max-width: 200px;
+  }
+  .center {
+    min-width: 115px;
+    max-width: 115px;
+  }
+  .buttons {
+    min-width: 80px;
+    max-width: 80px;
+  }
+  .p-button.p-button-icon-only.p-button-rounded {
+    width: 2rem;
+    height: 2rem;
+  }
+  

@@ -1,126 +1,137 @@
 <div class="flex flex-row justify-content-between">
   <div class="flex justify-content-start">
-    <h3 class="p-0 m-0 mb-5">Listado de Versiones de Capacidades</h3>
+    <h3 class="p-0 m-0 mb-2">Lista de Archivos de Roles</h3>
   </div>
-  <div class="my-2 flex justify-content-end">
+</div>
+
+<div class="flex flex-row justify-content-between">
+  <div
+    class="flex w-17rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+    style="background-color: #e7edef"
+  >
+    <div class="pl-3">
+      <i class="pi pi-file text-xl text-primary"></i>
+    </div>
+    <div class="flex flex-row align-items-center gap-1 text-sm">
+      <p>{{ totalCapabilities }}</p>
+      Archivos de Roles del año {{ selectedYear }}
+    </div>
+  </div>
+  <div>
     <!-- SELECCIONAR AÑO -->
     <p-dropdown
       [options]="years"
-      class="mb-2"
+      class="p-dropdown mr-2 mb-2"
       [(ngModel)]="selectedYear"
       (ngModelChange)="onYearChange()"
-      [showClear]="true"
+      [showClear]="false"
       [placeholder]="selectedYear"
     >
     </p-dropdown>
+    <button
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-cog"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Visualización columnas"
+      (click)="showConfig()"
+    ></button>
   </div>
 </div>
 
 <p-table
   [style]="{ height: 'calc(100vh - 210px)', width: tableWidth }"
   [scrollable]="true"
-  selectionMode="single"
   scrollHeight="flex"
+  selectionMode="single"
   [value]="capabilities"
-  styleClass="p-datatable-striped"
+  styleClass="p-datatable-striped "
+  [paginator]="false"
+  sortField="id"
+  [sortOrder]="1"
   [(filters)]="defaultFilters"
-  sortMode="single"
+  (onFilter)="onFilter($event)"
   [columns]="selectedColumnNames"
-  [reorderableColumns]="false"
+  [reorderableColumns]="true"
   (onColReorder)="onColReorder($event)"
   (sortFunction)="customSort($event)"
   [customSort]="true"
-  autoLayout="true"
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th
-        *ngFor="let col of columnNames"
-        class="{{
-          col.field
-        }} flex flex-1 flex-column align-items-center justify-content-center"
-        pReorderableColumn
-      >
-        <div
-          class="flex flex-row top-header"
-          pSortableColumn="{{ col.composeField }}"
-        >
-          <span class="flex flex-1 justify-content-center">{{
-            col.header
-          }}</span>
-          <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
-        </div>
-        <div class="w-full foot-header">
-          <p-columnFilter
-            *ngIf="col.filterType == 'input'"
-            class="w-full"
-            type="text"
-            field="{{ col.composeField }}"
-            [showMenu]="false"
-            [showClearButton]="false"
-            matchMode="contains-and-null"
-          >
-            <ng-template
-              pTemplate="filter"
-              let-value
-              let-filter="filterCallback"
-            >
-              <input
-                tabindex="1"
-                type="text"
-                pInputText
-                [ngModel]="value"
-                (ngModelChange)="filter($event)"
-                class="p-inputtext"
-              />
-            </ng-template>
-          </p-columnFilter>
-        </div>
-      </th>
-      <th
-        class="flex flex-column align-items-center justify-content-center sticky-header"
-      >
-        <span>Acciones</span>
-      </th>
-    </tr>
-  </ng-template>
 
-  <ng-template pTemplate="body" let-capability let-columns="columns" >
+      <th *ngFor="let col of selectedColumnNames" class="{{col.field}} flex flex-column" pReorderableColumn>
+
+          <div class="flex flex-row w-full top-header" pSortableColumn="{{col.composeField}}">
+              <span class="flex flex-1 justify-content-center">{{col.header}}</span>
+              <p-sortIcon field="{{col.composeField}}"></p-sortIcon>
+          </div>
+
+          <div class="w-full foot-header">
+              <p-columnFilter *ngIf="col.filterType == 'input'" class="w-full" type="text" field="{{col.composeField}}" [showMenu]="false" [showClearButton]="false" matchMode="contains-and-null">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                      <input tabindex="1" type="text" pInputText [ngModel]="value" (ngModelChange)="filter($event)" class="p-inputtext">
+                  </ng-template>                    
+              </p-columnFilter>
+
+              <p-columnFilter *ngIf="col.filterType == 'dropdown'" class="w-full" field="{{col.composeField}}" matchMode="{{col.matchMode != null ? col.matchMode : 'contains-and-null'}}" [showMenu]="false" [showClearButton]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                      <p-dropdown tabindex="1" *ngIf="col.optionValue" #filterDropdown [options]="col.options" optionLabel="{{col.optionLabel}}" optionValue="{{col.optionValue}}" (onChange)="filter($event.value)" [showClear]="true" placeholder="..." [showClearButton]="false" [filter]="true"></p-dropdown>
+                      <p-dropdown tabindex="1" *ngIf="!col.optionValue" #filterDropdown [options]="col.options" optionLabel="{{col.optionLabel}}" (onChange)="filter($event.value == null ? null : $event.value[col.optionLabel])" [showClear]="true" placeholder="..." [showClearButton]="false" [filter]="true"></p-dropdown>
+                  </ng-template>
+              </p-columnFilter>
+          
+              <p-columnFilter *ngIf="col.filterType == 'multiple'" class="w-full" field="{{col.composeField}}" matchMode="multiple" [showMenu]="false" [showClearButton]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                      <p-multiSelect tabindex="1" [showHeader]="false" [ngModel]="col.initialValue" [options]="col.options" optionLabel="label" optionValue="value" (onChange)="filter($event.value)" [showClear]="true" placeholder="..."> </p-multiSelect>
+                  </ng-template>
+              </p-columnFilter>
+          </div>
+      </th>
+      <th class="buttons flex flex-column">
+          <div class="flex flex-row w-full top-header"></div>
+          <div class="w-full foot-header"></div>
+      </th>
+  </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-capability let-columns="columns">
     <tr [pSelectableRow]="capability">
-      <td
-        pResizableColumn
-        *ngFor="let col of columnNames"
-        class="{{ col.field }} flex flex-1 flex-column justify-content-center"
-      >
+      <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
+          *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           pTooltip="{{ capability[col.field] }}"
           tooltipPosition="top"
         >
-          <ng-container *ngIf="capability[col.field] === 2">
-            Capabilities
-          </ng-container>
-          <ng-container>
-            {{ capability[col.field] }}
-          </ng-container>
+          {{ capability[col.field] }}
         </div>
-      </td>
-      <td class="buttons">
-        <button
-          pButton
-          pRipple
-          icon="pi pi-file-excel"
-          style="font-size: 0.5rem"
-          class="p-button p-button-outlined mr-2 ml-2"
-        ></button>
-        <button
-          pButton
-          pRipple
-          icon="pi pi-trash"
-          style="font-size: 0.5rem"
-          class="p-button p-button-outlined"
-        ></button>
+        <div
+          *ngIf="col.fieldExtra && !col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{capability[col.field]?.[col.fieldExtra]}}"
+          tooltipPosition="top"
+        >
+          {{capability[col.field]?.[col.fieldExtra]}}
+        </div>
+        <div
+          *ngIf="col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{ col.parse(person[col.field]) }}"
+          tooltipPosition="top"
+        >
+          {{ col.parse(capability[col.field]) }}
+        </div>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-toast position="top-center"></p-toast>
+<p-confirmDialog
+  [closable]="false"
+  header="Confirmación"
+  icon="pi pi-exclamation-triangle"
+  #confirmDialog
+></p-confirmDialog>
