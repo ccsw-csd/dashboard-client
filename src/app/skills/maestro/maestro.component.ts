@@ -117,20 +117,20 @@ export class MaestroComponent implements OnInit {
       (data) => {
         console.log('Todos los informes:', data);
 
-        const latestReport = this.getLatestReport(data);
+        const lastReport = this.getlastReport(data);
 
-        console.log('Última versión del informe:', latestReport);
+        console.log('Última versión del informe:', lastReport);
 
-        if (latestReport) {
-          this.idVersion = latestReport.id;
-          this.selectedReportName = latestReport.descripcion;
-          this.titleScreenshotChip = latestReport.screenshot;
+        if (lastReport) {
+          this.idVersion = lastReport.id;
+          this.selectedReportName = lastReport.descripcion;
+          this.titleScreenshotChip = lastReport.screenshot;
           this.selectedReportNameModificationDate =
-            latestReport.fechaModificacion;
-          this.selectedReportNameUserName = latestReport.usuario;
+            lastReport.fechaModificacion;
+          this.selectedReportNameUserName = lastReport.usuario;
 
-          this.screenshotEnabled = latestReport.screenshot !== 0;
-          this.comentarios = latestReport.comentarios || '';
+          this.screenshotEnabled = lastReport.screenshot !== 0;
+          this.comentarios = lastReport.comentarios || '';
 
           this.initEM();
           this.initBA();
@@ -141,7 +141,7 @@ export class MaestroComponent implements OnInit {
           this.initArSeApi();
           this.initPyramide();
 
-          this.selectedReportVersion = latestReport;
+          this.selectedReportVersion = lastReport;
           console.log(this.selectedReportVersion);
         }
       },
@@ -151,7 +151,7 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  getLatestReport(reports: Report[]): Report | undefined {
+  getlastReport(reports: Report[]): Report | undefined {
     return reports.reduce(
       (latest, report) => (latest && latest.id > report.id ? latest : report),
       undefined
