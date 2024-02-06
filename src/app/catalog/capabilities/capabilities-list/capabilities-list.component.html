@@ -61,40 +61,128 @@
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
+      <th
+        *ngFor="let col of selectedColumnNames"
+        class="{{ col.field }} flex flex-column"
+        pReorderableColumn
+      >
+        <div
+          class="flex flex-row w-full top-header"
+          pSortableColumn="{{ col.composeField }}"
+        >
+          <span class="flex flex-1 justify-content-center">{{
+            col.header
+          }}</span>
+          <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
+        </div>
 
-      <th *ngFor="let col of selectedColumnNames" class="{{col.field}} flex flex-column" pReorderableColumn>
+        <div class="w-full foot-header">
+          <p-columnFilter
+            *ngIf="col.filterType == 'input'"
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="contains-and-null"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                tabindex="1"
+                type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
 
-          <div class="flex flex-row w-full top-header" pSortableColumn="{{col.composeField}}">
-              <span class="flex flex-1 justify-content-center">{{col.header}}</span>
-              <p-sortIcon field="{{col.composeField}}"></p-sortIcon>
-          </div>
+          <p-columnFilter
+            *ngIf="col.filterType == 'dropdown'"
+            class="w-full"
+            field="{{ col.composeField }}"
+            matchMode="{{
+              col.matchMode != null ? col.matchMode : 'contains-and-null'
+            }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-dropdown
+                tabindex="1"
+                *ngIf="col.optionValue"
+                #filterDropdown
+                [options]="col.options"
+                optionLabel="{{ col.optionLabel }}"
+                optionValue="{{ col.optionValue }}"
+                (onChange)="filter($event.value)"
+                [showClear]="true"
+                placeholder="..."
+                [showClearButton]="false"
+                [filter]="true"
+              ></p-dropdown>
+              <p-dropdown
+                tabindex="1"
+                *ngIf="!col.optionValue"
+                #filterDropdown
+                [options]="col.options"
+                optionLabel="{{ col.optionLabel }}"
+                (onChange)="
+                  filter(
+                    $event.value == null ? null : $event.value[col.optionLabel]
+                  )
+                "
+                [showClear]="true"
+                placeholder="..."
+                [showClearButton]="false"
+                [filter]="true"
+              ></p-dropdown>
+            </ng-template>
+          </p-columnFilter>
 
-          <div class="w-full foot-header">
-              <p-columnFilter *ngIf="col.filterType == 'input'" class="w-full" type="text" field="{{col.composeField}}" [showMenu]="false" [showClearButton]="false" matchMode="contains-and-null">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                      <input tabindex="1" type="text" pInputText [ngModel]="value" (ngModelChange)="filter($event)" class="p-inputtext">
-                  </ng-template>                    
-              </p-columnFilter>
-
-              <p-columnFilter *ngIf="col.filterType == 'dropdown'" class="w-full" field="{{col.composeField}}" matchMode="{{col.matchMode != null ? col.matchMode : 'contains-and-null'}}" [showMenu]="false" [showClearButton]="false">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                      <p-dropdown tabindex="1" *ngIf="col.optionValue" #filterDropdown [options]="col.options" optionLabel="{{col.optionLabel}}" optionValue="{{col.optionValue}}" (onChange)="filter($event.value)" [showClear]="true" placeholder="..." [showClearButton]="false" [filter]="true"></p-dropdown>
-                      <p-dropdown tabindex="1" *ngIf="!col.optionValue" #filterDropdown [options]="col.options" optionLabel="{{col.optionLabel}}" (onChange)="filter($event.value == null ? null : $event.value[col.optionLabel])" [showClear]="true" placeholder="..." [showClearButton]="false" [filter]="true"></p-dropdown>
-                  </ng-template>
-              </p-columnFilter>
-          
-              <p-columnFilter *ngIf="col.filterType == 'multiple'" class="w-full" field="{{col.composeField}}" matchMode="multiple" [showMenu]="false" [showClearButton]="false">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                      <p-multiSelect tabindex="1" [showHeader]="false" [ngModel]="col.initialValue" [options]="col.options" optionLabel="label" optionValue="value" (onChange)="filter($event.value)" [showClear]="true" placeholder="..."> </p-multiSelect>
-                  </ng-template>
-              </p-columnFilter>
-          </div>
+          <p-columnFilter
+            *ngIf="col.filterType == 'multiple'"
+            class="w-full"
+            field="{{ col.composeField }}"
+            matchMode="multiple"
+            [showMenu]="false"
+            [showClearButton]="false"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-multiSelect
+                tabindex="1"
+                [showHeader]="false"
+                [ngModel]="col.initialValue"
+                [options]="col.options"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="filter($event.value)"
+                [showClear]="true"
+                placeholder="..."
+              >
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </div>
       </th>
       <th class="buttons flex flex-column">
-          <div class="flex flex-row w-full top-header"></div>
-          <div class="w-full foot-header"></div>
+        <div class="flex flex-row w-full top-header"></div>
+        <div class="w-full foot-header"></div>
       </th>
-  </tr>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-capability let-columns="columns">
     <tr [pSelectableRow]="capability">
