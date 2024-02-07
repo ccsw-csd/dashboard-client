@@ -18,16 +18,16 @@
     </div>
   </div>
   <div>
-    <!-- SELECCIONAR AÑO -->
-    <p-dropdown
-      [options]="years"
-      class="p-dropdown mr-2 mb-2"
-      [(ngModel)]="selectedYear"
-      (ngModelChange)="onYearChange()"
-      [showClear]="false"
-      [placeholder]="selectedYear"
-    >
-    </p-dropdown>
+    <button
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-filter-slash"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Limpiar filtros"
+      (click)="cleanFilters()"
+    ></button>
     <button
       tooltipPosition="top"
       pButton

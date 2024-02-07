@@ -32,17 +32,13 @@ export class CapabilitiesListComponent implements OnInit {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
 
-  isSynchronized: Boolean = false;
-  allowSynchronize: Boolean = false;
   columnNames: any[];
   selectedColumnNames: any[];
   changeCols: boolean = false;
-  states: any[];
   tableWidth: string;
   defaultFilters: any = {};
-  totalCapabilities: number = 4;
+  totalCapabilities: number;
   capabilitiesToExport: Capability[];
-
   capabilities: Capability[];
   years: number[];
   selectedYear: number;
@@ -95,7 +91,7 @@ export class CapabilitiesListComponent implements OnInit {
         composeField: 'nombreFichero',
         field: 'nombreFichero',
         filterType: 'input',
-      },      
+      },
     ];
 
     this.selectedColumnNames = this.loadSelected();
@@ -183,7 +179,7 @@ export class CapabilitiesListComponent implements OnInit {
       closable: false,
       showHeader: true,
       autoZIndex: true,
-      header: 'Configuracion de la tabla',
+      header: 'Configuración de la tabla',
     });
 
     ref.onClose.subscribe((result: any) => {
@@ -257,5 +253,4 @@ export class CapabilitiesListComponent implements OnInit {
     });
     return data;
   }
-  
 }
