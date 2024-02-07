@@ -12,6 +12,12 @@ export class CapabilitiesService {
 
   constructor(private http: HttpClient) {}
 
+  getAllRoleImportsVersions(): Observable<Capability[]> {
+    return this.http.get<Capability[]>(
+      `${this.baseUrl}/roleimports/all`
+    );
+  }
+
   getRoleImportsVersionsByYear(year: number): Observable<Capability[]> {
     return this.http.get<Capability[]>(
       `${this.baseUrl}/roleimports/all/${year}`

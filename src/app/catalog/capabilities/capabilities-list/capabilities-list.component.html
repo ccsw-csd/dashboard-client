@@ -6,15 +6,14 @@
 
 <div class="flex flex-row justify-content-between">
   <div
-    class="flex w-17rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+    class="flex w-12rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
     style="background-color: #e7edef"
   >
     <div class="pl-3">
       <i class="pi pi-file text-xl text-primary"></i>
     </div>
     <div class="flex flex-row align-items-center gap-1 text-sm">
-      <p>{{ totalCapabilities }}</p>
-      Archivos de Roles del año {{ selectedYear }}
+      <p>{{ totalCapabilities }}</p>Archivos de Roles
     </div>
   </div>
   <div>
@@ -193,7 +192,15 @@
           pTooltip="{{ capability[col.field] }}"
           tooltipPosition="top"
         >
-          {{ capability[col.field] }}
+          <ng-container *ngIf="col.field === 'fechaImportacion'">
+            {{ capability[col.field] | date : "dd/MM/yyyy" }}
+          </ng-container>
+          <ng-container *ngIf="col.field === 'idTipoInterfaz'">
+            {{ capability[col.field] === 2 ? 'Roles' : capability[col.field] }}
+          </ng-container>
+          <ng-container *ngIf="col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'">
+            {{ capability[col.field] }}
+          </ng-container>
         </div>
         <div
           *ngIf="col.fieldExtra && !col.parse"

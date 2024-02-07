@@ -102,14 +102,14 @@ export class CapabilitiesListComponent implements OnInit {
 
       if (this.years && this.years.length > 0) {
         this.selectedYear = this.years[0];
-        this.loadData(this.selectedYear);
+        this.loadData();
       }
     });
   }
 
-  loadData(selectedYear) {
+  loadData() {
     this.capabilitiesService
-      .getRoleImportsVersionsByYear(selectedYear)
+      .getAllRoleImportsVersions()
       .subscribe((capabilities) => {
         console.log(capabilities);
         this.capabilities = capabilities;
@@ -119,7 +119,7 @@ export class CapabilitiesListComponent implements OnInit {
   }
 
   onYearChange() {
-    this.loadData(this.selectedYear);
+    this.loadData();
   }
 
   setDefaultFilters() {
@@ -153,14 +153,11 @@ export class CapabilitiesListComponent implements OnInit {
 
   onFilter(event) {
     this.capabilitiesToExport = event.filteredValue;
-    setTimeout(() => {
-      this.totalCapabilities = event.filteredValue.length;
-    }, 0);
   }
 
   saveSelected(selectedColumnNames: any[]) {
     localStorage.setItem(
-      'personListColumns',
+      'capabilityListColumns',
       JSON.stringify(selectedColumnNames.map((e) => e.header))
     );
   }
@@ -202,18 +199,10 @@ export class CapabilitiesListComponent implements OnInit {
     this.saveSelected(this.columnNames);
   }
 
-  setFilters(): void {
-    this.defaultFilters.active.value = ['1'];
-  }
-
   cleanFilters(): void {
-    this.filterDropdowns.forEach((dropdown) => dropdown.clear(null));
     this.table.reset();
-    this.setFilters();
-    this.table.sortOrder = 1;
-    this.table.sort({ field: 'lastname', order: this.table.sortOrder });
   }
-
+  
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
       let value1 = this.getData(data1, event.field);
