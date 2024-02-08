@@ -39,8 +39,6 @@ export class CapabilitiesListComponent implements OnInit {
   totalCapabilities: number;
   capabilitiesToExport: Capability[];
   capabilities: Capability[];
-  years: number[];
-  selectedYear: number;
 
   constructor(
     private capabilitiesService: CapabilitiesService,
@@ -94,16 +92,7 @@ export class CapabilitiesListComponent implements OnInit {
     ];
 
     this.selectedColumnNames = this.loadSelected();
-
-    this.capabilitiesService.getRolesAvailableYears().subscribe((years) => {
-      console.log(years);
-      this.years = years;
-
-      if (this.years && this.years.length > 0) {
-        this.selectedYear = this.years[0];
-        this.loadData();
-      }
-    });
+    this.loadData();
   }
 
   loadData() {
@@ -115,20 +104,6 @@ export class CapabilitiesListComponent implements OnInit {
         this.totalCapabilities = capabilities.length;
         this.setDefaultFilters();
       });
-  }
-
-  onYearChange() {
-    this.loadData();
-  }
-
-  setDefaultFilters() {
-    this.defaultFilters = {};
-
-    this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' };
-      }
-    });
   }
 
   loadSelected(): any[] {
@@ -198,8 +173,18 @@ export class CapabilitiesListComponent implements OnInit {
     this.saveSelected(this.columnNames);
   }
 
+  setDefaultFilters() {
+    this.defaultFilters = {};
+
+    this.columnNames.forEach((column) => {
+      if (column.filterType === 'input') {
+        this.defaultFilters[column.composeField] = { value: '' };
+      }
+    });
+  }
+
   setFilters(): void {
-    this.defaultFilters.active.value = ['1'];
+    this.setDefaultFilters();
   }
 
   cleanFilters(): void {
