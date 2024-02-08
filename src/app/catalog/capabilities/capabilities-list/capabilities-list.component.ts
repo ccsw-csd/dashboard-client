@@ -30,7 +30,6 @@ import { Dropdown } from 'primeng/dropdown';
 })
 export class CapabilitiesListComponent implements OnInit {
   @ViewChild(Table) table: Table;
-  @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
 
   columnNames: any[];
   selectedColumnNames: any[];
@@ -199,10 +198,15 @@ export class CapabilitiesListComponent implements OnInit {
     this.saveSelected(this.columnNames);
   }
 
-  cleanFilters(): void {
-    this.table.reset();
+  setFilters(): void {
+    this.defaultFilters.active.value = ['1'];
   }
-  
+
+  cleanFilters(): void {
+    this.table.clear();
+    this.setFilters();
+  }
+
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
       let value1 = this.getData(data1, event.field);
