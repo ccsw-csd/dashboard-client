@@ -1,5 +1,9 @@
 import { Component, OnInit, Version } from '@angular/core';
-import { ColumnDetails, InformeTotal, ProfilesAndGrades } from '../../core/interfaces/Capabilities';
+import {
+  ColumnDetails,
+  InformeTotal,
+  ProfilesAndGrades,
+} from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -114,7 +118,10 @@ export class MaestroComponent implements OnInit {
     ];
 
     this.loadInitialDropdownData();
+
     this.userName = this.authService.userInfoSSO.displayName;
+
+    this.loadAllLiterals();
 
     this.skillsService.getAllReports().subscribe(
       (data) => {
@@ -311,8 +318,38 @@ export class MaestroComponent implements OnInit {
     });
   }
 
+  loadAllLiterals(): void {
+    this.skillsService.getAllLiterals().subscribe(
+      (data: ColumnDetails[]) => {
+        this.literals = data;
+      },
+      (error) => {
+        console.error('Error al obtener los literales:', error);
+      }
+    );
+  }
+
   initEM() {
-    this.skillsService
+    if (!this.literals) {
+      return;
+    }
+
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Engagement Managers'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.EMText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.EMCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Engagement Managers', 't')
       .subscribe((info) => {
         this.EMText = info[0].desc;
@@ -322,7 +359,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Engagement Managers', 'c')
       .subscribe((info) => {
         this.EMCol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals('Engagement Managers', this.idVersion)
@@ -332,7 +369,26 @@ export class MaestroComponent implements OnInit {
   }
 
   initBA() {
-    this.skillsService
+    if (!this.literals) {
+      return;
+    }
+    
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Business Analyst'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.BAText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.BACol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Business Analyst', 't')
       .subscribe((info) => {
         this.BAText = info[0].desc;
@@ -342,7 +398,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Business Analyst', 'c')
       .subscribe((info) => {
         this.BACol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals('Business Analyst', this.idVersion)
@@ -352,12 +408,27 @@ export class MaestroComponent implements OnInit {
   }
 
   initAR() {
-    this.skillsService.getTableDetail('Architects', 't').subscribe((info) => {
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ARText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ARCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService.getTableDetail('Architects', 't').subscribe((info) => {
       this.ARText = info[0].desc;
     });
     this.skillsService.getTableDetail('Architects', 'c').subscribe((info) => {
       this.ARCol = info.map((el) => el.desc);
-    });
+    }); */
 
     this.skillsService
       .getProfileTotals('Architects', this.idVersion)
@@ -377,7 +448,22 @@ export class MaestroComponent implements OnInit {
   }
 
   initSE() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Software Engineer'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.SEText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.SECol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /*  this.skillsService
       .getTableDetail('Software Engineer', 't')
       .subscribe((info) => {
         this.SEText = info[0].desc;
@@ -387,7 +473,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Software Engineer', 'c')
       .subscribe((info) => {
         this.SECol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals('Software Engineer', this.idVersion)
@@ -397,7 +483,22 @@ export class MaestroComponent implements OnInit {
   }
 
   initIE() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Industry Experts'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.IEText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.IECol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Industry Experts', 't')
       .subscribe((info) => {
         this.IEText = info[0].desc;
@@ -407,7 +508,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Industry Experts', 'c')
       .subscribe((info) => {
         this.IECol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals('Industry Experts', this.idVersion)
@@ -417,7 +518,22 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeDev() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects & SE Custom Apps Development'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ArSeDevText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ArSeDevCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Architects & SE Custom Apps Development', 't')
       .subscribe((info) => {
         this.ArSeDevText = info[0].desc;
@@ -427,7 +543,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Architects & SE Custom Apps Development', 'c')
       .subscribe((info) => {
         this.ArSeDevCol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals(
@@ -440,7 +556,21 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeApi() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects & SE Integration & APIs'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ArSeApiText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ArSeApiCol = emColLiterals.map((literal) => literal.desc);
+    }
+    /* this.skillsService
       .getTableDetail('Architects & SE Integration & APIs', 't')
       .subscribe((info) => {
         this.ArSeApiText = info[0].desc;
@@ -450,7 +580,7 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Architects & SE Integration & APIs', 'c')
       .subscribe((info) => {
         this.ArSeApiCol = info.map((el) => el.desc);
-      });
+      }); */
 
     this.skillsService
       .getProfileTotals('Architects & SE Integration & APIs', this.idVersion)
@@ -460,7 +590,27 @@ export class MaestroComponent implements OnInit {
   }
 
   initPyramide() {
-    this.skillsService
+    const gradeRoleLiterals = this.literals.filter(
+      (literal) => literal.type === 'Pyramid Grade-Rol'
+    );
+
+    const gradeRoleTextLiteral = gradeRoleLiterals.find(
+      (literal) => literal.subtype === 't'
+    );
+    if (gradeRoleTextLiteral) {
+      this.gradeRoleText = gradeRoleTextLiteral.desc;
+    }
+
+    const gradeRoleColLiterals = gradeRoleLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (gradeRoleColLiterals.length > 0) {
+      this.rolesCol = gradeRoleColLiterals.map((literal) => literal.desc);
+      this.rolesCol.unshift('Grade');
+      this.rolesCol.push('Total');
+    }
+
+    /* this.skillsService
       .getTableDetail('Pyramid Grade-Rol', 't')
       .subscribe((info) => {
         this.gradeRoleText = info[0].desc;
@@ -472,7 +622,7 @@ export class MaestroComponent implements OnInit {
         this.rolesCol = info.map((el) => el.desc);
         this.rolesCol.unshift('Grade');
         this.rolesCol.push('Total');
-      });
+      }); */
 
     this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
       let rolesSum = [0, 0, 0, 0, 0];
