@@ -88,16 +88,7 @@
     class="flex justify-content-between"
     style="margin-top: 0%; padding-top: 0%"
   >
-    <h4
-      *ngIf="titleScreenshotChip == 1"
-      style="
-        color: #ffffff;
-        background-color: #29abe2;
-        padding: 12px;
-        border-radius: 12px;
-        margin-top: 0px;
-      "
-    >
+    <h4 *ngIf="titleScreenshotChip == 1">
       Marcado como ScreenShot el
       {{ selectedReportNameModificationDate | date : "d/M/yy" }} por
       {{ selectedReportNameUserName }}
