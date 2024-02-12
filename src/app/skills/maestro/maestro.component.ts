@@ -142,6 +142,8 @@ export class MaestroComponent implements OnInit {
           this.screenshotEnabled = latestReport.screenshot !== 0;
           this.comentarios = latestReport.comentarios || '';
 
+          this.loadProfileAndGradesData(this.idVersion);
+
           this.initEM();
           this.initBA();
           this.initAR();
@@ -244,6 +246,8 @@ export class MaestroComponent implements OnInit {
         this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
 
+      this.loadProfileAndGradesData(this.idVersion);
+
       this.initEM();
       this.initBA();
       this.initAR();
@@ -329,6 +333,43 @@ export class MaestroComponent implements OnInit {
     );
   }
 
+  loadProfileAndGradesData(reportId): void {
+    this.skillsService.getProfileAndGradeTotals(reportId).subscribe(
+      (data: ProfilesAndGrades[]) => {
+        this.allProfilesAndGrades = data;
+        this.EMData = this.allProfilesAndGrades['engagementManagers'];
+        this.BAData = this.allProfilesAndGrades['businessAnalyst'];
+        this.ARData = this.allProfilesAndGrades['architects'];
+        let sum = [0, 0, 0];
+        this.ARData.forEach((el) => {
+          el.totals.forEach((t, i) => {
+            sum[i] += t;
+          });
+        });
+        this.ARData.push({
+          profile: 'Total',
+          totals: sum,
+        });
+        this.SEData = this.allProfilesAndGrades['softwareEngineer'];
+        this.IEData = this.allProfilesAndGrades['industryExperts'];
+        this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
+        this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
+        console.log(
+          'Datos para la versión ' + reportId + ':',
+          this.allProfilesAndGrades
+        );
+        this.gradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        console.log(this.gradesRoles);
+      },
+      (error) => {
+        console.error(
+          'Error al obtener los datos para la versión ' + reportId + ':',
+          error
+        );
+      }
+    );
+  }
+
   initEM() {
     if (!this.literals) {
       return;
@@ -361,18 +402,18 @@ export class MaestroComponent implements OnInit {
         this.EMCol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Engagement Managers', this.idVersion)
       .subscribe((data) => {
         this.EMData = data;
-      });
+      }); */
   }
 
   initBA() {
     if (!this.literals) {
       return;
     }
-    
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Business Analyst'
     );
@@ -400,14 +441,18 @@ export class MaestroComponent implements OnInit {
         this.BACol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Business Analyst', this.idVersion)
       .subscribe((data) => {
         this.BAData = data;
-      });
+      }); */
   }
 
   initAR() {
+    if (!this.literals) {
+      return;
+    }
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects'
     );
@@ -430,7 +475,7 @@ export class MaestroComponent implements OnInit {
       this.ARCol = info.map((el) => el.desc);
     }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Architects', this.idVersion)
       .subscribe((data) => {
         this.ARData = data;
@@ -444,10 +489,14 @@ export class MaestroComponent implements OnInit {
           profile: 'Total',
           totals: sum,
         });
-      });
+      }); */
   }
 
   initSE() {
+    if (!this.literals) {
+      return;
+    }
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Software Engineer'
     );
@@ -475,14 +524,18 @@ export class MaestroComponent implements OnInit {
         this.SECol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Software Engineer', this.idVersion)
       .subscribe((data) => {
         this.SEData = data;
-      });
+      }); */
   }
 
   initIE() {
+    if (!this.literals) {
+      return;
+    }
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Industry Experts'
     );
@@ -510,14 +563,18 @@ export class MaestroComponent implements OnInit {
         this.IECol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Industry Experts', this.idVersion)
       .subscribe((data) => {
         this.IEData = data;
-      });
+      }); */
   }
 
   initArSeDev() {
+    if (!this.literals) {
+      return;
+    }
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects & SE Custom Apps Development'
     );
@@ -545,17 +602,21 @@ export class MaestroComponent implements OnInit {
         this.ArSeDevCol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals(
         'Architects & SE Custom Apps Development',
         this.idVersion
       )
       .subscribe((data) => {
         this.ArSeDevData = data;
-      });
+      }); */
   }
 
   initArSeApi() {
+    if (!this.literals) {
+      return;
+    }
+
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects & SE Integration & APIs'
     );
@@ -582,14 +643,18 @@ export class MaestroComponent implements OnInit {
         this.ArSeApiCol = info.map((el) => el.desc);
       }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Architects & SE Integration & APIs', this.idVersion)
       .subscribe((data) => {
         this.ArSeApiData = data;
-      });
+      }); */
   }
 
   initPyramide() {
+    if (!this.literals) {
+      return;
+    }
+
     const gradeRoleLiterals = this.literals.filter(
       (literal) => literal.type === 'Pyramid Grade-Rol'
     );
