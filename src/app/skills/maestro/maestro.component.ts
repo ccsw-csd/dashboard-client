@@ -1,5 +1,5 @@
 import { Component, OnInit, Version } from '@angular/core';
-import { InformeTotal } from '../../core/interfaces/Capabilities';
+import { ColumnDetails, InformeTotal, ProfilesAndGrades } from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -88,6 +88,9 @@ export class MaestroComponent implements OnInit {
   disableYearDrop: boolean = true;
   disableVersionDrop: boolean = true;
   disableButtonSearch: boolean = true;
+
+  allProfilesAndGrades: ProfilesAndGrades[];
+  literals: ColumnDetails[];
 
   constructor(
     private skillsService: SkillsService,
