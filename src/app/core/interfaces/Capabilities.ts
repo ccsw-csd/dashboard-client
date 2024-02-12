@@ -20,3 +20,14 @@ export interface ColumnDetails {
   ord : number;
   desc : string;
 }
+
+export interface ProfilesAndGrades {
+  architects: InformeTotal[];
+  softwareEngineer: InformeTotal[];
+  industryExperts: InformeTotal[];
+  engagementManagers: InformeTotal[];
+  businessAnalyst: InformeTotal[];
+  architectsCustomApps: InformeTotal[];
+  architectsIntegration: InformeTotal[];
+  gradeTotal: GradesRole[];
+}

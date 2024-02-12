@@ -31,6 +31,14 @@ export class SkillsService {
     );
   }
 
+  getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    return this.http.get<ProfilesAndGrades[]>(
+      `${this.baseUrl}/profile/informeRoles`,
+      { params }
+    );
+  }
+
   getProfileTotals(
     profile: string,
     idReport: number
