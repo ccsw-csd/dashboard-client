@@ -8,6 +8,7 @@ import {
   GradesRole,
   InformeTotal,
   ColumnDetails,
+  ProfilesAndGrades,
 } from '../interfaces/Capabilities';
 import { Report } from '../interfaces/Report';
 
@@ -29,6 +30,10 @@ export class SkillsService {
       `${this.baseUrl}/grade-role/gradetotals`,
       { params }
     );
+  }
+
+  getAllLiterals(): Observable<ColumnDetails[]> {
+    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config`);
   }
 
   getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
