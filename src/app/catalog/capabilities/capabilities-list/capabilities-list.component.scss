@@ -19,6 +19,7 @@
 }
 
 .numRegistros {
+<<<<<<< HEAD
   min-width: 240px;
   max-width: 240px;
 }
@@ -26,6 +27,15 @@
 .usuario {
   min-width: 140px;
   max-width: 140px;
+=======
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.usuario {
+  min-width: 240px;
+  max-width: 240px;
+>>>>>>> sprint_8_test
 }
 
 .nombreFichero {

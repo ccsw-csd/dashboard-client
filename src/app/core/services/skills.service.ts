@@ -8,6 +8,7 @@ import {
   GradesRole,
   InformeTotal,
   ColumnDetails,
+  ProfilesAndGrades,
 } from '../interfaces/Capabilities';
 import { Report } from '../interfaces/Report';
 
@@ -31,7 +32,43 @@ export class SkillsService {
     );
   }
 
-  getProfileTotals(
+  getAllLiterals(): Observable<ColumnDetails[]> {
+    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config`).pipe(
+      catchError((error) => {
+        console.error('Ocurrió un error al obtener los literales:', error);
+        return throwError('Error al cargar los literales. Por favor, inténtalo de nuevo más tarde.');
+      })
+    );
+  }
+
+  getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
+    const params = new HttpParams().set('idReport', idReport.toString());
+    return this.http.get<ProfilesAndGrades[]>(
+      `${this.baseUrl}/profile/informeRoles`,
+      { params }
+    );
+  }
+
+  getYearsByScreenshot(screenshot?: number): Observable<string[]> {
+    let params = new HttpParams();
+    if (screenshot) {
+      params = params.set('screenshot', screenshot.toString());
+    }
+    return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`, {
+      params,
+    });
+  }
+
+  getReportByScreenshotAndYear(year: string, screenshot?: string): Observable<Report[]> {
+    let params = new HttpParams();
+    if (year) {
+      params = params.set('year', year);
+    }
+    const url = screenshot ? `${this.baseUrl}/reportimports/screenshot/${screenshot}` : `${this.baseUrl}/screenshot`;
+    return this.http.get<Report[]>(url, { params: params });
+  }
+
+  /* getProfileTotals(
     profile: string,
     idReport: number
   ): Observable<InformeTotal[]> {
@@ -40,16 +77,16 @@ export class SkillsService {
       `${this.baseUrl}/profile/profiletotals/${profile}`,
       { params }
     );
-  }
+  } */
 
-  getTableDetail(
+  /* getTableDetail(
     profile: string,
     infoType: string
   ): Observable<ColumnDetails[]> {
     return this.http.get<ColumnDetails[]>(
       `${this.baseUrl}/literal/config/${profile}/${infoType}`
     );
-  }
+  } */
 
   sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {
     const params = new HttpParams().set('idReport', idReport.toString());
