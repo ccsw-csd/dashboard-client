@@ -1,6 +1,7 @@
 import { Component, OnInit, Version } from '@angular/core';
 import {
   ColumnDetails,
+  GradesRole,
   InformeTotal,
   ProfilesAndGrades,
 } from '../../core/interfaces/Capabilities';
@@ -94,6 +95,7 @@ export class MaestroComponent implements OnInit {
   disableButtonSearch: boolean = true;
 
   allProfilesAndGrades: ProfilesAndGrades[];
+  dataGradesRoles: GradesRole[];
   literals: ColumnDetails[];
 
   constructor(
@@ -358,8 +360,26 @@ export class MaestroComponent implements OnInit {
           'Datos para la versión ' + reportId + ':',
           this.allProfilesAndGrades
         );
-        this.gradesRoles = this.allProfilesAndGrades['gradeTotal'];
-        console.log(this.gradesRoles);
+        /* this.gradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        console.log(this.gradesRoles.length); */
+
+        this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        let rolesSum = [0, 0, 0, 0, 0];
+        this.gradesRoles = this.dataGradesRoles.map((elem) => {
+          let lineSum: number = 0;
+          elem.totals.forEach((nb, index) => {
+            lineSum += nb;
+            rolesSum[index] += nb;
+          });
+          rolesSum[elem.totals.length] += lineSum;
+          elem.totals.push(lineSum);
+          return { profile: elem.grade, totals: elem.totals };
+        });
+        this.gradesRoles.push({
+          profile: 'Sum',
+          totals: rolesSum,
+        });
+        this.load = true;
       },
       (error) => {
         console.error(
@@ -689,7 +709,7 @@ export class MaestroComponent implements OnInit {
         this.rolesCol.push('Total');
       }); */
 
-    this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
+    /* this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
       let rolesSum = [0, 0, 0, 0, 0];
       this.gradesRoles = data.map((elem) => {
         let lineSum: number = 0;
@@ -706,7 +726,7 @@ export class MaestroComponent implements OnInit {
         totals: rolesSum,
       });
       this.load = true;
-    });
+    }); */
   }
 
   formatTable(data, cols): any {

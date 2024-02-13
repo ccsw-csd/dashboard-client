@@ -44,7 +44,7 @@ export class SkillsService {
     );
   }
 
-  getProfileTotals(
+  /* getProfileTotals(
     profile: string,
     idReport: number
   ): Observable<InformeTotal[]> {
@@ -53,16 +53,16 @@ export class SkillsService {
       `${this.baseUrl}/profile/profiletotals/${profile}`,
       { params }
     );
-  }
+  } */
 
-  getTableDetail(
+  /* getTableDetail(
     profile: string,
     infoType: string
   ): Observable<ColumnDetails[]> {
     return this.http.get<ColumnDetails[]>(
       `${this.baseUrl}/literal/config/${profile}/${infoType}`
     );
-  }
+  } */
 
   sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {
     const params = new HttpParams().set('idReport', idReport.toString());
