@@ -51,6 +51,7 @@
   [paginator]="false"
   sortField="id"
   [sortOrder]="-1"
+  [(filters)]="defaultFilters"
   (onFilter)="onFilter($event)"
   [columns]="selectedColumnNames"
   [reorderableColumns]="true"

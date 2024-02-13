@@ -30,6 +30,7 @@ import { Dropdown } from 'primeng/dropdown';
 })
 export class CapabilitiesListComponent implements OnInit {
   @ViewChild(Table) table: Table;
+  @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
 
   columnNames: any[];
   selectedColumnNames: any[];
