@@ -11,7 +11,7 @@
     >
       <ng-template pTemplate="header">
         <tr *ngIf="extraHeader" class="h-4rem text-base font-italic">
-          <th style="background: white; width: 260px" class="flex-none"></th>
+          <th style="background: white; width: 240px" class="flex-none"></th>
           <th style="width: 640px" class="flex-none">
             Custom apps development (only pick one/pers)
           </th>
@@ -28,7 +28,7 @@
             *ngFor="let col of columnas; index as index"
             id="index"
             class="flex-none"
-            [ngStyle]="{ width: index == 0 ? '180px' : '80px' }"
+            [ngStyle]="{ width: index == 0 ? '160px' : '80px' }"
           >
             {{ col }}
           </th>
@@ -39,7 +39,7 @@
         <tr>
           <td
             [ngStyle]="{ 'font-weight': isTotal(fila.profile) ? '600' : '' }"
-            style="width: 180px; text-align: center"
+            style="width: 160px; text-align: center"
             class="flex-none;"
           >
             {{ fila.profile }}

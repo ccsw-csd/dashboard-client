@@ -107,6 +107,8 @@ export class MaestroComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadAllLiterals();
+
     this.items = [
       {
         label: 'Export totales',
@@ -120,12 +122,14 @@ export class MaestroComponent implements OnInit {
       },
     ];
 
-    this.loadAllLiterals();
-
     this.loadScreenshotOptions();
 
-    this.userName = this.authService.userInfoSSO.displayName;
+    this.loadAllReports();
 
+    this.userName = this.authService.userInfoSSO.displayName;
+  }
+
+  loadAllReports() {
     this.skillsService.getAllReports().subscribe(
       (data) => {
         console.log('Todos los informes:', data);
@@ -185,20 +189,22 @@ export class MaestroComponent implements OnInit {
   }
 
   loadReportVersionsByYear(selectedReportYear: string | undefined) {
-    const year = selectedReportYear !== undefined ? selectedReportYear : 'undefined';
-    const screenshot = this.screenshotValue !== undefined ? this.screenshotValue.toString() : 'undefined';
-  
-    this.skillsService
-      .getReportByScreenshotAndYear(year, screenshot)
-      .subscribe(
-        (data) => {
-          console.log('Versiones disponibles:', data);
-          this.reportVersions = data;
-        },
-        (error) => {
-          console.error('Error al obtener las versiones de reportImports', error);
-        }
-      );
+    const year =
+      selectedReportYear !== undefined ? selectedReportYear : 'undefined';
+    const screenshot =
+      this.screenshotValue !== undefined
+        ? this.screenshotValue.toString()
+        : 'undefined';
+
+    this.skillsService.getReportByScreenshotAndYear(year, screenshot).subscribe(
+      (data) => {
+        console.log('Versiones disponibles:', data);
+        this.reportVersions = data;
+      },
+      (error) => {
+        console.error('Error al obtener las versiones de reportImports', error);
+      }
+    );
   }
 
   /* loadReportYears() {
@@ -360,6 +366,8 @@ export class MaestroComponent implements OnInit {
     this.skillsService.getAllLiterals().subscribe(
       (data: ColumnDetails[]) => {
         this.literals = data;
+        console.log('Cargados literales');
+        console.log(this.literals);
       },
       (error) => {
         console.error('Error al obtener los literales:', error);
@@ -423,8 +431,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initEM() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -462,8 +470,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initBA() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -501,8 +509,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initAR() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -545,8 +553,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initSE() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -584,8 +592,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initIE() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -623,8 +631,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeDev() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -665,8 +673,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeApi() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const emLiterals = this.literals.filter(
@@ -703,8 +711,8 @@ export class MaestroComponent implements OnInit {
   }
 
   initPyramide() {
-    if (!this.literals) {
-      return;
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
     }
 
     const gradeRoleLiterals = this.literals.filter(
