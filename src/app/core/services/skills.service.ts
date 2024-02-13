@@ -44,6 +44,25 @@ export class SkillsService {
     );
   }
 
+  getYearsByScreenshot(screenshot?: number): Observable<string[]> {
+    let params = new HttpParams();
+    if (screenshot) {
+      params = params.set('screenshot', screenshot.toString());
+    }
+    return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`, {
+      params,
+    });
+  }
+
+  getReportByScreenshotAndYear(year: string, screenshot?: string): Observable<Report[]> {
+    let params = new HttpParams();
+    if (year) {
+      params = params.set('year', year);
+    }
+    const url = screenshot ? `${this.baseUrl}/reportimports/screenshot/${screenshot}` : `${this.baseUrl}/screenshot`;
+    return this.http.get<Report[]>(url, { params: params });
+  }
+
   /* getProfileTotals(
     profile: string,
     idReport: number

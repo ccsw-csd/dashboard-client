@@ -80,6 +80,7 @@ export class MaestroComponent implements OnInit {
   reportVersions: Report[];
 
   screenshotsOptions: Screenshot[];
+  screenshotValue: number | undefined;
   selectedScreenshotOption: Screenshot;
 
   screenshotEnabled: boolean;
@@ -119,11 +120,11 @@ export class MaestroComponent implements OnInit {
       },
     ];
 
-    this.loadInitialDropdownData();
+    this.loadAllLiterals();
+
+    this.loadScreenshotOptions();
 
     this.userName = this.authService.userInfoSSO.displayName;
-
-    this.loadAllLiterals();
 
     this.skillsService.getAllReports().subscribe(
       (data) => {
@@ -172,7 +173,7 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  loadInitialDropdownData() {
+  loadScreenshotOptions() {
     // Cargar opciones de screenshot
     this.screenshotsOptions = [
       { name: 'Sí' },
@@ -180,28 +181,48 @@ export class MaestroComponent implements OnInit {
       { name: 'Todas' },
     ];
 
-    this.loadReportYears();
+    //this.loadReportYears();
   }
 
-  loadReportVersionsByYear(selectedReportYear) {
+  loadReportVersionsByYear(selectedReportYear: string | undefined) {
+    const year = selectedReportYear !== undefined ? selectedReportYear : 'undefined';
+    const screenshot = this.screenshotValue !== undefined ? this.screenshotValue.toString() : 'undefined';
+  
     this.skillsService
-      .getReportImportsVersionsByYear(selectedReportYear)
+      .getReportByScreenshotAndYear(year, screenshot)
       .subscribe(
         (data) => {
           console.log('Versiones disponibles:', data);
           this.reportVersions = data;
         },
         (error) => {
-          console.error(
-            'Error al obtener las versiones de reportImports',
-            error
-          );
+          console.error('Error al obtener las versiones de reportImports', error);
         }
       );
   }
 
-  loadReportYears() {
+  /* loadReportYears() {
     this.skillsService.getReportImportsAvailableYears().subscribe(
+      (data) => {
+        console.log('Años disponibles:', data);
+        this.reportYears = data;
+      },
+      (error) => {
+        console.error('Error al obtener los años de reportImports', error);
+      }
+    );
+  } */
+
+  loadReportYears(screenshotOption?: string) {
+    if (screenshotOption === 'No') {
+      this.screenshotValue = 0;
+    } else if (screenshotOption === 'Sí') {
+      this.screenshotValue = 1;
+    } else if (screenshotOption === 'Todas') {
+      this.screenshotValue = undefined;
+    }
+
+    this.skillsService.getYearsByScreenshot(this.screenshotValue).subscribe(
       (data) => {
         console.log('Años disponibles:', data);
         this.reportYears = data;
@@ -213,8 +234,19 @@ export class MaestroComponent implements OnInit {
   }
 
   onScreenshotChange() {
-    console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
-    this.loadReportYears();
+    let screenshotOption: string | undefined;
+
+    if (this.selectedScreenshotOption) {
+      screenshotOption = this.selectedScreenshotOption.name;
+    }
+    if (screenshotOption === 'No') {
+      this.screenshotValue = 0;
+    } else if (screenshotOption === 'Sí') {
+      this.screenshotValue = 1;
+    } else if (screenshotOption === 'Todas') {
+      this.screenshotValue = undefined;
+    }
+    this.loadReportYears(screenshotOption);
     this.disableYearDrop = false;
   }
 
