@@ -33,7 +33,12 @@ export class SkillsService {
   }
 
   getAllLiterals(): Observable<ColumnDetails[]> {
-    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config`);
+    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config`).pipe(
+      catchError((error) => {
+        console.error('Ocurrió un error al obtener los literales:', error);
+        return throwError('Error al cargar los literales. Por favor, inténtalo de nuevo más tarde.');
+      })
+    );
   }
 
   getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
