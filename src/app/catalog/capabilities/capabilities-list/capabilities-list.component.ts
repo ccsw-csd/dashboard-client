@@ -99,11 +99,7 @@ export class CapabilitiesListComponent implements OnInit {
     this.capabilitiesService
       .getAllRoleImportsVersions()
       .subscribe((capabilities) => {
-<<<<<<< HEAD
-        console.log(capabilities);
-=======
         //console.log(capabilities);
->>>>>>> sprint_8_test
         this.capabilities = capabilities;
         this.totalCapabilities = capabilities.length;
         this.setDefaultFilters();

@@ -8,43 +8,35 @@ import packageInfo from '../../../../../../package.json';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-
   frontVersion: string = packageInfo.version;
-  backVersion: string = "1.0.0";
+  backVersion: string = '1.0.0';
   items: MenuItem[];
 
   constructor(
     public authService: AuthService,
     public dialogService: DialogService,
     public utilsService: UtilsService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     this.items = [
-      { label: "Dashboard", routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
       {
-        label: "Catálogo Versiones",
+        label: 'Catálogo Versiones',
         expanded: false,
         visible: this.authService.hasRole('DASHBOARD'),
         items: [
-<<<<<<< HEAD
-          { label: "Lista de Roles", routerLink: '/capabilities' },
-          { label: "Lista de Staffing", routerLink: '/staffing' }
-=======
-          { label: "Lista Roles", routerLink: '/capabilities' },
-          { label: "Lista Staffing", routerLink: '/staffing' }
->>>>>>> sprint_8_test
-        ]
-      }
+          { label: 'Lista Roles', routerLink: '/capabilities' },
+          { label: 'Lista Staffing', routerLink: '/staffing' },
+        ],
+      },
     ];
 
     this.utilsService.getAppVersion().subscribe((result: any) => {
       this.backVersion = result.version;
     });
   }
-
 }
