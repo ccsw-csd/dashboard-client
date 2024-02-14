@@ -25,12 +25,12 @@ export class NavComponent implements OnInit {
     this.items = [
       { label: 'Dashboard', routerLink: '/dashboard' },
       {
-        label: 'Catálogo Versiones',
+        label: 'Listados',
         expanded: false,
         visible: this.authService.hasRole('DASHBOARD'),
         items: [
-          { label: 'Lista Roles', routerLink: '/capabilities' },
-          { label: 'Lista Staffing', routerLink: '/staffing' },
+          { label: 'Roles', routerLink: '/capabilities' },
+          { label: 'Staffing', routerLink: '/staffing' },
         ],
       },
     ];

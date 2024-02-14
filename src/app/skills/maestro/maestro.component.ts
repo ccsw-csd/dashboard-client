@@ -184,8 +184,6 @@ export class MaestroComponent implements OnInit {
       { name: 'No' },
       { name: 'Todas' },
     ];
-
-    //this.loadReportYears();
   }
 
   loadReportVersionsByYear(selectedReportYear: string | undefined) {
@@ -592,7 +590,7 @@ export class MaestroComponent implements OnInit {
   }
 
   initIE() {
-    if (!this.literals || this.literals == undefined) {
+    if (!this.literals || this.literals['id'] == undefined) {
       this.loadAllLiterals();
     }
 
