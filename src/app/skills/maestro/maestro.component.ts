@@ -179,23 +179,38 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  loadReportVersionsByYear(selectedReportYear: string | undefined) {
+  loadReportVersionsByYear(
+    selectedReportYear: string,
+    selectedScreenshotOption: Screenshot
+  ) {
     const year = selectedReportYear;
-    const screenshot = this.screenshotValue !== undefined ? this.screenshotValue.toString() : 'all';
-  
-    this.skillsService.getReportByScreenshotAndYear(year, screenshot).subscribe(
-      (data) => {
-        console.log('Versiones disponibles:', data);
-        this.reportVersions = data;
-      },
-      (error) => {
-        console.error('Error al obtener las versiones de reportImports', error);
-      }
-    );
+    const screenshot = selectedScreenshotOption;
+    if (this.selectedScreenshot.name === 'No') {
+      this.screenshotValue = '0';
+    } else if (this.selectedScreenshot.name === 'Sí') {
+      this.screenshotValue = '1';
+    } else if (this.selectedScreenshot.name === 'Todas') {
+      this.screenshotValue = 'all';
+    }
+
+    this.skillsService
+      .getReportByScreenshotAndYear(year, this.screenshotValue)
+      .subscribe(
+        (data) => {
+          console.log('Versiones disponibles:', data);
+          this.reportVersions = data;
+        },
+        (error) => {
+          console.error(
+            'Error al obtener las versiones de reportImports',
+            error
+          );
+        }
+      );
   }
 
   loadReportYears(screenshotValue: string) {
-    this.skillsService.getYearsByScreenshot(this.screenshotValue).subscribe(
+    this.skillsService.getYearsByScreenshot(screenshotValue).subscribe(
       (data) => {
         console.log('Años disponibles:', data);
         this.reportYears = data;
@@ -221,7 +236,10 @@ export class MaestroComponent implements OnInit {
 
   onYearChange() {
     console.log('Año seleccionado:', this.selectedReportYear);
-    this.loadReportVersionsByYear(this.selectedReportYear);
+    this.loadReportVersionsByYear(
+      this.selectedReportYear,
+      this.selectedScreenshotOption
+    );
     this.disableVersionDrop = false;
   }
 
