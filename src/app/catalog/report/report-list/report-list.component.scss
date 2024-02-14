@@ -1,0 +1,65 @@
+.id {
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.idVersionCapacidades {
+  min-width: 190px;
+  max-width: 190px;
+}
+
+.idVersionStaffing {
+  min-width: 190px;
+  max-width: 190px;
+}
+
+.screenshot {
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.fechaImportacion {
+  min-width: 180px;
+  max-width: 180px;
+}
+
+.descripcion {
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.usuario {
+  min-width: 240px;
+  max-width: 240px;
+}
+
+.fechaModificacion {
+  min-width: 180px;
+  max-width: 180px;
+}
+
+.comentarios {
+  min-width: 340px;
+  display: flex;
+}
+
+/* Clases adicionales */
+.parents {
+  min-width: 140px;
+  max-width: 200px;
+}
+
+.center {
+  min-width: 115px;
+  max-width: 115px;
+}
+
+.buttons {
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
+}
