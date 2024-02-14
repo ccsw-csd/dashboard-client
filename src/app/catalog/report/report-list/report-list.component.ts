@@ -43,13 +43,13 @@ export class ReportListComponent {
         filterType: 'input',
       },
       {
-        header: 'ID Versión Capacidades',
+        header: 'Id Capacidades',
         composeField: 'idVersionCapacidades',
         field: 'idVersionCapacidades',
         filterType: 'input',
       },
       {
-        header: 'ID Versión Staffing',
+        header: 'Id Staffing',
         composeField: 'idVersionStaffing',
         field: 'idVersionStaffing',
         filterType: 'input',

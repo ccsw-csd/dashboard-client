@@ -12,9 +12,9 @@
     <div class="pl-3">
       <i class="pi pi-file text-xl text-primary"></i>
     </div>
-    <div class="flex flex-row align-items-center gap-1 text-sm">
+    <div class="flex flex-row align-items-center gap-1 text-sm w-20">
       <p>{{ totalReports }}</p>
-      Modelos de Capaciadades
+      Modelos de Informes
     </div>
   </div>
   <div>
@@ -199,9 +199,14 @@
           <ng-container *ngIf="col.field === 'fechaModificacion'">
             {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
+          <ng-container *ngIf="col.field === 'screenshot'">
+            {{ report[col.field] === 1 ? "SI" : "NO" }}
+          </ng-container>
           <ng-container
             *ngIf="
-              col.field !== 'fechaImportacion' && col.field !== 'fechaModificacion'
+              col.field !== 'fechaImportacion' &&
+              col.field !== 'fechaModificacion' &&
+              col.field !== 'screenshot'
             "
           >
             {{ report[col.field] }}
