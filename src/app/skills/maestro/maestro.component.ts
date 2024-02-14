@@ -180,13 +180,9 @@ export class MaestroComponent implements OnInit {
   }
 
   loadReportVersionsByYear(selectedReportYear: string | undefined) {
-    const year =
-      selectedReportYear !== undefined ? selectedReportYear : 'undefined';
-    const screenshot =
-      this.screenshotValue !== undefined
-        ? this.screenshotValue.toString()
-        : 'undefined';
-
+    const year = selectedReportYear;
+    const screenshot = this.screenshotValue !== undefined ? this.screenshotValue.toString() : 'all';
+  
     this.skillsService.getReportByScreenshotAndYear(year, screenshot).subscribe(
       (data) => {
         console.log('Versiones disponibles:', data);

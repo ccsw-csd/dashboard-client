@@ -64,15 +64,18 @@ export class SkillsService {
 
   getReportByScreenshotAndYear(
     year: string,
-    screenshot?: string
+    screenshot: string = 'all'
   ): Observable<Report[]> {
     let params = new HttpParams();
     if (year) {
       params = params.set('year', year);
     }
-    const url = screenshot
-      ? `${this.baseUrl}/reportimports/screenshot/${screenshot}`
-      : `${this.baseUrl}/screenshot`;
+    let url: string;
+    if (screenshot === 'all') {
+      url = `${this.baseUrl}/reportimports/screenshot/all`;
+    } else {
+      url = `${this.baseUrl}/reportimports/screenshot/${screenshot}`;
+    }
     return this.http.get<Report[]>(url, { params: params });
   }
 
