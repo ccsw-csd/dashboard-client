@@ -79,15 +79,19 @@ export class MaestroComponent implements OnInit {
   reportYears: string[];
   reportVersions: Report[];
 
-  screenshotsOptions: Screenshot[];
-  screenshotValue: number | undefined;
+  screenshotsOptions: Screenshot[] = [
+    { name: 'Sí' },
+    { name: 'No' },
+    { name: 'Todas' },
+  ];
+  screenshotValue: string;
   selectedScreenshotOption: Screenshot;
 
   screenshotEnabled: boolean;
   hasScreenshotChanged: boolean;
   comentarios: string;
 
-  selectedScreenshot: string;
+  selectedScreenshot: Screenshot;
   selectedReportYear: string;
   selectedReportVersion: Report;
 
@@ -121,8 +125,6 @@ export class MaestroComponent implements OnInit {
         command: () => this.showDialog(),
       },
     ];
-
-    this.loadScreenshotOptions();
 
     this.loadAllReports();
 
@@ -177,15 +179,6 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  loadScreenshotOptions() {
-    // Cargar opciones de screenshot
-    this.screenshotsOptions = [
-      { name: 'Sí' },
-      { name: 'No' },
-      { name: 'Todas' },
-    ];
-  }
-
   loadReportVersionsByYear(selectedReportYear: string | undefined) {
     const year =
       selectedReportYear !== undefined ? selectedReportYear : 'undefined';
@@ -205,27 +198,7 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  /* loadReportYears() {
-    this.skillsService.getReportImportsAvailableYears().subscribe(
-      (data) => {
-        console.log('Años disponibles:', data);
-        this.reportYears = data;
-      },
-      (error) => {
-        console.error('Error al obtener los años de reportImports', error);
-      }
-    );
-  } */
-
-  loadReportYears(screenshotOption?: string) {
-    if (screenshotOption === 'No') {
-      this.screenshotValue = 0;
-    } else if (screenshotOption === 'Sí') {
-      this.screenshotValue = 1;
-    } else if (screenshotOption === 'Todas') {
-      this.screenshotValue = undefined;
-    }
-
+  loadReportYears(screenshotValue: string) {
     this.skillsService.getYearsByScreenshot(this.screenshotValue).subscribe(
       (data) => {
         console.log('Años disponibles:', data);
@@ -238,19 +211,15 @@ export class MaestroComponent implements OnInit {
   }
 
   onScreenshotChange() {
-    let screenshotOption: string | undefined;
-
-    if (this.selectedScreenshotOption) {
-      screenshotOption = this.selectedScreenshotOption.name;
+    if (this.selectedScreenshot.name === 'No') {
+      this.screenshotValue = '0';
+    } else if (this.selectedScreenshot.name === 'Sí') {
+      this.screenshotValue = '1';
+    } else if (this.selectedScreenshot.name === 'Todas') {
+      this.screenshotValue = '';
     }
-    if (screenshotOption === 'No') {
-      this.screenshotValue = 0;
-    } else if (screenshotOption === 'Sí') {
-      this.screenshotValue = 1;
-    } else if (screenshotOption === 'Todas') {
-      this.screenshotValue = undefined;
-    }
-    this.loadReportYears(screenshotOption);
+    console.log('Valor de screenshot:', this.screenshotValue);
+    this.loadReportYears(this.screenshotValue.toString());
     this.disableYearDrop = false;
   }
 
@@ -429,10 +398,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initEM() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Engagement Managers'
     );
@@ -468,10 +433,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initBA() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Business Analyst'
     );
@@ -551,10 +512,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initSE() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Software Engineer'
     );
@@ -590,10 +547,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initIE() {
-    if (!this.literals || this.literals['id'] == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Industry Experts'
     );
@@ -629,10 +582,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeDev() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects & SE Custom Apps Development'
     );
@@ -671,10 +620,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initArSeApi() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects & SE Integration & APIs'
     );
@@ -709,10 +654,6 @@ export class MaestroComponent implements OnInit {
   }
 
   initPyramide() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const gradeRoleLiterals = this.literals.filter(
       (literal) => literal.type === 'Pyramid Grade-Rol'
     );

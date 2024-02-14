@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 import {
   Role,
   GradesRole,
-  InformeTotal,
   ColumnDetails,
   ProfilesAndGrades,
 } from '../interfaces/Capabilities';
@@ -33,12 +32,16 @@ export class SkillsService {
   }
 
   getAllLiterals(): Observable<ColumnDetails[]> {
-    return this.http.get<ColumnDetails[]>(`${this.baseUrl}/literal/config`).pipe(
-      catchError((error) => {
-        console.error('Ocurrió un error al obtener los literales:', error);
-        return throwError('Error al cargar los literales. Por favor, inténtalo de nuevo más tarde.');
-      })
-    );
+    return this.http
+      .get<ColumnDetails[]>(`${this.baseUrl}/literal/config`)
+      .pipe(
+        catchError((error) => {
+          console.error('Ocurrió un error al obtener los literales:', error);
+          return throwError(
+            'Error al cargar los literales. Por favor, inténtalo de nuevo más tarde.'
+          );
+        })
+      );
   }
 
   getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
@@ -49,44 +52,29 @@ export class SkillsService {
     );
   }
 
-  getYearsByScreenshot(screenshot?: number): Observable<string[]> {
+  getYearsByScreenshot(screenshot?: string): Observable<string[]> {
     let params = new HttpParams();
-    if (screenshot) {
-      params = params.set('screenshot', screenshot.toString());
+    if (screenshot !== '') {
+      params = params.set('screenshot', screenshot);
     }
     return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`, {
       params,
     });
   }
 
-  getReportByScreenshotAndYear(year: string, screenshot?: string): Observable<Report[]> {
+  getReportByScreenshotAndYear(
+    year: string,
+    screenshot?: string
+  ): Observable<Report[]> {
     let params = new HttpParams();
     if (year) {
       params = params.set('year', year);
     }
-    const url = screenshot ? `${this.baseUrl}/reportimports/screenshot/${screenshot}` : `${this.baseUrl}/screenshot`;
+    const url = screenshot
+      ? `${this.baseUrl}/reportimports/screenshot/${screenshot}`
+      : `${this.baseUrl}/screenshot`;
     return this.http.get<Report[]>(url, { params: params });
   }
-
-  /* getProfileTotals(
-    profile: string,
-    idReport: number
-  ): Observable<InformeTotal[]> {
-    const params = new HttpParams().set('idReport', idReport.toString());
-    return this.http.get<InformeTotal[]>(
-      `${this.baseUrl}/profile/profiletotals/${profile}`,
-      { params }
-    );
-  } */
-
-  /* getTableDetail(
-    profile: string,
-    infoType: string
-  ): Observable<ColumnDetails[]> {
-    return this.http.get<ColumnDetails[]>(
-      `${this.baseUrl}/literal/config/${profile}/${infoType}`
-    );
-  } */
 
   sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {
     const params = new HttpParams().set('idReport', idReport.toString());
