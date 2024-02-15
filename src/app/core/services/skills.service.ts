@@ -68,13 +68,11 @@ export class SkillsService {
   ): Observable<Report[]> {
     let params = new HttpParams().set('year', year);
     let url: string;
-
     if (screenshot === 'all' || screenshot === '0' || screenshot === '1') {
       url = `${this.baseUrl}/reportimports/screenshot/${screenshot}`;
     } else {
       throw new Error("El valor de 'screenshot' debe ser 'all', 0 o 1.");
     }
-
     return this.http.get<Report[]>(url, { params: params });
   }
 

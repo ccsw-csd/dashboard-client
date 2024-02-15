@@ -248,7 +248,7 @@ export class MaestroComponent implements OnInit {
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
       this.selectedReportModificationDate =
-        this.selectedReportVersion.fechaModificacion;
+      this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
 
       this.loadProfileAndGradesData(this.idReport);
@@ -465,6 +465,7 @@ export class MaestroComponent implements OnInit {
 
     /* this.skillsService
       .getProfileTotals('Business Analyst', this.idReport)
+
       .subscribe((data) => {
         this.BAData = data;
       }); */
@@ -495,6 +496,7 @@ export class MaestroComponent implements OnInit {
 
     /* this.skillsService
       .getProfileTotals('Architects', this.idReport)
+
       .subscribe((data) => {
         this.ARData = data;
         let sum = [0, 0, 0];
@@ -575,6 +577,7 @@ export class MaestroComponent implements OnInit {
 
     /* this.skillsService
       .getProfileTotals('Industry Experts', this.idReport)
+
       .subscribe((data) => {
         this.IEData = data;
       }); */
@@ -647,6 +650,7 @@ export class MaestroComponent implements OnInit {
 
     /* this.skillsService
       .getProfileTotals('Architects & SE Integration & APIs', this.idReport)
+
       .subscribe((data) => {
         this.ArSeApiData = data;
       }); */
