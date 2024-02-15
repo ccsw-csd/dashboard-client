@@ -18,11 +18,11 @@
         <p-dropdown
           [options]="screenshotsOptions"
           class="m-2"
-          [style]="{ width: '210px' }"
+          [style]="{ width: '140px' }"
           [(ngModel)]="selectedScreenshot"
           optionLabel="name"
           [showClear]="false"
-          placeholder="Versión Screenshot"
+          placeholder="Screenshot"
           (onChange)="onScreenshotChange()"
           title="Screenshot"
         >
@@ -33,10 +33,10 @@
         <p-dropdown
           [options]="reportYears"
           class="m-1"
-          [style]="{ width: '210px' }"
+          [style]="{ width: '120px' }"
           [(ngModel)]="selectedReportYear"
           [showClear]="false"
-          placeholder="Seleccione un Año"
+          placeholder="Año"
           (onChange)="onYearChange()"
           [disabled]="disableYearDrop"
           title="Año disponible"
@@ -48,7 +48,7 @@
         <p-dropdown
           [options]="reportVersions"
           class="m-2"
-          [style]="{ width: '340px' }"
+          [style]="{ width: '240px' }"
           [(ngModel)]="selectedReportVersion"
           optionLabel="descripcion"
           [showClear]="false"
