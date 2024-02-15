@@ -15,9 +15,14 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { ReportListComponent } from './report/report-list/report-list.component';
 
 @NgModule({
-  declarations: [CapabilitiesListComponent, StaffingListComponent],
+  declarations: [
+    CapabilitiesListComponent,
+    StaffingListComponent,
+    ReportListComponent,
+  ],
   imports: [
     CommonModule,
     TableModule,

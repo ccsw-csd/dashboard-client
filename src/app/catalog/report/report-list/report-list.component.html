@@ -1,6 +1,6 @@
 <div class="flex flex-row justify-content-between">
   <div class="flex justify-content-start">
-    <h3 class="p-0 m-0 mb-2">Lista de Archivos de Roles</h3>
+    <h3 class="p-0 m-0 mb-2">Lista de Archivos de Modelo de Capacidades</h3>
   </div>
 </div>
 
@@ -12,9 +12,9 @@
     <div class="pl-3">
       <i class="pi pi-file text-xl text-primary"></i>
     </div>
-    <div class="flex flex-row align-items-center gap-1 text-sm">
-      <p>{{ totalCapabilities }}</p>
-      Archivos de Roles
+    <div class="flex flex-row align-items-center gap-1 text-sm w-20">
+      <p>{{ totalReports }}</p>
+      Modelos de Informes
     </div>
   </div>
   <div>
@@ -46,7 +46,7 @@
   [scrollable]="true"
   scrollHeight="flex"
   selectionMode="single"
-  [value]="capabilities"
+  [value]="reports"
   styleClass="p-datatable-striped "
   [paginator]="false"
   sortField="id"
@@ -184,36 +184,41 @@
       </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-capability let-columns="columns">
-    <tr [pSelectableRow]="capability">
+  <ng-template pTemplate="body" let-report let-columns="columns">
+    <tr [pSelectableRow]="report">
       <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ capability[col.field] }}"
+          pTooltip="{{ report[col.field] }}"
           tooltipPosition="top"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
-            {{ capability[col.field] | date : "dd/MM/yyyy" }}
+            {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{ capability[col.field] === 2 ? "Roles" : capability[col.field] }}
+          <ng-container *ngIf="col.field === 'fechaModificacion'">
+            {{ report[col.field] | date : "dd/MM/yyyy" }}
+          </ng-container>
+          <ng-container *ngIf="col.field === 'screenshot'">
+            {{ report[col.field] === 1 ? "SI" : "NO" }}
           </ng-container>
           <ng-container
             *ngIf="
-              col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
+              col.field !== 'fechaImportacion' &&
+              col.field !== 'fechaModificacion' &&
+              col.field !== 'screenshot'
             "
           >
-            {{ capability[col.field] }}
+            {{ report[col.field] }}
           </ng-container>
         </div>
         <div
           *ngIf="col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{capability[col.field]?.[col.fieldExtra]}}"
+          pTooltip="{{report[col.field]?.[col.fieldExtra]}}"
           tooltipPosition="top"
         >
-          {{capability[col.field]?.[col.fieldExtra]}}
+          {{ report[col.field]?.[col.fieldExtra] }}
         </div>
         <div
           *ngIf="col.parse"
@@ -221,7 +226,7 @@
           pTooltip="{{ col.parse(person[col.field]) }}"
           tooltipPosition="top"
         >
-          {{ col.parse(capability[col.field]) }}
+          {{ col.parse(report[col.field]) }}
         </div>
       </td>
     </tr>

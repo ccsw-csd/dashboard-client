@@ -2,6 +2,9 @@
   font-size: 14px;
   border: 1px solid #babfc7;
   background: #F8F8F8;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 
   p {
     width: 210px;
@@ -13,9 +16,8 @@
 }
 
 th, td {
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
   align-items: center;
   justify-content: center;
-  
 }

@@ -1,34 +1,22 @@
-import {
-  Component,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import { CapabilitiesService } from '../capabilities.service';
-import { ConfirmationService, SortEvent } from 'primeng/api';
-import { Capability } from 'src/app/core/interfaces/Capability';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ReportService } from '../report.service';
+import { Dropdown } from 'primeng/dropdown';
+import { Table } from 'primeng/table';
+import { Report } from 'src/app/core/interfaces/Report';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
+import { SortEvent } from 'primeng/api/sortevent';
 import {
   DialogService,
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { Table } from 'primeng/table';
-import { Dropdown } from 'primeng/dropdown';
 
 @Component({
-  selector: 'app-capabilities-list',
-  templateUrl: './capabilities-list.component.html',
-  styleUrls: ['./capabilities-list.component.scss'],
-  providers: [
-    DialogService,
-    DynamicDialogConfig,
-    DynamicDialogRef,
-    ConfirmationService,
-  ],
+  selector: 'app-report-list',
+  templateUrl: './report-list.component.html',
+  styleUrls: ['./report-list.component.scss'],
 })
-export class CapabilitiesListComponent implements OnInit {
+export class ReportListComponent {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
 
@@ -37,27 +25,39 @@ export class CapabilitiesListComponent implements OnInit {
   changeCols: boolean = false;
   tableWidth: string;
   defaultFilters: any = {};
-  totalCapabilities: number;
-  capabilitiesToExport: Capability[];
-  capabilities: Capability[];
+  totalReports: number;
+  reportsToExport: Report[];
+  reports: Report[];
 
   constructor(
-    private capabilitiesService: CapabilitiesService,
+    private reportService: ReportService,
     private dialogService: DialogService
   ) {}
 
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'Versión',
+        header: 'ID',
         composeField: 'id',
         field: 'id',
         filterType: 'input',
       },
       {
-        header: 'Descripción',
-        composeField: 'descripcion',
-        field: 'descripcion',
+        header: 'Id Capacidades',
+        composeField: 'idVersionCapacidades',
+        field: 'idVersionCapacidades',
+        filterType: 'input',
+      },
+      {
+        header: 'Id Staffing',
+        composeField: 'idVersionStaffing',
+        field: 'idVersionStaffing',
+        filterType: 'input',
+      },
+      {
+        header: 'Screenshot',
+        composeField: 'screenshot',
+        field: 'screenshot',
         filterType: 'input',
       },
       {
@@ -67,15 +67,9 @@ export class CapabilitiesListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Tipo Interfaz',
-        composeField: 'idTipoInterfaz',
-        field: 'idTipoInterfaz',
-        filterType: 'input',
-      },
-      {
-        header: 'NºRegistros',
-        composeField: 'numRegistros',
-        field: 'numRegistros',
+        header: 'Descripción',
+        composeField: 'descripcion',
+        field: 'descripcion',
         filterType: 'input',
       },
       {
@@ -85,9 +79,15 @@ export class CapabilitiesListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Título',
-        composeField: 'nombreFichero',
-        field: 'nombreFichero',
+        header: 'Fecha de Modificación',
+        composeField: 'fechaModificacion',
+        field: 'fechaModificacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Comentarios',
+        composeField: 'comentarios',
+        field: 'comentarios',
         filterType: 'input',
       },
     ];
@@ -97,14 +97,12 @@ export class CapabilitiesListComponent implements OnInit {
   }
 
   loadData() {
-    this.capabilitiesService
-      .getAllRoleImportsVersions()
-      .subscribe((capabilities) => {
-        //console.log(capabilities);
-        this.capabilities = capabilities;
-        this.totalCapabilities = capabilities.length;
-        this.setDefaultFilters();
-      });
+    this.reportService.getAllReportVersions().subscribe((reports) => {
+      //console.log(capabilities);
+      this.reports = reports;
+      this.totalReports = reports.length;
+      this.setDefaultFilters();
+    });
   }
 
   loadSelected(): any[] {
@@ -127,7 +125,7 @@ export class CapabilitiesListComponent implements OnInit {
   }
 
   onFilter(event) {
-    this.capabilitiesToExport = event.filteredValue;
+    this.reportsToExport = event.filteredValue;
   }
 
   saveSelected(selectedColumnNames: any[]) {

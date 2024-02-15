@@ -6,8 +6,8 @@ import { environment } from '../../../environments/environment';
 import {
   Role,
   GradesRole,
-  InformeTotal,
   ColumnDetails,
+  ProfilesAndGrades,
 } from '../interfaces/Capabilities';
 import { Report } from '../interfaces/Report';
 
@@ -31,24 +31,51 @@ export class SkillsService {
     );
   }
 
-  getProfileTotals(
-    profile: string,
-    idReport: number
-  ): Observable<InformeTotal[]> {
+  getAllLiterals(): Observable<ColumnDetails[]> {
+    return this.http
+      .get<ColumnDetails[]>(`${this.baseUrl}/literal/config`)
+      .pipe(
+        catchError((error) => {
+          console.error('Ocurrió un error al obtener los literales:', error);
+          return throwError(
+            'Error al cargar los literales. Por favor, inténtalo de nuevo más tarde.'
+          );
+        })
+      );
+  }
+
+  getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
     const params = new HttpParams().set('idReport', idReport.toString());
-    return this.http.get<InformeTotal[]>(
-      `${this.baseUrl}/profile/profiletotals/${profile}`,
+    return this.http.get<ProfilesAndGrades[]>(
+      `${this.baseUrl}/profile/informeRoles`,
       { params }
     );
   }
 
-  getTableDetail(
-    profile: string,
-    infoType: string
-  ): Observable<ColumnDetails[]> {
-    return this.http.get<ColumnDetails[]>(
-      `${this.baseUrl}/literal/config/${profile}/${infoType}`
-    );
+  getYearsByScreenshot(screenshot?: string): Observable<string[]> {
+    let params = new HttpParams();
+    if (screenshot !== '') {
+      params = params.set('screenshot', screenshot);
+    }
+    return this.http.get<string[]>(`${this.baseUrl}/reportimports/years`, {
+      params,
+    });
+  }
+
+  getReportByScreenshotAndYear(
+    year: string,
+    screenshot: string
+  ): Observable<Report[]> {
+    let params = new HttpParams().set('year', year);
+    let url: string;
+  
+    if (screenshot === 'all' || screenshot === '0' || screenshot === '1') {
+      url = `${this.baseUrl}/reportimports/screenshot/${screenshot}`;
+    } else {
+      throw new Error("El valor de 'screenshot' debe ser 'all', 0 o 1.");
+    }
+  
+    return this.http.get<Report[]>(url, { params: params });
   }
 
   sendToExport(selectedExcel: string, idReport: number): Observable<Blob> {

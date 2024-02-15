@@ -1,5 +1,10 @@
 import { Component, OnInit, Version } from '@angular/core';
-import { InformeTotal } from '../../core/interfaces/Capabilities';
+import {
+  ColumnDetails,
+  GradesRole,
+  InformeTotal,
+  ProfilesAndGrades,
+} from '../../core/interfaces/Capabilities';
 import { SkillsService } from 'src/app/core/services/skills.service';
 import * as FileSaver from 'file-saver';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -74,20 +79,29 @@ export class MaestroComponent implements OnInit {
   reportYears: string[];
   reportVersions: Report[];
 
-  screenshotsOptions: Screenshot[];
+  screenshotsOptions: Screenshot[] = [
+    { name: 'Sí' },
+    { name: 'No' },
+    { name: 'Todas' },
+  ];
+  screenshotValue: string;
   selectedScreenshotOption: Screenshot;
 
   screenshotEnabled: boolean;
   hasScreenshotChanged: boolean;
   comentarios: string;
 
-  selectedScreenshot: string;
+  selectedScreenshot: Screenshot;
   selectedReportYear: string;
   selectedReportVersion: Report;
 
   disableYearDrop: boolean = true;
   disableVersionDrop: boolean = true;
   disableButtonSearch: boolean = true;
+
+  allProfilesAndGrades: ProfilesAndGrades[];
+  dataGradesRoles: GradesRole[];
+  literals: ColumnDetails[];
 
   constructor(
     private skillsService: SkillsService,
@@ -97,6 +111,8 @@ export class MaestroComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadAllLiterals();
+
     this.items = [
       {
         label: 'Export totales',
@@ -110,27 +126,32 @@ export class MaestroComponent implements OnInit {
       },
     ];
 
-    this.loadInitialDropdownData();
-    this.userName = this.authService.userInfoSSO.displayName;
+    this.loadAllReports();
 
+    this.userName = this.authService.userInfoSSO.displayName;
+  }
+
+  loadAllReports() {
     this.skillsService.getAllReports().subscribe(
       (data) => {
         console.log('Todos los informes:', data);
 
-        const latestReport = this.getLatestReport(data);
+        const lastReport = this.getlastReport(data);
 
-        console.log('Última versión del informe:', latestReport);
+        console.log('Última versión del informe:', lastReport);
 
-        if (latestReport) {
-          this.idVersion = latestReport.id;
-          this.selectedReportName = latestReport.descripcion;
-          this.titleScreenshotChip = latestReport.screenshot;
+        if (lastReport) {
+          this.idVersion = lastReport.id;
+          this.selectedReportName = lastReport.descripcion;
+          this.titleScreenshotChip = lastReport.screenshot;
           this.selectedReportNameModificationDate =
-            latestReport.fechaModificacion;
-          this.selectedReportNameUserName = latestReport.usuario;
+            lastReport.fechaModificacion;
+          this.selectedReportNameUserName = lastReport.usuario;
 
-          this.screenshotEnabled = latestReport.screenshot !== 0;
-          this.comentarios = latestReport.comentarios || '';
+          this.screenshotEnabled = lastReport.screenshot !== 0;
+          this.comentarios = lastReport.comentarios || '';
+
+          this.loadProfileAndGradesData(this.idVersion);
 
           this.initEM();
           this.initBA();
@@ -141,7 +162,7 @@ export class MaestroComponent implements OnInit {
           this.initArSeApi();
           this.initPyramide();
 
-          this.selectedReportVersion = latestReport;
+          this.selectedReportVersion = lastReport;
           console.log(this.selectedReportVersion);
         }
       },
@@ -151,27 +172,29 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  getLatestReport(reports: Report[]): Report | undefined {
+  getlastReport(reports: Report[]): Report | undefined {
     return reports.reduce(
       (latest, report) => (latest && latest.id > report.id ? latest : report),
       undefined
     );
   }
 
-  loadInitialDropdownData() {
-    // Cargar opciones de screenshot
-    this.screenshotsOptions = [
-      { name: 'Sí' },
-      { name: 'No' },
-      { name: 'Todas' },
-    ];
+  loadReportVersionsByYear(
+    selectedReportYear: string,
+    selectedScreenshotOption: Screenshot
+  ) {
+    const year = selectedReportYear;
+    const screenshot = selectedScreenshotOption;
+    if (this.selectedScreenshot.name === 'No') {
+      this.screenshotValue = '0';
+    } else if (this.selectedScreenshot.name === 'Sí') {
+      this.screenshotValue = '1';
+    } else if (this.selectedScreenshot.name === 'Todas') {
+      this.screenshotValue = 'all';
+    }
 
-    this.loadReportYears();
-  }
-
-  loadReportVersionsByYear(selectedReportYear) {
     this.skillsService
-      .getReportImportsVersionsByYear(selectedReportYear)
+      .getReportByScreenshotAndYear(year, this.screenshotValue)
       .subscribe(
         (data) => {
           console.log('Versiones disponibles:', data);
@@ -186,8 +209,8 @@ export class MaestroComponent implements OnInit {
       );
   }
 
-  loadReportYears() {
-    this.skillsService.getReportImportsAvailableYears().subscribe(
+  loadReportYears(screenshotValue: string) {
+    this.skillsService.getYearsByScreenshot(screenshotValue).subscribe(
       (data) => {
         console.log('Años disponibles:', data);
         this.reportYears = data;
@@ -199,14 +222,24 @@ export class MaestroComponent implements OnInit {
   }
 
   onScreenshotChange() {
-    console.log('Opción de screenshot seleccionada:', this.selectedScreenshot);
-    this.loadReportYears();
+    if (this.selectedScreenshot.name === 'No') {
+      this.screenshotValue = '0';
+    } else if (this.selectedScreenshot.name === 'Sí') {
+      this.screenshotValue = '1';
+    } else if (this.selectedScreenshot.name === 'Todas') {
+      this.screenshotValue = '';
+    }
+    console.log('Valor de screenshot:', this.screenshotValue);
+    this.loadReportYears(this.screenshotValue.toString());
     this.disableYearDrop = false;
   }
 
   onYearChange() {
     console.log('Año seleccionado:', this.selectedReportYear);
-    this.loadReportVersionsByYear(this.selectedReportYear);
+    this.loadReportVersionsByYear(
+      this.selectedReportYear,
+      this.selectedScreenshotOption
+    );
     this.disableVersionDrop = false;
   }
 
@@ -233,6 +266,8 @@ export class MaestroComponent implements OnInit {
       this.selectedReportNameModificationDate =
         this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
+
+      this.loadProfileAndGradesData(this.idVersion);
 
       this.initEM();
       this.initBA();
@@ -308,8 +343,91 @@ export class MaestroComponent implements OnInit {
     });
   }
 
+  loadAllLiterals(): void {
+    this.skillsService.getAllLiterals().subscribe(
+      (data: ColumnDetails[]) => {
+        this.literals = data;
+        console.log('Cargados literales');
+        console.log(this.literals);
+      },
+      (error) => {
+        console.error('Error al obtener los literales:', error);
+      }
+    );
+  }
+
+  loadProfileAndGradesData(reportId): void {
+    this.skillsService.getProfileAndGradeTotals(reportId).subscribe(
+      (data: ProfilesAndGrades[]) => {
+        this.allProfilesAndGrades = data;
+        this.EMData = this.allProfilesAndGrades['engagementManagers'];
+        this.BAData = this.allProfilesAndGrades['businessAnalyst'];
+        this.ARData = this.allProfilesAndGrades['architects'];
+        let sum = [0, 0, 0];
+        this.ARData.forEach((el) => {
+          el.totals.forEach((t, i) => {
+            sum[i] += t;
+          });
+        });
+        this.ARData.push({
+          profile: 'Total',
+          totals: sum,
+        });
+        this.SEData = this.allProfilesAndGrades['softwareEngineer'];
+        this.IEData = this.allProfilesAndGrades['industryExperts'];
+        this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
+        this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
+        console.log(
+          'Datos para la versión ' + reportId + ':',
+          this.allProfilesAndGrades
+        );
+        /* this.gradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        console.log(this.gradesRoles.length); */
+
+        this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        let rolesSum = [0, 0, 0, 0, 0];
+        this.gradesRoles = this.dataGradesRoles.map((elem) => {
+          let lineSum: number = 0;
+          elem.totals.forEach((nb, index) => {
+            lineSum += nb;
+            rolesSum[index] += nb;
+          });
+          rolesSum[elem.totals.length] += lineSum;
+          elem.totals.push(lineSum);
+          return { profile: elem.grade, totals: elem.totals };
+        });
+        this.gradesRoles.push({
+          profile: 'Sum',
+          totals: rolesSum,
+        });
+        this.load = true;
+      },
+      (error) => {
+        console.error(
+          'Error al obtener los datos para la versión ' + reportId + ':',
+          error
+        );
+      }
+    );
+  }
+
   initEM() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Engagement Managers'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.EMText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.EMCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Engagement Managers', 't')
       .subscribe((info) => {
         this.EMText = info[0].desc;
@@ -319,17 +437,32 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Engagement Managers', 'c')
       .subscribe((info) => {
         this.EMCol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Engagement Managers', this.idVersion)
       .subscribe((data) => {
         this.EMData = data;
-      });
+      }); */
   }
 
   initBA() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Business Analyst'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.BAText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.BACol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Business Analyst', 't')
       .subscribe((info) => {
         this.BAText = info[0].desc;
@@ -339,24 +472,43 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Business Analyst', 'c')
       .subscribe((info) => {
         this.BACol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Business Analyst', this.idVersion)
       .subscribe((data) => {
         this.BAData = data;
-      });
+      }); */
   }
 
   initAR() {
-    this.skillsService.getTableDetail('Architects', 't').subscribe((info) => {
+    if (!this.literals || this.literals == undefined) {
+      this.loadAllLiterals();
+    }
+
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ARText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ARCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService.getTableDetail('Architects', 't').subscribe((info) => {
       this.ARText = info[0].desc;
     });
     this.skillsService.getTableDetail('Architects', 'c').subscribe((info) => {
       this.ARCol = info.map((el) => el.desc);
-    });
+    }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Architects', this.idVersion)
       .subscribe((data) => {
         this.ARData = data;
@@ -370,11 +522,26 @@ export class MaestroComponent implements OnInit {
           profile: 'Total',
           totals: sum,
         });
-      });
+      }); */
   }
 
   initSE() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Software Engineer'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.SEText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.SECol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /*  this.skillsService
       .getTableDetail('Software Engineer', 't')
       .subscribe((info) => {
         this.SEText = info[0].desc;
@@ -384,17 +551,32 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Software Engineer', 'c')
       .subscribe((info) => {
         this.SECol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Software Engineer', this.idVersion)
       .subscribe((data) => {
         this.SEData = data;
-      });
+      }); */
   }
 
   initIE() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Industry Experts'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.IEText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.IECol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Industry Experts', 't')
       .subscribe((info) => {
         this.IEText = info[0].desc;
@@ -404,17 +586,32 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Industry Experts', 'c')
       .subscribe((info) => {
         this.IECol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Industry Experts', this.idVersion)
       .subscribe((data) => {
         this.IEData = data;
-      });
+      }); */
   }
 
   initArSeDev() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects & SE Custom Apps Development'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ArSeDevText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ArSeDevCol = emColLiterals.map((literal) => literal.desc);
+    }
+
+    /* this.skillsService
       .getTableDetail('Architects & SE Custom Apps Development', 't')
       .subscribe((info) => {
         this.ArSeDevText = info[0].desc;
@@ -424,20 +621,34 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Architects & SE Custom Apps Development', 'c')
       .subscribe((info) => {
         this.ArSeDevCol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals(
         'Architects & SE Custom Apps Development',
         this.idVersion
       )
       .subscribe((data) => {
         this.ArSeDevData = data;
-      });
+      }); */
   }
 
   initArSeApi() {
-    this.skillsService
+    const emLiterals = this.literals.filter(
+      (literal) => literal.type === 'Architects & SE Integration & APIs'
+    );
+    const emTextLiteral = emLiterals.find((literal) => literal.subtype === 't');
+    if (emTextLiteral) {
+      this.ArSeApiText = emTextLiteral.desc;
+    }
+
+    const emColLiterals = emLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (emColLiterals.length > 0) {
+      this.ArSeApiCol = emColLiterals.map((literal) => literal.desc);
+    }
+    /* this.skillsService
       .getTableDetail('Architects & SE Integration & APIs', 't')
       .subscribe((info) => {
         this.ArSeApiText = info[0].desc;
@@ -447,17 +658,37 @@ export class MaestroComponent implements OnInit {
       .getTableDetail('Architects & SE Integration & APIs', 'c')
       .subscribe((info) => {
         this.ArSeApiCol = info.map((el) => el.desc);
-      });
+      }); */
 
-    this.skillsService
+    /* this.skillsService
       .getProfileTotals('Architects & SE Integration & APIs', this.idVersion)
       .subscribe((data) => {
         this.ArSeApiData = data;
-      });
+      }); */
   }
 
   initPyramide() {
-    this.skillsService
+    const gradeRoleLiterals = this.literals.filter(
+      (literal) => literal.type === 'Pyramid Grade-Rol'
+    );
+
+    const gradeRoleTextLiteral = gradeRoleLiterals.find(
+      (literal) => literal.subtype === 't'
+    );
+    if (gradeRoleTextLiteral) {
+      this.gradeRoleText = gradeRoleTextLiteral.desc;
+    }
+
+    const gradeRoleColLiterals = gradeRoleLiterals.filter(
+      (literal) => literal.subtype === 'c'
+    );
+    if (gradeRoleColLiterals.length > 0) {
+      this.rolesCol = gradeRoleColLiterals.map((literal) => literal.desc);
+      this.rolesCol.unshift('Grade');
+      this.rolesCol.push('Total');
+    }
+
+    /* this.skillsService
       .getTableDetail('Pyramid Grade-Rol', 't')
       .subscribe((info) => {
         this.gradeRoleText = info[0].desc;
@@ -469,9 +700,9 @@ export class MaestroComponent implements OnInit {
         this.rolesCol = info.map((el) => el.desc);
         this.rolesCol.unshift('Grade');
         this.rolesCol.push('Total');
-      });
+      }); */
 
-    this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
+    /* this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
       let rolesSum = [0, 0, 0, 0, 0];
       this.gradesRoles = data.map((elem) => {
         let lineSum: number = 0;
@@ -488,7 +719,7 @@ export class MaestroComponent implements OnInit {
         totals: rolesSum,
       });
       this.load = true;
-    });
+    }); */
   }
 
   formatTable(data, cols): any {

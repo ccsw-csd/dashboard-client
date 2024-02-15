@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,21 +9,22 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
-import { SlideMenuModule } from 'primeng/slidemenu';
-import {MenuModule} from 'primeng/menu';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { MenuModule } from 'primeng/menu';
+import { PickListModule } from 'primeng/picklist';
 
 import { LayoutComponent } from './views/layout/layout.component';
 import { HeaderComponent } from './views/layout/header/header.component';
 import { NavComponent } from './views/layout/nav/nav.component';
+import { ColumnConfigComponent } from './views/column-config/column-config.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     HeaderComponent,
-    NavComponent
+    NavComponent,
+    ColumnConfigComponent,
   ],
   imports: [
     CommonModule,
@@ -38,11 +38,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     ButtonModule,
     TooltipModule,
     MenuModule,
-    SlideMenuModule,
+    PickListModule,
     PanelMenuModule,
     OverlayPanelModule,
   ],
-  providers: [
-  ],
 })
-export class CoreModule { }
+export class CoreModule {}

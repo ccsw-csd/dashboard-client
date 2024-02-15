@@ -7,6 +7,7 @@ import { LoginComponent } from './login/views/login/login.component';
 import { MaestroComponent } from './skills/maestro/maestro.component';
 import { CapabilitiesListComponent } from './catalog/capabilities/capabilities-list/capabilities-list.component';
 import { StaffingListComponent } from './catalog/staffing/staffing-list/staffing-list.component';
+import { ReportListComponent } from './catalog/report/report-list/report-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,11 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: MaestroComponent,
+        data: { role: ['DASHBOARD'] },
+      },
+      {
+        path: 'report',
+        component: ReportListComponent,
         data: { role: ['DASHBOARD'] },
       },
       {
