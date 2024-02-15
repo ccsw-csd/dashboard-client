@@ -23,8 +23,8 @@ export class SkillsService {
     return this.http.get<Role[]>(`${this.baseUrl}/role/config`);
   }
 
-  getGradesRoles(idReport: number): Observable<GradesRole[]> {
-    const params = new HttpParams().set('idReport', idReport.toString());
+  getGradesRoles(idReport: string): Observable<GradesRole[]> {
+    const params = new HttpParams().set('idReport', idReport);
     return this.http.get<GradesRole[]>(
       `${this.baseUrl}/grade-role/gradetotals`,
       { params }
@@ -44,8 +44,8 @@ export class SkillsService {
       );
   }
 
-  getProfileAndGradeTotals(idReport: number): Observable<ProfilesAndGrades[]> {
-    const params = new HttpParams().set('idReport', idReport.toString());
+  getProfileAndGradeTotals(idReport: string): Observable<ProfilesAndGrades[]> {
+    const params = new HttpParams().set('idReport', idReport);
     return this.http.get<ProfilesAndGrades[]>(
       `${this.baseUrl}/profile/informeRoles`,
       { params }

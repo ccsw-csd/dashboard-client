@@ -378,6 +378,7 @@ export class MaestroComponent implements OnInit {
     this.skillsService.getProfileAndGradeTotals(idReport).subscribe(
       (data: ProfilesAndGrades[]) => {
         this.allProfilesAndGrades = data;
+        console.log('Datos para la versión ' + idReport + this.allProfilesAndGrades);
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
         this.ARData = this.allProfilesAndGrades['architects'];
@@ -395,12 +396,6 @@ export class MaestroComponent implements OnInit {
         this.IEData = this.allProfilesAndGrades['industryExperts'];
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
-        console.log(this.ArSeApiData)
-        console.log(
-          'Datos para la versión ' + idReport + ':',
-          this.allProfilesAndGrades
-        );
-
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
         console.log(this.dataGradesRoles);
         let rolesSum = [0, 0, 0, 0, 0];
