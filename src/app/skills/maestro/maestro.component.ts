@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-maestro',
@@ -111,7 +112,7 @@ export class MaestroComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadAllLiterals();
+    this.loadAllLiteralsAndThenLoadData();
 
     this.items = [
       {
@@ -125,8 +126,6 @@ export class MaestroComponent implements OnInit {
         command: () => this.showDialog(),
       },
     ];
-
-    this.loadAllReports();
 
     this.userName = this.authService.userInfoSSO.displayName;
   }
@@ -346,17 +345,33 @@ export class MaestroComponent implements OnInit {
     });
   }
 
-  loadAllLiterals(): void {
-    this.skillsService.getAllLiterals().subscribe(
-      (data: ColumnDetails[]) => {
-        this.literals = data;
-        console.log('Cargados literales');
-        console.log(this.literals);
+  loadAllLiteralsAndThenLoadData() {
+    this.loadAllLiterals().subscribe(
+      () => {
+        this.loadAllReports();
       },
       (error) => {
-        console.error('Error al obtener los literales:', error);
+        console.error('Error al cargar los literales:', error);
       }
     );
+  }
+
+  loadAllLiterals(): Observable<void> {
+    return new Observable<void>((observer) => {
+      this.skillsService.getAllLiterals().subscribe(
+        (data: ColumnDetails[]) => {
+          this.literals = data;
+          console.log('Cargados literales');
+          console.log(this.literals);
+          observer.next();
+          observer.complete();
+        },
+        (error) => {
+          console.error('Error al obtener los literales:', error);
+          observer.error(error);
+        }
+      );
+    });
   }
 
   loadProfileAndGradesData(idReport): void {
@@ -380,12 +395,14 @@ export class MaestroComponent implements OnInit {
         this.IEData = this.allProfilesAndGrades['industryExperts'];
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
+        console.log(this.ArSeApiData)
         console.log(
           'Datos para la versión ' + idReport + ':',
           this.allProfilesAndGrades
         );
 
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
+        console.log(this.dataGradesRoles);
         let rolesSum = [0, 0, 0, 0, 0];
         this.gradesRoles = this.dataGradesRoles.map((elem) => {
           let lineSum: number = 0;
