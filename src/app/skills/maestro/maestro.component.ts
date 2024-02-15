@@ -74,7 +74,7 @@ export class MaestroComponent implements OnInit {
   idReport: number;
   selectedReportName: string;
   titleScreenshotChip: number;
-  selectedReportNameModificationDate: Date;
+  selectedReportModificationDate: Date;
   selectedReportNameUserName: string;
 
   reportYears: string[];
@@ -139,10 +139,8 @@ export class MaestroComponent implements OnInit {
           this.idReport = lastReport.id;
           this.selectedReportName = lastReport.descripcion;
           this.titleScreenshotChip = lastReport.screenshot;
-          this.selectedReportNameModificationDate =
-            lastReport.fechaModificacion;
+          this.selectedReportModificationDate = lastReport.fechaModificacion;
           this.selectedReportNameUserName = lastReport.usuario;
-
           this.screenshotEnabled = lastReport.screenshot !== 0;
           this.comentarios = lastReport.comentarios || '';
 
@@ -191,7 +189,6 @@ export class MaestroComponent implements OnInit {
       .getReportByScreenshotAndYear(year, this.screenshotValue)
       .subscribe(
         (data) => {
-          console.log('Versiones disponibles:', data);
           this.reportVersions = data;
         },
         (error) => {
@@ -206,7 +203,6 @@ export class MaestroComponent implements OnInit {
   loadReportYears(screenshotValue: string) {
     this.skillsService.getYearsByScreenshot(screenshotValue).subscribe(
       (data) => {
-        console.log('Años disponibles:', data);
         this.reportYears = data;
       },
       (error) => {
@@ -223,7 +219,6 @@ export class MaestroComponent implements OnInit {
     } else if (this.selectedScreenshot.name === 'Todas') {
       this.screenshotValue = '';
     }
-    console.log('Valor de screenshot:', this.screenshotValue);
     this.loadReportYears(this.screenshotValue.toString());
     this.selectedReportYear = '';
     this.selectedReportVersion = null;
@@ -232,7 +227,6 @@ export class MaestroComponent implements OnInit {
   }
 
   onYearChange() {
-    console.log('Año seleccionado:', this.selectedReportYear);
     this.loadReportVersionsByYear(
       this.selectedReportYear,
       this.selectedScreenshotOption
@@ -242,7 +236,6 @@ export class MaestroComponent implements OnInit {
 
   onVersionChange() {
     this.idReport = this.selectedReportVersion.id;
-    console.log('Versión seleccionada:', this.selectedReportVersion);
     this.disableButtonSearch = false;
   }
 
@@ -251,16 +244,10 @@ export class MaestroComponent implements OnInit {
       this.load = false;
 
       this.disableButtonSearch = true;
-
-      console.log(
-        'Componente recargado con idReport:',
-        this.selectedReportVersion.id
-      );
-
       this.idReport = this.selectedReportVersion.id;
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
-      this.selectedReportNameModificationDate =
+      this.selectedReportModificationDate =
         this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
 
@@ -284,8 +271,6 @@ export class MaestroComponent implements OnInit {
     if (this.selectedReportVersion) {
       this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
       this.hasScreenshotChanged = !this.hasScreenshotChanged;
-      console.log(this.selectedReportVersion.screenshot);
-      console.log(this.hasScreenshotChanged);
     }
   }
 
