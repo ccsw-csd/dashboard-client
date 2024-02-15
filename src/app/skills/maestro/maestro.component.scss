@@ -1,16 +1,19 @@
 .textBloc {
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: bold;
   border: 1px solid lightgray;
-  align-items: center;
-  width: 300px;
 }
 
 .tableTitle {
   text-align: center;
   align-items: center;
+  align-content: center;
   background: lightgray;
+  height: auto;
 }
 
 td {
   text-align: center;
+  padding: auto;
+  align-content: center;
 }

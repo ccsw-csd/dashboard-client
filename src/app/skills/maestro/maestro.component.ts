@@ -133,11 +133,7 @@ export class MaestroComponent implements OnInit {
   loadAllReports() {
     this.skillsService.getAllReports().subscribe(
       (data) => {
-        console.log('Todos los informes:', data);
-
         const lastReport = this.getLastReport(data);
-
-        console.log('Última versión del informe:', lastReport);
 
         if (lastReport) {
           this.idReport = lastReport.id;
@@ -162,7 +158,6 @@ export class MaestroComponent implements OnInit {
           this.initPyramide();
 
           this.selectedReportVersion = lastReport;
-          console.log(this.selectedReportVersion);
         }
       },
       (error) => {
@@ -361,8 +356,6 @@ export class MaestroComponent implements OnInit {
       this.skillsService.getAllLiterals().subscribe(
         (data: ColumnDetails[]) => {
           this.literals = data;
-          console.log('Cargados literales');
-          console.log(this.literals);
           observer.next();
           observer.complete();
         },
@@ -378,7 +371,6 @@ export class MaestroComponent implements OnInit {
     this.skillsService.getProfileAndGradeTotals(idReport).subscribe(
       (data: ProfilesAndGrades[]) => {
         this.allProfilesAndGrades = data;
-        console.log('Datos para la versión ' + idReport + this.allProfilesAndGrades);
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
         this.ARData = this.allProfilesAndGrades['architects'];
@@ -397,7 +389,6 @@ export class MaestroComponent implements OnInit {
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
-        console.log(this.dataGradesRoles);
         let rolesSum = [0, 0, 0, 0, 0];
         this.gradesRoles = this.dataGradesRoles.map((elem) => {
           let lineSum: number = 0;

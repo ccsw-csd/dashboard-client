@@ -1,7 +1,7 @@
 .textBloc {
   font-size: 14px;
   border: 1px solid #babfc7;
-  background: #F8F8F8;
+  background: #f8f8f8;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -15,9 +15,15 @@
   overflow-x: auto;
 }
 
-th, td {
+th,
+td {
   font-size: 12px;
   text-align: center;
   align-items: center;
   justify-content: center;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
 }
