@@ -28,19 +28,12 @@ export class StaffingListComponent {
   tableWidth: string;
   defaultFilters: any = {};
   selectedColumnNames: any[];
+  columnNames: any[];
   years: number[];
   selectedYear: number;
   totalStaffing:number;
   staffingToExport: Staffing[];
-  columnNames: any[] = [
-    { header: 'Id Staffing', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
-    { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
-    { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
-    { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
-    { header: 'Usuario', composeField: 'usuario', field: 'usuario', filterType: 'input' },
-    { header: 'Fecha', composeField: 'fechaImportacion', field: 'fechaImportacion', filterType: 'input' },
-    { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' }
-  ];
+  
 
   constructor(private staffingService: StaffingService,
     private dialogService: DialogService) { }
@@ -94,9 +87,14 @@ export class StaffingListComponent {
       this.selectedColumnNames = this.loadSelected();
       this.loadData();
     }
+
+    isColumnVisible(field: string): boolean {
+      return this.selectedColumnNames.some((column) => column.field === field);
+    }
+
     loadSelected(): any[] {
       let selectedColumnNames: any = localStorage.getItem(
-        'staffing'
+        'staffingListColumns'
       );
       if (selectedColumnNames == null) return this.columnNames;
   
@@ -159,10 +157,21 @@ export class StaffingListComponent {
       if (result) {
         this.selectedColumnNames = result;
         this.saveSelected(result);
+        
       }
     });
   }
-
+getData(data, att) {
+    let atts = att.split('.');
+    atts.forEach((a) => {
+      if (data[a] != undefined) {
+        data = data[a];
+      } else {
+        return null;
+      }
+    });
+    return data;
+  }
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
       let value1 = data1[event.field];
@@ -182,8 +191,11 @@ export class StaffingListComponent {
     });
   }
 
-  saveSelected(columnNames: any[]) {
-    localStorage.setItem('staffing', JSON.stringify(this.columnNames.map(e => e.header)));
+  saveSelected(selectedColumnNames: any[]) {
+    localStorage.setItem(
+      'staffingListColumns',
+      JSON.stringify(selectedColumnNames.map((e) => e.header))
+    );
   }
 
   onColReorder(event): void {

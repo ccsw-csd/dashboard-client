@@ -1,6 +1,6 @@
 <div class="flex flex-row justify-content-between">
   <div class="flex justify-content-start">
-    <h3 class="p-0 m-0 mb-2">Lista de Archivos de Roles</h3>
+    <h3 class="p-0 m-0 mb-2">Lista de Archivos de Staffing</h3>
   </div>
 </div>
 
@@ -62,14 +62,12 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th
-        *ngFor="let col of columnNames"
-        class="{{
-          col.field
-        }} flex flex-1 flex-column align-items-center justify-content-center"
+        *ngFor="let col of selectedColumnNames"
+        class="{{ col.field }} flex flex-column"
         pReorderableColumn
       >
         <div
-          class="flex flex-row top-header"
+          class="flex flex-row w-full top-header"
           pSortableColumn="{{ col.composeField }}"
         >
           <span class="flex flex-1 justify-content-center">{{
@@ -77,6 +75,7 @@
           }}</span>
           <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
         </div>
+
         <div class="w-full foot-header">
           <p-columnFilter
             *ngIf="col.filterType == 'input'"
@@ -102,6 +101,7 @@
               />
             </ng-template>
           </p-columnFilter>
+
           <p-columnFilter
             *ngIf="col.filterType == 'dropdown'"
             class="w-full"
@@ -148,32 +148,82 @@
               ></p-dropdown>
             </ng-template>
           </p-columnFilter>
+
+          <p-columnFilter
+            *ngIf="col.filterType == 'multiple'"
+            class="w-full"
+            field="{{ col.composeField }}"
+            matchMode="multiple"
+            [showMenu]="false"
+            [showClearButton]="false"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-multiSelect
+                tabindex="1"
+                [showHeader]="false"
+                [ngModel]="col.initialValue"
+                [options]="col.options"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="filter($event.value)"
+                [showClear]="true"
+                placeholder="..."
+              >
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
         </div>
       </th>
-     
+      <th class="buttons flex flex-column">
+        <div class="flex flex-row w-full top-header"></div>
+        <div class="w-full foot-header"></div>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-staffing let-columns="columns">
     <tr [pSelectableRow]="staffing">
-      <td
-        pResizableColumn
-        *ngFor="let col of columnNames"
-        class="{{ col.field }} flex flex-1 flex-column justify-content-center"
-      >
+      <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
+          *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           pTooltip="{{ staffing[col.field] }}"
           tooltipPosition="top"
         >
-          <ng-container *ngIf="staffing[col.field] === 1">
-            Staffing
+          <ng-container *ngIf="col.field === 'fechaImportacion'">
+            {{ staffing[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          <ng-container>
+          <ng-container *ngIf="col.field === 'idTipoInterfaz'">
+            {{ staffing[col.field] === 2 ? "Staffing" : staffing[col.field] }}
+          </ng-container>
+          <ng-container
+            *ngIf="
+              col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
+            "
+          >
             {{ staffing[col.field] }}
           </ng-container>
         </div>
+        <div
+          *ngIf="col.fieldExtra && !col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{staffing[col.field]?.[col.fieldExtra]}}"
+          tooltipPosition="top"
+        >
+          {{staffing[col.field]?.[col.fieldExtra]}}
+        </div>
+        <div
+          *ngIf="col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{ col.parse(person[col.field]) }}"
+          tooltipPosition="top"
+        >
+          {{ col.parse(staffing[col.field]) }}
+        </div>
       </td>
-      
     </tr>
   </ng-template>
 </p-table>
