@@ -14,73 +14,78 @@
 
     <div class="my-2 flex justify-content-end">
       <div class="flex align-items-center justify-content-center">
-        <!-- SELECCIONAR SI ES SCREENSHOT -->
+        <!-- Screenshot Selection -->
         <p-dropdown
           [options]="screenshotsOptions"
           class="m-2"
-          [style]="{ width: '210px' }"
+          [style]="{ width: '140px' }"
           [(ngModel)]="selectedScreenshot"
           optionLabel="name"
           [showClear]="false"
-          placeholder="Versión Screenshot"
+          placeholder="Screenshot"
           (onChange)="onScreenshotChange()"
+          title="Screenshot"
         >
         </p-dropdown>
       </div>
       <div class="flex align-items-center justify-content-center">
-        <!-- SELECCIONAR AÑO -->
+        <!-- Year Selection -->
         <p-dropdown
           [options]="reportYears"
-          class="m-2"
-          [style]="{ width: '210px' }"
+          class="m-1"
+          [style]="{ width: '120px' }"
           [(ngModel)]="selectedReportYear"
           [showClear]="false"
-          placeholder="Seleccione un Año"
+          placeholder="Año"
           (onChange)="onYearChange()"
           [disabled]="disableYearDrop"
+          title="Año disponible"
         >
         </p-dropdown>
       </div>
       <div class="flex align-items-center justify-content-center">
-        <!-- SELECCIONAR VERSION -->
+        <!-- Report Selection -->
         <p-dropdown
           [options]="reportVersions"
           class="m-2"
-          [style]="{ width: '340px' }"
+          [style]="{ width: '240px' }"
           [(ngModel)]="selectedReportVersion"
           optionLabel="descripcion"
           [showClear]="false"
           placeholder="Seleccione una versión"
           (onChange)="onVersionChange()"
           [disabled]="disableVersionDrop"
+          title="Versión del Informe"
         >
         </p-dropdown>
-      </div>
-      <div class="flex align-items-center justify-content-center">
+        <!-- Search Button-->
         <button
           pButton
           type="button"
           pRipple
           icon="pi pi-search"
-          class="p-button-outlined m-2"
+          class="p-button-outlined m-2 mr-6"
           (click)="reloadComponent()"
-          style="width: 80px"
           [disabled]="disableButtonSearch"
+          style="height: 42px"
         ></button>
       </div>
-      <!-- BOTON DE EXPORTAR SI TIENE PERMISOS "EXPORTAR" -->
-      <button
-        *ngIf="authService.hasRole('EXPORTAR')"
-        type="button"
-        pButton
-        pRipple
-        icon="pi pi-file-excel"
-        class="p-button-outlined my-2"
-        (click)="menu.toggle($event)"
-        style="width: 80px"
-      >
-        <i class="pi pi-angle-down m-2"></i>
-      </button>
+      <div class="flex align-items-center justify-content-center">
+        <!-- Allow export if role "EXPORTAR" -->
+        <button
+          *ngIf="authService.hasRole('EXPORTAR')"
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          class="p-button-outlined my-2"
+          (click)="menu.toggle($event)"
+          style="width: 70px; height: 42px"
+          title="Exportar"
+        >
+          <i class="pi pi-angle-down m-2"></i>
+        </button>
+      </div>
       <p-menu #menu [popup]="true" [model]="items"></p-menu>
     </div>
   </div>
@@ -88,7 +93,15 @@
     class="flex justify-content-between"
     style="margin-top: 0%; padding-top: 0%"
   >
-    <h4 *ngIf="titleScreenshotChip == 1">
+    <h4
+      *ngIf="titleScreenshotChip !== 0 && selectedReportNameUserName"
+      style="
+        color: #ffffff;
+        background-color: #29abe2;
+        padding: 12px;
+        border-radius: 12px;
+      "
+    >
       Marcado como ScreenShot el
       {{ selectedReportNameModificationDate | date : "d/M/yy" }} por
       {{ selectedReportNameUserName }}
@@ -218,8 +231,9 @@
       pRipple
       icon="pi pi-save"
       label="Guardar"
-      class="p-button p-button-primary p-button-outlined my-2"
+      class="p-button p-button-primary p-button-outlined my-2;"
       tyle="width: 80px"
+      title="Guardar"
     ></button>
   </div>
 

@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../../core/interfaces/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-maestro',
@@ -70,10 +71,10 @@ export class MaestroComponent implements OnInit {
 
   userName: string;
 
-  idVersion: number;
+  idReport: number;
   selectedReportName: string;
   titleScreenshotChip: number;
-  selectedReportNameModificationDate: Date;
+  selectedReportModificationDate: Date;
   selectedReportNameUserName: string;
 
   reportYears: string[];
@@ -111,7 +112,7 @@ export class MaestroComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadAllLiterals();
+    this.loadAllLiteralsAndThenLoadData();
 
     this.items = [
       {
@@ -126,32 +127,24 @@ export class MaestroComponent implements OnInit {
       },
     ];
 
-    this.loadAllReports();
-
     this.userName = this.authService.userInfoSSO.displayName;
   }
 
   loadAllReports() {
     this.skillsService.getAllReports().subscribe(
       (data) => {
-        console.log('Todos los informes:', data);
-
-        const lastReport = this.getlastReport(data);
-
-        console.log('Última versión del informe:', lastReport);
+        const lastReport = this.getLastReport(data);
 
         if (lastReport) {
-          this.idVersion = lastReport.id;
+          this.idReport = lastReport.id;
           this.selectedReportName = lastReport.descripcion;
           this.titleScreenshotChip = lastReport.screenshot;
-          this.selectedReportNameModificationDate =
-            lastReport.fechaModificacion;
+          this.selectedReportModificationDate = lastReport.fechaModificacion;
           this.selectedReportNameUserName = lastReport.usuario;
-
           this.screenshotEnabled = lastReport.screenshot !== 0;
           this.comentarios = lastReport.comentarios || '';
 
-          this.loadProfileAndGradesData(this.idVersion);
+          this.loadProfileAndGradesData(this.idReport);
 
           this.initEM();
           this.initBA();
@@ -163,7 +156,6 @@ export class MaestroComponent implements OnInit {
           this.initPyramide();
 
           this.selectedReportVersion = lastReport;
-          console.log(this.selectedReportVersion);
         }
       },
       (error) => {
@@ -172,7 +164,7 @@ export class MaestroComponent implements OnInit {
     );
   }
 
-  getlastReport(reports: Report[]): Report | undefined {
+  getLastReport(reports: Report[]): Report | undefined {
     return reports.reduce(
       (latest, report) => (latest && latest.id > report.id ? latest : report),
       undefined
@@ -197,7 +189,6 @@ export class MaestroComponent implements OnInit {
       .getReportByScreenshotAndYear(year, this.screenshotValue)
       .subscribe(
         (data) => {
-          console.log('Versiones disponibles:', data);
           this.reportVersions = data;
         },
         (error) => {
@@ -212,7 +203,6 @@ export class MaestroComponent implements OnInit {
   loadReportYears(screenshotValue: string) {
     this.skillsService.getYearsByScreenshot(screenshotValue).subscribe(
       (data) => {
-        console.log('Años disponibles:', data);
         this.reportYears = data;
       },
       (error) => {
@@ -229,13 +219,14 @@ export class MaestroComponent implements OnInit {
     } else if (this.selectedScreenshot.name === 'Todas') {
       this.screenshotValue = '';
     }
-    console.log('Valor de screenshot:', this.screenshotValue);
     this.loadReportYears(this.screenshotValue.toString());
+    this.selectedReportYear = '';
+    this.selectedReportVersion = null;
+    this.disableVersionDrop = true;
     this.disableYearDrop = false;
   }
 
   onYearChange() {
-    console.log('Año seleccionado:', this.selectedReportYear);
     this.loadReportVersionsByYear(
       this.selectedReportYear,
       this.selectedScreenshotOption
@@ -244,8 +235,7 @@ export class MaestroComponent implements OnInit {
   }
 
   onVersionChange() {
-    this.idVersion = this.selectedReportVersion.id;
-    console.log('Versión seleccionada:', this.selectedReportVersion);
+    this.idReport = this.selectedReportVersion.id;
     this.disableButtonSearch = false;
   }
 
@@ -254,20 +244,14 @@ export class MaestroComponent implements OnInit {
       this.load = false;
 
       this.disableButtonSearch = true;
-
-      console.log(
-        'Componente recargado con idVersion:',
-        this.selectedReportVersion.id
-      );
-
-      this.idVersion = this.selectedReportVersion.id;
+      this.idReport = this.selectedReportVersion.id;
       this.selectedReportName = this.selectedReportVersion.descripcion;
       this.titleScreenshotChip = this.selectedReportVersion.screenshot;
-      this.selectedReportNameModificationDate =
-        this.selectedReportVersion.fechaModificacion;
+      this.selectedReportModificationDate =
+      this.selectedReportVersion.fechaModificacion;
       this.selectedReportNameUserName = this.selectedReportVersion.usuario;
 
-      this.loadProfileAndGradesData(this.idVersion);
+      this.loadProfileAndGradesData(this.idReport);
 
       this.initEM();
       this.initBA();
@@ -287,8 +271,6 @@ export class MaestroComponent implements OnInit {
     if (this.selectedReportVersion) {
       this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
       this.hasScreenshotChanged = !this.hasScreenshotChanged;
-      console.log(this.selectedReportVersion.screenshot);
-      console.log(this.hasScreenshotChanged);
     }
   }
 
@@ -343,21 +325,35 @@ export class MaestroComponent implements OnInit {
     });
   }
 
-  loadAllLiterals(): void {
-    this.skillsService.getAllLiterals().subscribe(
-      (data: ColumnDetails[]) => {
-        this.literals = data;
-        console.log('Cargados literales');
-        console.log(this.literals);
+  loadAllLiteralsAndThenLoadData() {
+    this.loadAllLiterals().subscribe(
+      () => {
+        this.loadAllReports();
       },
       (error) => {
-        console.error('Error al obtener los literales:', error);
+        console.error('Error al cargar los literales:', error);
       }
     );
   }
 
-  loadProfileAndGradesData(reportId): void {
-    this.skillsService.getProfileAndGradeTotals(reportId).subscribe(
+  loadAllLiterals(): Observable<void> {
+    return new Observable<void>((observer) => {
+      this.skillsService.getAllLiterals().subscribe(
+        (data: ColumnDetails[]) => {
+          this.literals = data;
+          observer.next();
+          observer.complete();
+        },
+        (error) => {
+          console.error('Error al obtener los literales:', error);
+          observer.error(error);
+        }
+      );
+    });
+  }
+
+  loadProfileAndGradesData(idReport): void {
+    this.skillsService.getProfileAndGradeTotals(idReport).subscribe(
       (data: ProfilesAndGrades[]) => {
         this.allProfilesAndGrades = data;
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
@@ -377,13 +373,6 @@ export class MaestroComponent implements OnInit {
         this.IEData = this.allProfilesAndGrades['industryExperts'];
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
-        console.log(
-          'Datos para la versión ' + reportId + ':',
-          this.allProfilesAndGrades
-        );
-        /* this.gradesRoles = this.allProfilesAndGrades['gradeTotal'];
-        console.log(this.gradesRoles.length); */
-
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
         let rolesSum = [0, 0, 0, 0, 0];
         this.gradesRoles = this.dataGradesRoles.map((elem) => {
@@ -404,7 +393,7 @@ export class MaestroComponent implements OnInit {
       },
       (error) => {
         console.error(
-          'Error al obtener los datos para la versión ' + reportId + ':',
+          'Error al obtener los datos para la versión ' + idReport + ':',
           error
         );
       }
@@ -440,7 +429,7 @@ export class MaestroComponent implements OnInit {
       }); */
 
     /* this.skillsService
-      .getProfileTotals('Engagement Managers', this.idVersion)
+      .getProfileTotals('Engagement Managers', this.idReport)
       .subscribe((data) => {
         this.EMData = data;
       }); */
@@ -475,17 +464,14 @@ export class MaestroComponent implements OnInit {
       }); */
 
     /* this.skillsService
-      .getProfileTotals('Business Analyst', this.idVersion)
+      .getProfileTotals('Business Analyst', this.idReport)
+
       .subscribe((data) => {
         this.BAData = data;
       }); */
   }
 
   initAR() {
-    if (!this.literals || this.literals == undefined) {
-      this.loadAllLiterals();
-    }
-
     const emLiterals = this.literals.filter(
       (literal) => literal.type === 'Architects'
     );
@@ -509,7 +495,8 @@ export class MaestroComponent implements OnInit {
     }); */
 
     /* this.skillsService
-      .getProfileTotals('Architects', this.idVersion)
+      .getProfileTotals('Architects', this.idReport)
+
       .subscribe((data) => {
         this.ARData = data;
         let sum = [0, 0, 0];
@@ -554,7 +541,7 @@ export class MaestroComponent implements OnInit {
       }); */
 
     /* this.skillsService
-      .getProfileTotals('Software Engineer', this.idVersion)
+      .getProfileTotals('Software Engineer', this.idReport)
       .subscribe((data) => {
         this.SEData = data;
       }); */
@@ -589,7 +576,8 @@ export class MaestroComponent implements OnInit {
       }); */
 
     /* this.skillsService
-      .getProfileTotals('Industry Experts', this.idVersion)
+      .getProfileTotals('Industry Experts', this.idReport)
+
       .subscribe((data) => {
         this.IEData = data;
       }); */
@@ -626,7 +614,7 @@ export class MaestroComponent implements OnInit {
     /* this.skillsService
       .getProfileTotals(
         'Architects & SE Custom Apps Development',
-        this.idVersion
+        this.idReport
       )
       .subscribe((data) => {
         this.ArSeDevData = data;
@@ -661,7 +649,8 @@ export class MaestroComponent implements OnInit {
       }); */
 
     /* this.skillsService
-      .getProfileTotals('Architects & SE Integration & APIs', this.idVersion)
+      .getProfileTotals('Architects & SE Integration & APIs', this.idReport)
+
       .subscribe((data) => {
         this.ArSeApiData = data;
       }); */
@@ -702,7 +691,7 @@ export class MaestroComponent implements OnInit {
         this.rolesCol.push('Total');
       }); */
 
-    /* this.skillsService.getGradesRoles(this.idVersion).subscribe((data) => {
+    /* this.skillsService.getGradesRoles(this.idReport).subscribe((data) => {
       let rolesSum = [0, 0, 0, 0, 0];
       this.gradesRoles = data.map((elem) => {
         let lineSum: number = 0;
@@ -803,7 +792,7 @@ export class MaestroComponent implements OnInit {
 
   exportExcel() {
     this.skillsService
-      .sendToExport(this.selectedExcel, this.idVersion)
+      .sendToExport(this.selectedExcel, this.idReport)
       .subscribe((result) => {
         this.downloadFile(result, 'application/ms-excel');
       });
