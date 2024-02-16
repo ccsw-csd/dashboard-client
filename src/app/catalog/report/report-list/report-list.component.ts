@@ -130,7 +130,7 @@ export class ReportListComponent {
 
   saveSelected(selectedColumnNames: any[]) {
     localStorage.setItem(
-      'capabilityListColumns',
+      'reportListColumns',
       JSON.stringify(selectedColumnNames.map((e) => e.header))
     );
   }

@@ -1,25 +1,24 @@
-import { Component ,
-  OnInit,
+import {
+  Component,
   QueryList,
   ViewChild,
-  ViewChildren, } from '@angular/core';
+  ViewChildren,
+} from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api';
-import { } from 'primeng/dynamicdialog';
+import {} from 'primeng/dynamicdialog';
 import { Staffing } from '../model/staffing.model';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import {
   DialogService,
-  DynamicDialogConfig,
-  DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-staffing-list',
   templateUrl: './staffing-list.component.html',
-  styleUrls: ['./staffing-list.component.scss']
+  styleUrls: ['./staffing-list.component.scss'],
 })
 export class StaffingListComponent {
   @ViewChild(Table) table: Table;
@@ -31,94 +30,93 @@ export class StaffingListComponent {
   columnNames: any[];
   years: number[];
   selectedYear: number;
-  totalStaffing:number;
+  totalStaffing: number;
   staffingToExport: Staffing[];
-  
 
-  constructor(private staffingService: StaffingService,
-    private dialogService: DialogService) { }
+  constructor(
+    private staffingService: StaffingService,
+    private dialogService: DialogService
+  ) {}
 
-    ngOnInit() {
-      this.columnNames = [
-        {
-          header: 'Id Staffing',
-          composeField: 'id',
-          field: 'id',
-          filterType: 'input',
-        },
-        {
-          header: 'Descripción',
-          composeField: 'descripcion',
-          field: 'descripcion',
-          filterType: 'input',
-        },
-        {
-          header: 'Fecha de Importación',
-          composeField: 'fechaImportacion',
-          field: 'fechaImportacion',
-          filterType: 'input',
-        },
-        {
-          header: 'Tipo Interfaz',
-          composeField: 'idTipoInterfaz',
-          field: 'idTipoInterfaz',
-          filterType: 'input',
-        },
-        {
-          header: 'NºRegistros',
-          composeField: 'numRegistros',
-          field: 'numRegistros',
-          filterType: 'input',
-        },
-        {
-          header: 'Usuario',
-          composeField: 'usuario',
-          field: 'usuario',
-          filterType: 'input',
-        },
-        {
-          header: 'Título',
-          composeField: 'nombreFichero',
-          field: 'nombreFichero',
-          filterType: 'input',
-        },
-      ];
-  
-      this.selectedColumnNames = this.loadSelected();
-      this.loadData();
-    }
+  ngOnInit() {
+    this.columnNames = [
+      {
+        header: 'Id Staffing',
+        composeField: 'id',
+        field: 'id',
+        filterType: 'input',
+      },
+      {
+        header: 'Descripción',
+        composeField: 'descripcion',
+        field: 'descripcion',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Importación',
+        composeField: 'fechaImportacion',
+        field: 'fechaImportacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Tipo Interfaz',
+        composeField: 'idTipoInterfaz',
+        field: 'idTipoInterfaz',
+        filterType: 'input',
+      },
+      {
+        header: 'NºRegistros',
+        composeField: 'numRegistros',
+        field: 'numRegistros',
+        filterType: 'input',
+      },
+      {
+        header: 'Usuario',
+        composeField: 'usuario',
+        field: 'usuario',
+        filterType: 'input',
+      },
+      {
+        header: 'Título',
+        composeField: 'nombreFichero',
+        field: 'nombreFichero',
+        filterType: 'input',
+      },
+    ];
 
-    isColumnVisible(field: string): boolean {
-      return this.selectedColumnNames.some((column) => column.field === field);
-    }
+    this.selectedColumnNames = this.loadSelected();
+    this.loadData();
+  }
 
-    loadSelected(): any[] {
-      let selectedColumnNames: any = localStorage.getItem(
-        'staffingListColumns'
+  isColumnVisible(field: string): boolean {
+    return this.selectedColumnNames.some((column) => column.field === field);
+  }
+
+  loadSelected(): any[] {
+    let selectedColumnNames: any = localStorage.getItem('staffingListColumns');
+    if (selectedColumnNames == null) return this.columnNames;
+
+    selectedColumnNames = JSON.parse(selectedColumnNames);
+
+    let columns: any[] = [];
+    selectedColumnNames.forEach((item) => {
+      let filterColumn = this.columnNames.filter(
+        (column) => column.header == item
       );
-      if (selectedColumnNames == null) return this.columnNames;
-  
-      selectedColumnNames = JSON.parse(selectedColumnNames);
-  
-      let columns: any[] = [];
-      selectedColumnNames.forEach((item) => {
-        let filterColumn = this.columnNames.filter(
-          (column) => column.header == item
-        );
-        columns = columns.concat(filterColumn);
+      columns = columns.concat(filterColumn);
+    });
+
+    return columns;
+  }
+  loadData() {
+    this.staffingService
+      .getAllStaffingImportsVersions()
+      .subscribe((staffing) => {
+        this.staffing = staffing;
+        this.totalStaffing = staffing.length;
+        this.setDefaultFilters();
       });
-  
-      return columns;
-    }
-    loadData() {
-      this.staffingService
-        .getAllStaffingImportsVersions()
-        .subscribe((staffing) => {
-          this.staffing = staffing;
-          this.totalStaffing = staffing.length;
-          this.setDefaultFilters();
-        });
-    }
+  }
 
   setDefaultFilters() {
     this.defaultFilters = {};
@@ -157,11 +155,10 @@ export class StaffingListComponent {
       if (result) {
         this.selectedColumnNames = result;
         this.saveSelected(result);
-        
       }
     });
   }
-getData(data, att) {
+  getData(data, att) {
     let atts = att.split('.');
     atts.forEach((a) => {
       if (data[a] != undefined) {
@@ -181,11 +178,20 @@ getData(data, att) {
       if (value1 == null && value2 != null) result = -1;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
+      else if (typeof value1 === 'string' && typeof value2 === 'string')
+        result = value1.localeCompare(value2);
       else if (Array.isArray(value1) && Array.isArray(value2)) {
-        result = value1.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', ').localeCompare(value2.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', '));
-      }
-      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+        result = value1
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((t) => t.name)
+          .join(', ')
+          .localeCompare(
+            value2
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((t) => t.name)
+              .join(', ')
+          );
+      } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
     });
@@ -213,5 +219,4 @@ getData(data, att) {
       this.tableWidth = 'calc(100vw - 55px)';
     }
   }
-
 }

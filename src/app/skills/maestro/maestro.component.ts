@@ -75,7 +75,7 @@ export class MaestroComponent implements OnInit {
   selectedReportName: string;
   titleScreenshotChip: number;
   selectedReportModificationDate: Date;
-  selectedReportNameUserName: string;
+  selectedReportUserName: string;
 
   reportYears: string[];
   reportVersions: Report[];
@@ -94,7 +94,7 @@ export class MaestroComponent implements OnInit {
 
   selectedScreenshot: Screenshot;
   selectedReportYear: string;
-  selectedReportVersion: Report;
+  selectedReport: Report;
 
   disableYearDrop: boolean = true;
   disableVersionDrop: boolean = true;
@@ -140,7 +140,7 @@ export class MaestroComponent implements OnInit {
           this.selectedReportName = lastReport.descripcion;
           this.titleScreenshotChip = lastReport.screenshot;
           this.selectedReportModificationDate = lastReport.fechaModificacion;
-          this.selectedReportNameUserName = lastReport.usuario;
+          this.selectedReportUserName = lastReport.usuario;
           this.screenshotEnabled = lastReport.screenshot !== 0;
           this.comentarios = lastReport.comentarios || '';
 
@@ -155,7 +155,7 @@ export class MaestroComponent implements OnInit {
           this.initArSeApi();
           this.initPyramide();
 
-          this.selectedReportVersion = lastReport;
+          this.selectedReport = lastReport;
         }
       },
       (error) => {
@@ -221,7 +221,7 @@ export class MaestroComponent implements OnInit {
     }
     this.loadReportYears(this.screenshotValue.toString());
     this.selectedReportYear = '';
-    this.selectedReportVersion = null;
+    this.selectedReport = null;
     this.disableVersionDrop = true;
     this.disableYearDrop = false;
   }
@@ -235,21 +235,21 @@ export class MaestroComponent implements OnInit {
   }
 
   onVersionChange() {
-    this.idReport = this.selectedReportVersion.id;
+    this.idReport = this.selectedReport.id;
     this.disableButtonSearch = false;
   }
 
   reloadComponent() {
-    if (this.selectedReportVersion) {
+    if (this.selectedReport) {
       this.load = false;
 
       this.disableButtonSearch = true;
-      this.idReport = this.selectedReportVersion.id;
-      this.selectedReportName = this.selectedReportVersion.descripcion;
-      this.titleScreenshotChip = this.selectedReportVersion.screenshot;
+      this.idReport = this.selectedReport.id;
+      this.selectedReportName = this.selectedReport.descripcion;
+      this.titleScreenshotChip = this.selectedReport.screenshot;
       this.selectedReportModificationDate =
-      this.selectedReportVersion.fechaModificacion;
-      this.selectedReportNameUserName = this.selectedReportVersion.usuario;
+      this.selectedReport.fechaModificacion;
+      this.selectedReportUserName = this.selectedReport.usuario;
 
       this.loadProfileAndGradesData(this.idReport);
 
@@ -262,26 +262,26 @@ export class MaestroComponent implements OnInit {
       this.initArSeApi();
       this.initPyramide();
 
-      this.screenshotEnabled = this.selectedReportVersion.screenshot !== 0;
-      this.comentarios = this.selectedReportVersion.comentarios || '';
+      this.screenshotEnabled = this.selectedReport.screenshot !== 0;
+      this.comentarios = this.selectedReport.comentarios || '';
     }
   }
 
   toggleScreenshot() {
-    if (this.selectedReportVersion) {
-      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
+    if (this.selectedReport) {
+      this.selectedReport.screenshot = this.screenshotEnabled ? 1 : 0;
       this.hasScreenshotChanged = !this.hasScreenshotChanged;
     }
   }
 
   updateReport() {
     if (this.hasScreenshotChanged) {
-      this.selectedReportVersion.screenshot = this.screenshotEnabled ? 1 : 0;
-      this.selectedReportVersion.comentarios = this.comentarios;
-      this.selectedReportVersion.usuario = this.userName;
+      this.selectedReport.screenshot = this.screenshotEnabled ? 1 : 0;
+      this.selectedReport.comentarios = this.comentarios;
+      this.selectedReport.usuario = this.userName;
     }
 
-    this.skillsService.updateReport(this.selectedReportVersion).subscribe(
+    this.skillsService.updateReport(this.selectedReport).subscribe(
       (updatedReport) => {
         console.log('Informe actualizado');
       },
