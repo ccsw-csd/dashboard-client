@@ -126,6 +126,9 @@ export class CapabilitiesListComponent implements OnInit {
     return columns;
   }
 
+  onYearChange() {
+    this.loadData();
+  }
   onFilter(event) {
     this.capabilitiesToExport = event.filteredValue;
   }
@@ -195,27 +198,18 @@ export class CapabilitiesListComponent implements OnInit {
 
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
-      let value1 = this.getData(data1, event.field);
-      let value2 = this.getData(data2, event.field);
+      let value1 = data1[event.field];
+      let value2 = data2[event.field];
       let result = null;
 
       if (value1 == null && value2 != null) result = -1;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string')
-        result = value1.localeCompare(value2);
+      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
       else if (Array.isArray(value1) && Array.isArray(value2)) {
-        result = value1
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((t) => t.name)
-          .join(', ')
-          .localeCompare(
-            value2
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((t) => t.name)
-              .join(', ')
-          );
-      } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+        result = value1.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', ').localeCompare(value2.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', '));
+      }
+      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
     });
