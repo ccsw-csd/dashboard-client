@@ -49,7 +49,7 @@
           [options]="reportVersions"
           class="m-2"
           [style]="{ width: '240px' }"
-          [(ngModel)]="selectedReportVersion"
+          [(ngModel)]="selectedReport"
           optionLabel="descripcion"
           [showClear]="false"
           placeholder="Seleccione una versión"
@@ -103,8 +103,8 @@
       "
     >
       Marcado como ScreenShot el
-      {{ selectedReportNameModificationDate | date : "d/M/yy" }} por
-      {{ selectedReportNameUserName }}
+      {{ selectedReportModificationDate | date : "d/M/yy" }} por
+      {{ selectedReportUserName }}
     </h4>
   </div>
   <div class="flex flex-column lg:flex-row">
