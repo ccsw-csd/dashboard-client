@@ -107,7 +107,7 @@ export class ReportListComponent {
 
   loadSelected(): any[] {
     let selectedColumnNames: any = localStorage.getItem(
-      'capabilitiesListColumns'
+      'reportListColumns'
     );
     if (selectedColumnNames == null) return this.columnNames;
 
