@@ -11,8 +11,19 @@
     >
       <ng-template pTemplate="header">
         <tr *ngIf="extraHeader" class="h-4rem text-base font-italic">
-          <th style="background: white; width: 240px" class="flex-none"></th>
-          <th style="width: 640px" class="flex-none">
+          <th
+            style="
+              background: white;
+              width: 240px;
+              text-align: center;
+              justify-content: center;
+            "
+            class="flex-none"
+          ></th>
+          <th
+            style="width: 640px"
+            class="flex-none"
+          >
             Custom apps development (only pick one/pers)
           </th>
           <th style="width: 320px" class="flex-none">
@@ -29,6 +40,7 @@
             id="index"
             class="flex-none"
             [ngStyle]="{ width: index == 0 ? '160px' : '80px' }"
+            style="height: 47px; justify-content: center; text-align: center"
           >
             {{ col }}
           </th>
@@ -39,7 +51,12 @@
         <tr>
           <td
             [ngStyle]="{ 'font-weight': isTotal(fila.profile) ? '600' : '' }"
-            style="width: 160px; text-align: center"
+            style="
+              width: 160px;
+              height: 47px;
+              text-align: center;
+              justify-content: center;
+            "
             class="flex-none;"
           >
             {{ fila.profile }}
@@ -52,7 +69,12 @@
               fila.profile == 'Sum'
             "
             class="flex-none"
-            style="width: 80px"
+            style="
+              width: 80px;
+              height: 47px;
+              justify-content: center;
+              text-align: center;
+            "
           >
             {{ elem }}
           </td>
