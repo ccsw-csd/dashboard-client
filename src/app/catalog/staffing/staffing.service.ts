@@ -20,5 +20,7 @@ export class StaffingService {
   getStaffingAvailableYears(): Observable<number[]> {
     return this.http.get<number[]>(`${this.baseUrl}/staffingimports/years`);
   }
-
+  getAllStaffingImportsVersions(): Observable<Staffing[]> {
+    return this.http.get<Staffing[]>(`${this.baseUrl}/staffingimports/all`);
+  }
 }
