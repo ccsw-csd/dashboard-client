@@ -248,7 +248,7 @@ export class MaestroComponent implements OnInit {
       this.selectedReportName = this.selectedReport.descripcion;
       this.titleScreenshotChip = this.selectedReport.screenshot;
       this.selectedReportModificationDate =
-      this.selectedReport.fechaModificacion;
+        this.selectedReport.fechaModificacion;
       this.selectedReportUserName = this.selectedReport.usuario;
 
       this.loadProfileAndGradesData(this.idReport);
@@ -415,24 +415,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.EMCol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /* this.skillsService
-      .getTableDetail('Engagement Managers', 't')
-      .subscribe((info) => {
-        this.EMText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Engagement Managers', 'c')
-      .subscribe((info) => {
-        this.EMCol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals('Engagement Managers', this.idReport)
-      .subscribe((data) => {
-        this.EMData = data;
-      }); */
   }
 
   initBA() {
@@ -450,25 +432,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.BACol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /* this.skillsService
-      .getTableDetail('Business Analyst', 't')
-      .subscribe((info) => {
-        this.BAText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Business Analyst', 'c')
-      .subscribe((info) => {
-        this.BACol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals('Business Analyst', this.idReport)
-
-      .subscribe((data) => {
-        this.BAData = data;
-      }); */
   }
 
   initAR() {
@@ -486,30 +449,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.ARCol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /* this.skillsService.getTableDetail('Architects', 't').subscribe((info) => {
-      this.ARText = info[0].desc;
-    });
-    this.skillsService.getTableDetail('Architects', 'c').subscribe((info) => {
-      this.ARCol = info.map((el) => el.desc);
-    }); */
-
-    /* this.skillsService
-      .getProfileTotals('Architects', this.idReport)
-
-      .subscribe((data) => {
-        this.ARData = data;
-        let sum = [0, 0, 0];
-        this.ARData.forEach((el) => {
-          el.totals.forEach((t, i) => {
-            sum[i] += t;
-          });
-        });
-        this.ARData.push({
-          profile: 'Total',
-          totals: sum,
-        });
-      }); */
   }
 
   initSE() {
@@ -527,24 +466,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.SECol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /*  this.skillsService
-      .getTableDetail('Software Engineer', 't')
-      .subscribe((info) => {
-        this.SEText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Software Engineer', 'c')
-      .subscribe((info) => {
-        this.SECol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals('Software Engineer', this.idReport)
-      .subscribe((data) => {
-        this.SEData = data;
-      }); */
   }
 
   initIE() {
@@ -562,25 +483,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.IECol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /* this.skillsService
-      .getTableDetail('Industry Experts', 't')
-      .subscribe((info) => {
-        this.IEText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Industry Experts', 'c')
-      .subscribe((info) => {
-        this.IECol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals('Industry Experts', this.idReport)
-
-      .subscribe((data) => {
-        this.IEData = data;
-      }); */
   }
 
   initArSeDev() {
@@ -598,27 +500,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.ArSeDevCol = emColLiterals.map((literal) => literal.desc);
     }
-
-    /* this.skillsService
-      .getTableDetail('Architects & SE Custom Apps Development', 't')
-      .subscribe((info) => {
-        this.ArSeDevText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Architects & SE Custom Apps Development', 'c')
-      .subscribe((info) => {
-        this.ArSeDevCol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals(
-        'Architects & SE Custom Apps Development',
-        this.idReport
-      )
-      .subscribe((data) => {
-        this.ArSeDevData = data;
-      }); */
   }
 
   initArSeApi() {
@@ -636,24 +517,6 @@ export class MaestroComponent implements OnInit {
     if (emColLiterals.length > 0) {
       this.ArSeApiCol = emColLiterals.map((literal) => literal.desc);
     }
-    /* this.skillsService
-      .getTableDetail('Architects & SE Integration & APIs', 't')
-      .subscribe((info) => {
-        this.ArSeApiText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Architects & SE Integration & APIs', 'c')
-      .subscribe((info) => {
-        this.ArSeApiCol = info.map((el) => el.desc);
-      }); */
-
-    /* this.skillsService
-      .getProfileTotals('Architects & SE Integration & APIs', this.idReport)
-
-      .subscribe((data) => {
-        this.ArSeApiData = data;
-      }); */
   }
 
   initPyramide() {
@@ -676,39 +539,6 @@ export class MaestroComponent implements OnInit {
       this.rolesCol.unshift('Grade');
       this.rolesCol.push('Total');
     }
-
-    /* this.skillsService
-      .getTableDetail('Pyramid Grade-Rol', 't')
-      .subscribe((info) => {
-        this.gradeRoleText = info[0].desc;
-      });
-
-    this.skillsService
-      .getTableDetail('Pyramid Grade-Rol', 'c')
-      .subscribe((info) => {
-        this.rolesCol = info.map((el) => el.desc);
-        this.rolesCol.unshift('Grade');
-        this.rolesCol.push('Total');
-      }); */
-
-    /* this.skillsService.getGradesRoles(this.idReport).subscribe((data) => {
-      let rolesSum = [0, 0, 0, 0, 0];
-      this.gradesRoles = data.map((elem) => {
-        let lineSum: number = 0;
-        elem.totals.forEach((nb, index) => {
-          lineSum += nb;
-          rolesSum[index] += nb;
-        });
-        rolesSum[elem.totals.length] += lineSum;
-        elem.totals.push(lineSum);
-        return { profile: elem.grade, totals: elem.totals };
-      });
-      this.gradesRoles.push({
-        profile: 'Sum',
-        totals: rolesSum,
-      });
-      this.load = true;
-    }); */
   }
 
   formatTable(data, cols): any {
