@@ -1,8 +1,20 @@
-import { Component } from '@angular/core';
+import { Component ,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren, } from '@angular/core';
 import { StaffingService } from '../staffing.service';
+import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api';
 import { } from 'primeng/dynamicdialog';
 import { Staffing } from '../model/staffing.model';
+import { Table } from 'primeng/table';
+import { Dropdown } from 'primeng/dropdown';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-staffing-list',
@@ -10,15 +22,18 @@ import { Staffing } from '../model/staffing.model';
   styleUrls: ['./staffing-list.component.scss']
 })
 export class StaffingListComponent {
-
+  @ViewChild(Table) table: Table;
+  @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
   staffing: Staffing[];
   tableWidth: string;
   defaultFilters: any = {};
   selectedColumnNames: any[];
   years: number[];
   selectedYear: number;
+  totalStaffing:number;
+  staffingToExport: Staffing[];
   columnNames: any[] = [
-    { header: 'Descripción', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
+    { header: 'Id Staffing', composeField: 'descripcion', field: 'descripcion', filterType: 'input' },
     { header: 'Tipo Interfaz', composeField: 'idTipoInterfaz', field: 'idTipoInterfaz', filterType: 'input' },
     { header: 'NºRegistros', composeField: 'numRegistros', field: 'numRegistros', filterType: 'input' },
     { header: 'Título', composeField: 'nombreFichero', field: 'nombreFichero', filterType: 'input' },
@@ -27,33 +42,85 @@ export class StaffingListComponent {
     { header: 'Versión', composeField: 'id', field: 'id', filterType: 'input' }
   ];
 
-  constructor(private staffingService: StaffingService) { }
+  constructor(private staffingService: StaffingService,
+    private dialogService: DialogService) { }
 
-  ngOnInit() {
-
-    this.staffingService.getStaffingAvailableYears().subscribe(
-      years => {
-        console.log(years);
-        this.years = years;
-
-        if (this.years && this.years.length > 0) {
-          this.selectedYear = this.years[0];
-          this.loadData(this.selectedYear);
-        }
-      }
-    );
-
-  }
-
-  loadData(selectedYear) {
-    this.staffingService.getStaffingleImportsVersionsByYear(selectedYear).subscribe(
-      staffing => {
-        console.log(staffing);
-        this.staffing = staffing;
-        this.setDefaultFilters();
-      }
-    );
-  }
+    ngOnInit() {
+      this.columnNames = [
+        {
+          header: 'Id Staffing',
+          composeField: 'id',
+          field: 'id',
+          filterType: 'input',
+        },
+        {
+          header: 'Descripción',
+          composeField: 'descripcion',
+          field: 'descripcion',
+          filterType: 'input',
+        },
+        {
+          header: 'Fecha de Importación',
+          composeField: 'fechaImportacion',
+          field: 'fechaImportacion',
+          filterType: 'input',
+        },
+        {
+          header: 'Tipo Interfaz',
+          composeField: 'idTipoInterfaz',
+          field: 'idTipoInterfaz',
+          filterType: 'input',
+        },
+        {
+          header: 'NºRegistros',
+          composeField: 'numRegistros',
+          field: 'numRegistros',
+          filterType: 'input',
+        },
+        {
+          header: 'Usuario',
+          composeField: 'usuario',
+          field: 'usuario',
+          filterType: 'input',
+        },
+        {
+          header: 'Título',
+          composeField: 'nombreFichero',
+          field: 'nombreFichero',
+          filterType: 'input',
+        },
+      ];
+  
+      this.selectedColumnNames = this.loadSelected();
+      this.loadData();
+    }
+    loadSelected(): any[] {
+      let selectedColumnNames: any = localStorage.getItem(
+        'staffing'
+      );
+      if (selectedColumnNames == null) return this.columnNames;
+  
+      selectedColumnNames = JSON.parse(selectedColumnNames);
+  
+      let columns: any[] = [];
+      selectedColumnNames.forEach((item) => {
+        let filterColumn = this.columnNames.filter(
+          (column) => column.header == item
+        );
+        columns = columns.concat(filterColumn);
+      });
+  
+      return columns;
+    }
+    loadData() {
+      this.staffingService
+        .getAllStaffingImportsVersions()
+        .subscribe((staffing) => {
+          this.staffing = staffing;
+          this.totalStaffing = staffing.length;
+          this.setDefaultFilters();
+        });
+    }
 
   setDefaultFilters() {
     this.defaultFilters = {};
@@ -61,6 +128,37 @@ export class StaffingListComponent {
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input') {
         this.defaultFilters[column.composeField] = { value: '' };
+      }
+    });
+  }
+  setFilters(): void {
+    this.setDefaultFilters();
+  }
+  cleanFilters(): void {
+    this.table.clear();
+    this.setFilters();
+  }
+
+  onFilter(event) {
+    this.staffingToExport = event.filteredValue;
+  }
+  showConfig() {
+    const ref = this.dialogService.open(ColumnConfigComponent, {
+      width: '50vw',
+      data: {
+        columns: this.columnNames,
+        selected: this.selectedColumnNames,
+      },
+      closable: false,
+      showHeader: true,
+      autoZIndex: true,
+      header: 'Configuración de la tabla',
+    });
+
+    ref.onClose.subscribe((result: any) => {
+      if (result) {
+        this.selectedColumnNames = result;
+        this.saveSelected(result);
       }
     });
   }
@@ -93,7 +191,7 @@ export class StaffingListComponent {
   }
 
   onYearChange() {
-    this.loadData(this.selectedYear);
+    this.loadData();
   }
 
   resizeTable() {
