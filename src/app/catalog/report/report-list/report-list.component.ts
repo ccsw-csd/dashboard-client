@@ -36,12 +36,12 @@ export class ReportListComponent {
 
   ngOnInit() {
     this.columnNames = [
-      {
+      /* {
         header: 'ID',
         composeField: 'id',
         field: 'id',
         filterType: 'input',
-      },
+      }, */
       {
         header: 'Id Capacidades',
         composeField: 'idVersionCapacidades',

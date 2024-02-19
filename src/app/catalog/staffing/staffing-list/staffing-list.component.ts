@@ -41,7 +41,7 @@ export class StaffingListComponent {
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'Id Staffing',
+        header: 'Versión',
         composeField: 'id',
         field: 'id',
         filterType: 'input',
