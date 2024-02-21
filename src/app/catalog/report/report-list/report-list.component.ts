@@ -36,12 +36,6 @@ export class ReportListComponent {
 
   ngOnInit() {
     this.columnNames = [
-      /* {
-        header: 'ID',
-        composeField: 'id',
-        field: 'id',
-        filterType: 'input',
-      }, */
       {
         header: 'Id Capacidades',
         composeField: 'idVersionCapacidades',
@@ -96,6 +90,44 @@ export class ReportListComponent {
     this.loadData();
   }
 
+  foo() {
+    console.log('Botón pulsado');
+  }
+
+  importRolesFile(): void {
+    console.log('Botón importar roles');
+    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+    dialogRef.onClose.subscribe(res => {
+      if(res){
+        this.getProperties();
+        this.loadData();
+      } 
+    }); */
+  }
+
+  importStaffingFile(): void {
+    console.log('Botón importar staffing');
+    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+    dialogRef.onClose.subscribe(res => {
+      if(res){
+        this.getProperties();
+        this.loadData();
+      } 
+    }); */
+  }
+
+  importCertificatesFile(): void {
+    console.log('Botón importar certificados');
+
+    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
+    dialogRef.onClose.subscribe(res => {
+      if(res){
+        this.getProperties();
+        this.loadData();
+      } 
+    }); */
+  }
+
   loadData() {
     this.reportService.getAllReportVersions().subscribe((reports) => {
       //console.log(capabilities);
@@ -106,9 +138,7 @@ export class ReportListComponent {
   }
 
   loadSelected(): any[] {
-    let selectedColumnNames: any = localStorage.getItem(
-      'reportListColumns'
-    );
+    let selectedColumnNames: any = localStorage.getItem('reportListColumns');
     if (selectedColumnNames == null) return this.columnNames;
 
     selectedColumnNames = JSON.parse(selectedColumnNames);
