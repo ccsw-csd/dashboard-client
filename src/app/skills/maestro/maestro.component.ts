@@ -1,4 +1,4 @@
-import { Component, OnInit, Version } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ColumnDetails,
   GradesRole,
@@ -411,9 +411,16 @@ export class MaestroComponent implements OnInit {
           totals: rolesSum,
         });
 
-        this.CCATotal = this.EMDataTotal + this.EMDataOthersTotal + this.BADataTotal + this.ARDataTotal + this.SEDataTotal;
+        this.CCATotal =
+          this.EMDataTotal +
+          this.EMDataOthersTotal +
+          this.BADataTotal +
+          this.ARDataTotal +
+          this.SEDataTotal;
         console.log('Toal CCA: ' + this.CCATotal);
-        console.log('Total CCA menos Others: ' + (this.CCATotal - this.EMDataOthersTotal));
+        console.log(
+          'Total CCA menos Others: ' + (this.CCATotal - this.EMDataOthersTotal)
+        );
         this.load = true;
       },
       (error) => {
