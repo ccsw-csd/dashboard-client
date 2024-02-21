@@ -16,13 +16,8 @@ export class CapabilitiesService {
     return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all`);
   }
 
-  getRoleImportsVersionsByYear(year: number): Observable<Capability[]> {
-    return this.http.get<Capability[]>(
-      `${this.baseUrl}/roleimports/all/${year}`
-    );
-  }
-
-  getRolesAvailableYears(): Observable<number[]> {
-    return this.http.get<number[]>(`${this.baseUrl}/roleimports/years`);
+  uploadCapability(formData: FormData): Observable<FormData>{
+    console.log('Archivo capabilities subido');
+    return;
   }
 }
