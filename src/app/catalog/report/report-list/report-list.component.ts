@@ -10,6 +10,7 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
+import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
 
 @Component({
   selector: 'app-report-list',
@@ -96,13 +97,8 @@ export class ReportListComponent {
 
   importRolesFile(): void {
     console.log('Botón importar roles');
-    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
-    dialogRef.onClose.subscribe(res => {
-      if(res){
-        this.getProperties();
-        this.loadData();
-      } 
-    }); */
+    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, { header: "Importar archivo de Roles", width: "50%", closable: false });
+    dialogRef.onClose
   }
 
   importStaffingFile(): void {

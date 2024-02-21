@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StaffingListComponent } from './staffing/staffing-list/staffing-list.component';
 import { CapabilitiesListComponent } from './capabilities/capabilities-list/capabilities-list.component';
 import { TableModule } from 'primeng/table';
+import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -43,6 +44,7 @@ import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/
     TabViewModule,
     InputSwitchModule,
     ScrollPanelModule,
+    FileUploadModule,
   ],
 })
 export class CatalogModule {}

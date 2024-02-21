@@ -16,7 +16,7 @@ export class CapabilitiesService {
     return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all`);
   }
 
-  uploadCapability(formData: FormData): Observable<FormData>{
+  uploadCapability(formData: FormData): Observable<FormData> {
     console.log('Archivo capabilities subido');
     return;
   }
