@@ -98,7 +98,13 @@ export class ReportListComponent {
   importRolesFile(): void {
     console.log('Botón importar roles');
     const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, { header: "Importar archivo de Roles", width: "50%", closable: false });
-    dialogRef.onClose
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
   }
 
   importStaffingFile(): void {

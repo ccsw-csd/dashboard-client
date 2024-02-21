@@ -26,7 +26,7 @@ export class CapabilitiesUploadComponent {
   onSelect(event: { currentFiles: File[] }) {
     const selectedFile = event.currentFiles[0];
     const fileName = selectedFile.name.toLowerCase();
-    const pattern = /^241103_roles\.[a-zA-Z0-9]+$/;
+    const pattern = /^20241103_roles\.[a-zA-Z0-9]+$/;
     if (!pattern.test(fileName)) {
       this.file = null;
       this.snackbarService.error(
