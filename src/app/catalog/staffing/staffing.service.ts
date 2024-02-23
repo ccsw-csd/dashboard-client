@@ -5,22 +5,22 @@ import { environment } from 'src/environments/environment';
 import { Staffing } from './model/staffing.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StaffingService {
-
   private baseUrl: string = environment.server;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getStaffingleImportsVersionsByYear(year: number): Observable<Staffing[]> {
-    return this.http.get<Staffing[]>(`${this.baseUrl}/staffingimports/all/${year}`);
-  }
-
-  getStaffingAvailableYears(): Observable<number[]> {
-    return this.http.get<number[]>(`${this.baseUrl}/staffingimports/years`);
-  }
   getAllStaffingImportsVersions(): Observable<Staffing[]> {
     return this.http.get<Staffing[]>(`${this.baseUrl}/staffingimports/all`);
+  }
+
+  uploadStaffing(formData: FormData): Observable<FormData> {
+    console.log('Archivo staffing subido');
+    return this.http.post<FormData>(
+      environment.server + '/staffingimports',
+      formData
+    );
   }
 }

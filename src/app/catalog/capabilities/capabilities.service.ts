@@ -17,7 +17,10 @@ export class CapabilitiesService {
   }
 
   uploadCapability(formData: FormData): Observable<FormData> {
-    console.log('Archivo capabilities subido');
-    return this.http.post<FormData>(environment.server + "/roleimports", formData);
+    console.log('Archivo roles subido');
+    return this.http.post<FormData>(
+      environment.server + '/roleimports',
+      formData
+    );
   }
 }

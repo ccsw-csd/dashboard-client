@@ -11,6 +11,8 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
+import { StaffingListComponent } from '../../staffing/staffing-list/staffing-list.component';
+import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
 
 @Component({
   selector: 'app-report-list',
@@ -109,13 +111,14 @@ export class ReportListComponent {
 
   importStaffingFile(): void {
     console.log('Botón importar staffing');
-    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
-    dialogRef.onClose.subscribe(res => {
-      if(res){
-        this.getProperties();
-        this.loadData();
-      } 
-    }); */
+    const dialogRef = this.dialogService.open(StaffingUploadComponent, { header: "Importar archivo de Staffing", width: "50%", closable: false });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
   }
 
   importCertificatesFile(): void {

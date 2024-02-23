@@ -9,7 +9,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
   styleUrls: ['./capabilities-upload.component.scss'],
 })
 export class CapabilitiesUploadComponent {
-  file: File;
+  capabilityFile: File;
   isLoading: boolean;
 
   constructor(
@@ -28,26 +28,26 @@ export class CapabilitiesUploadComponent {
     const fileName = selectedFile.name.toLowerCase();
     const pattern = /^20241103_roles\.[a-zA-Z0-9]+$/;
     if (!pattern.test(fileName)) {
-      this.file = null;
+      this.capabilityFile = null;
       this.snackbarService.error(
         'El nombre del archivo no cumple con el formato esperado.'
       );
     } else {
-      this.file = selectedFile;
+      this.capabilityFile = selectedFile;
     }
   }
 
   onRemove() {
-    this.file = null;
+    this.capabilityFile = null;
   }
 
   onImport() {
-    if (!this.file) {
+    if (!this.capabilityFile) {
       this.snackbarService.error('Por favor seleccione un archivo.');
       return;
     }
     let formData = new FormData();
-    formData.append('file', this.file);
+    formData.append('capabilityFile', this.capabilityFile);
     this.isLoading = true;
     this.capabilitiesService.uploadCapability(formData).subscribe({
       next: (result) => {
