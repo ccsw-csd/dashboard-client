@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { ReportListComponent } from './report/report-list/report-list.component';
 import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/capabilities-upload.component';
+import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upload.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/
     StaffingListComponent,
     ReportListComponent,
     CapabilitiesUploadComponent,
+    StaffingUploadComponent,
   ],
   imports: [
     CommonModule,
