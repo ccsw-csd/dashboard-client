@@ -234,10 +234,10 @@
           }}"
           tooltipPosition="top"
         >
-          <ng-container *ngIf="col.field === 'idVersionCapacidades'">
+          <ng-container *ngIf="col.field === 'roleVersion'">
             {{ report[col.field]?.descripcion }}
           </ng-container>
-          <ng-container *ngIf="col.field === 'idVersionStaffing'">
+          <ng-container *ngIf="col.field === 'staffingVersion'">
             {{ report[col.field]?.descripcion }}
           </ng-container>
           <ng-container *ngIf="col.field === 'fechaImportacion'">
@@ -253,8 +253,8 @@
             *ngIf="
               col.field !== 'fechaImportacion' &&
               col.field !== 'fechaModificacion' &&
-              col.field !== 'idVersionCapacidades' &&
-              col.field !== 'idVersionStaffing' &&
+              col.field !== 'roleVersion' &&
+              col.field !== 'staffingVersion' &&
               col.field !== 'screenshot'
             "
           >

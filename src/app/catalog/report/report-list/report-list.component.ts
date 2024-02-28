@@ -40,15 +40,15 @@ export class ReportListComponent {
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'Id Capacidades',
-        composeField: "idVersionCapacidades",
-        field: "idVersionCapacidades",
+        header: 'Archivo Capacidades',
+        composeField: "roleVersion",
+        field: "roleVersion",
         filterType: 'input',
       },
       {
-        header: 'Id Staffing',
-        composeField: 'idVersionStaffing',
-        field: 'idVersionStaffing',
+        header: 'Archivo Staffing',
+        composeField: 'staffingVersion',
+        field: 'staffingVersion',
         filterType: 'input',
       },
       {
