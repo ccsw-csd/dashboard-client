@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ReportService } from '../report.service';
 import { Dropdown } from 'primeng/dropdown';
 import { Table } from 'primeng/table';
-import { Report } from 'src/app/core/interfaces/Report';
+import { Report } from 'src/app/catalog/report/model/Report';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api/sortevent';
 import {
@@ -11,8 +11,8 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
-import { StaffingListComponent } from '../../staffing/staffing-list/staffing-list.component';
 import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
+import { Capability } from '../../capabilities/model/Capability';
 
 @Component({
   selector: 'app-report-list',
@@ -41,8 +41,8 @@ export class ReportListComponent {
     this.columnNames = [
       {
         header: 'Id Capacidades',
-        composeField: 'idVersionCapacidades',
-        field: 'idVersionCapacidades',
+        composeField: "idVersionCapacidades",
+        field: "idVersionCapacidades",
         filterType: 'input',
       },
       {
@@ -99,7 +99,11 @@ export class ReportListComponent {
 
   importRolesFile(): void {
     console.log('Botón importar roles');
-    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, { header: "Importar archivo de Roles", width: "50%", closable: false });
+    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, {
+      header: 'Importar archivo de Roles',
+      width: '50%',
+      closable: false,
+    });
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
@@ -111,7 +115,11 @@ export class ReportListComponent {
 
   importStaffingFile(): void {
     console.log('Botón importar staffing');
-    const dialogRef = this.dialogService.open(StaffingUploadComponent, { header: "Importar archivo de Staffing", width: "50%", closable: false });
+    const dialogRef = this.dialogService.open(StaffingUploadComponent, {
+      header: 'Importar archivo de Staffing',
+      width: '50%',
+      closable: false,
+    });
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
@@ -123,13 +131,17 @@ export class ReportListComponent {
 
   importCertificatesFile(): void {
     console.log('Botón importar certificados');
-
-    /* const dialogRef = this.dialogService.open(EvidenceUploadComponent, { header: "Importar datos de GTE", width: "50%", closable: false });
-    dialogRef.onClose.subscribe(res => {
-      if(res){
-        this.getProperties();
-        this.loadData();
-      } 
+    /* const dialogRef = this.dialogService.open(StaffingUploadComponent, {
+      header: 'Importar archivo de Staffing',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
     }); */
   }
 

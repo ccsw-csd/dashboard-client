@@ -235,6 +235,12 @@
           <ng-container *ngIf="col.field === 'fechaModificacion'">
             {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
+          <ng-container *ngIf="col.field === 'idVersionCapacidades'">
+            {{ report[col.field]?.descripcion }}
+          </ng-container>
+          <ng-container *ngIf="col.field === 'idVersionStaffing'">
+            {{ report[col.field]?.descripcion }}
+          </ng-container>
           <ng-container *ngIf="col.field === 'screenshot'">
             {{ report[col.field] === 1 ? "SI" : "NO" }}
           </ng-container>
@@ -242,6 +248,7 @@
             *ngIf="
               col.field !== 'fechaImportacion' &&
               col.field !== 'fechaModificacion' &&
+              col.field !== 'idVersionCapacidades' &&
               col.field !== 'screenshot'
             "
           >
