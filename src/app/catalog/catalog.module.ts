@@ -19,6 +19,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ReportListComponent } from './report/report-list/report-list.component';
 import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/capabilities-upload.component';
 import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upload.component';
+import { ReportGeneratorComponent } from './report/report-generator/report-generator.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upl
     ReportListComponent,
     CapabilitiesUploadComponent,
     StaffingUploadComponent,
+    ReportGeneratorComponent,
   ],
   imports: [
     CommonModule,

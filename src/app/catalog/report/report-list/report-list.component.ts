@@ -14,6 +14,8 @@ import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upl
 import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
 import { Capability } from '../../capabilities/model/Capability';
 import { Tooltip } from 'primeng/tooltip';
+import { Staffing } from '../../staffing/model/staffing.model';
+import { ReportGeneratorComponent } from '../report-generator/report-generator.component';
 
 @Component({
   selector: 'app-report-list',
@@ -48,9 +50,9 @@ export class ReportListComponent {
       },
       {
         header: 'Archivo Capacidades',
-        composeField: "roleVersion",
-        field: "roleVersion",
-        filterType: 'input'
+        composeField: 'roleVersion',
+        field: 'roleVersion',
+        filterType: 'input',
       },
       {
         header: 'Archivo Staffing',
@@ -98,10 +100,6 @@ export class ReportListComponent {
 
     this.selectedColumnNames = this.loadSelected();
     this.loadData();
-  }
-
-  foo() {
-    console.log('Botón pulsado');
   }
 
   importRolesFile(): void {
@@ -152,9 +150,25 @@ export class ReportListComponent {
     }); */
   }
 
+  generateReport(): void {
+    console.log('Botón importar staffing');
+    const dialogRef = this.dialogService.open(ReportGeneratorComponent, {
+      header: 'Generar Dashboard',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo generado:', result);
+      } else {
+        console.log('Archivo no generado.');
+      }
+    });
+  }
+
   loadData() {
     this.reportService.getAllReportVersions().subscribe((reports) => {
-      //console.log(capabilities);
+      console.log(reports);
       this.reports = reports;
       this.totalReports = reports.length;
       this.setDefaultFilters();
