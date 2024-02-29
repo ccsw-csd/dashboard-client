@@ -58,7 +58,7 @@ export class ReportListComponent {
         filterType: 'input',
       },
       {
-        header: 'Fecha de Importación',
+        header: 'Fecha de Generación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
         filterType: 'input',
