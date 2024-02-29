@@ -227,9 +227,15 @@
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           pTooltip="{{
-            col.field === 'idVersionCapacidades' ||
-            col.field === 'idVersionStaffing'
+            col.field === 'roleVersion' || col.field === 'staffingVersion'
               ? report[col.field]?.descripcion || ''
+              : col.field === 'screenshot'
+              ? report[col.field]
+                ? 'SI'
+                : 'NO'
+              : col.field === 'fechaImportacion' ||
+                col.field === 'fechaModificacion'
+              ? (report[col.field] | date : 'dd/MM/yyyy')
               : report[col.field]
           }}"
           tooltipPosition="top"
@@ -247,7 +253,7 @@
             {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'screenshot'">
-            {{ report[col.field] === 1 ? "SI" : "NO" }}
+            {{ report[col.field] ? "SI" : "NO" }}
           </ng-container>
           <ng-container
             *ngIf="

@@ -13,6 +13,7 @@ import {
 import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
 import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
 import { Capability } from '../../capabilities/model/Capability';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-report-list',
@@ -40,10 +41,16 @@ export class ReportListComponent {
   ngOnInit() {
     this.columnNames = [
       {
+        header: 'Versión',
+        composeField: 'id',
+        field: 'id',
+        filterType: 'input',
+      },
+      {
         header: 'Archivo Capacidades',
         composeField: "roleVersion",
         field: "roleVersion",
-        filterType: 'input',
+        filterType: 'input'
       },
       {
         header: 'Archivo Staffing',
