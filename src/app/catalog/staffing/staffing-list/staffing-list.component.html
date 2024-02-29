@@ -6,7 +6,7 @@
 
 <div class="flex flex-row justify-content-between">
   <div
-    class="flex w-12rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+    class="flex w-14rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
     style="background-color: #e7edef"
   >
     <div class="pl-3">
@@ -184,44 +184,54 @@
       </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-staffing let-columns="columns">
-    <tr [pSelectableRow]="staffing">
+  <ng-template pTemplate="body" let-capability let-columns="columns">
+    <tr [pSelectableRow]="capability">
       <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ staffing[col.field] }}"
+          [pTooltip]="
+            col.field === 'fechaImportacion'
+              ? (capability[col.field] | date : 'dd/MM/yyyy')
+              : col.field === 'idTipoInterfaz'
+              ? capability[col.field] === 2
+                ? 'Staffing'
+                : capability[col.field]
+              : capability[col.field]
+          "
           tooltipPosition="top"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
-            {{ staffing[col.field] | date : "dd/MM/yyyy" }}
+            {{ capability[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{ staffing[col.field] === 2 ? "Staffing" : staffing[col.field] }}
+            {{
+              capability[col.field] === 1 ? "Staffing" : capability[col.field]
+            }}
           </ng-container>
           <ng-container
             *ngIf="
               col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
             "
           >
-            {{ staffing[col.field] }}
+            {{ capability[col.field] }}
           </ng-container>
         </div>
         <div
           *ngIf="col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{staffing[col.field]?.[col.fieldExtra]}}"
+          [pTooltip]="capability[col.field]?.[col.fieldExtra]"
           tooltipPosition="top"
         >
-          {{staffing[col.field]?.[col.fieldExtra]}}
+          {{ capability[col.field]?.[col.fieldExtra] }}
         </div>
         <div
           *ngIf="col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ col.parse(person[col.field]) }}"
+          [pTooltip]="col.parse(capability[col.field])"
           tooltipPosition="top"
         >
-          {{ col.parse(staffing[col.field]) }}
+          {{ col.parse(capability[col.field]) }}
         </div>
       </td>
     </tr>

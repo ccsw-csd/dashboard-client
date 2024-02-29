@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ReportService } from '../report.service';
 import { Dropdown } from 'primeng/dropdown';
 import { Table } from 'primeng/table';
-import { Report } from 'src/app/core/interfaces/Report';
+import { Report } from 'src/app/catalog/report/model/Report';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api/sortevent';
 import {
@@ -10,6 +10,12 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
+import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
+import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
+import { Capability } from '../../capabilities/model/Capability';
+import { Tooltip } from 'primeng/tooltip';
+import { Staffing } from '../../staffing/model/staffing.model';
+import { ReportGeneratorComponent } from '../report-generator/report-generator.component';
 
 @Component({
   selector: 'app-report-list',
@@ -37,21 +43,21 @@ export class ReportListComponent {
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'ID',
+        header: 'Versión',
         composeField: 'id',
         field: 'id',
         filterType: 'input',
       },
       {
-        header: 'Id Capacidades',
-        composeField: 'idVersionCapacidades',
-        field: 'idVersionCapacidades',
+        header: 'Archivo Capacidades',
+        composeField: 'roleVersion',
+        field: 'roleVersion',
         filterType: 'input',
       },
       {
-        header: 'Id Staffing',
-        composeField: 'idVersionStaffing',
-        field: 'idVersionStaffing',
+        header: 'Archivo Staffing',
+        composeField: 'staffingVersion',
+        field: 'staffingVersion',
         filterType: 'input',
       },
       {
@@ -61,7 +67,7 @@ export class ReportListComponent {
         filterType: 'input',
       },
       {
-        header: 'Fecha de Importación',
+        header: 'Fecha de Generación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
         filterType: 'input',
@@ -96,9 +102,73 @@ export class ReportListComponent {
     this.loadData();
   }
 
+  importRolesFile(): void {
+    console.log('Botón importar roles');
+    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, {
+      header: 'Importar archivo de Roles',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
+  }
+
+  importStaffingFile(): void {
+    console.log('Botón importar staffing');
+    const dialogRef = this.dialogService.open(StaffingUploadComponent, {
+      header: 'Importar archivo de Staffing',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
+  }
+
+  importCertificatesFile(): void {
+    console.log('Botón importar certificados');
+    /* const dialogRef = this.dialogService.open(StaffingUploadComponent, {
+      header: 'Importar archivo de Staffing',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    }); */
+  }
+
+  generateReport(): void {
+    console.log('Botón importar staffing');
+    const dialogRef = this.dialogService.open(ReportGeneratorComponent, {
+      header: 'Generar Dashboard',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo generado:', result);
+      } else {
+        console.log('Archivo no generado.');
+      }
+    });
+  }
+
   loadData() {
     this.reportService.getAllReportVersions().subscribe((reports) => {
-      //console.log(capabilities);
+      console.log(reports);
       this.reports = reports;
       this.totalReports = reports.length;
       this.setDefaultFilters();
@@ -106,9 +176,7 @@ export class ReportListComponent {
   }
 
   loadSelected(): any[] {
-    let selectedColumnNames: any = localStorage.getItem(
-      'reportListColumns'
-    );
+    let selectedColumnNames: any = localStorage.getItem('reportListColumns');
     if (selectedColumnNames == null) return this.columnNames;
 
     selectedColumnNames = JSON.parse(selectedColumnNames);
