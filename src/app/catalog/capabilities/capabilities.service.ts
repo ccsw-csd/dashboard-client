@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Capability } from 'src/app/core/interfaces/Capability';
+import { Capability } from 'src/app/catalog/capabilities/model/Capability';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,13 +16,11 @@ export class CapabilitiesService {
     return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all`);
   }
 
-  getRoleImportsVersionsByYear(year: number): Observable<Capability[]> {
-    return this.http.get<Capability[]>(
-      `${this.baseUrl}/roleimports/all/${year}`
+  uploadCapability(formData: FormData): Observable<FormData> {
+    console.log('Archivo roles subido');
+    return this.http.post<FormData>(
+      environment.server + '/roleimports',
+      formData
     );
-  }
-
-  getRolesAvailableYears(): Observable<number[]> {
-    return this.http.get<number[]>(`${this.baseUrl}/roleimports/years`);
   }
 }

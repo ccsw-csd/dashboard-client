@@ -9,7 +9,7 @@ import {
   ColumnDetails,
   ProfilesAndGrades,
 } from '../interfaces/Capabilities';
-import { Report } from '../interfaces/Report';
+import { Report } from '../../catalog/report/model/Report';
 
 @Injectable({
   providedIn: 'root',

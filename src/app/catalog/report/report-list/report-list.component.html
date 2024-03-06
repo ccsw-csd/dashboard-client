@@ -6,7 +6,6 @@
 
 <div class="flex flex-row justify-content-between">
   <div
-
     class="flex w-9rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
     style="background-color: #e7edef"
   >
@@ -19,6 +18,42 @@
     </div>
   </div>
   <div>
+    <button
+      #b
+      pButton
+      label="Importar roles"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importRolesFile()"
+      title="Importar archivo roles"
+    ></button>
+    <button
+      #b
+      pButton
+      label="Importar staffing"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importStaffingFile()"
+      title="Importar archivo staffing"
+    ></button>
+    <button
+      #b
+      pButton
+      label="Importar certificaciones"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importCertificatesFile()"
+      title="Importar archivo certificaciones"
+    ></button>
+    <button
+      #b
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      class="p-button p-button-outlined m-2"
+      (click)="generateReport()"
+      title="Procesar generación informe"
+    ></button>
     <button
       tooltipPosition="top"
       pButton
@@ -191,9 +226,26 @@
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ report[col.field] }}"
+          pTooltip="{{
+            col.field === 'roleVersion' || col.field === 'staffingVersion'
+              ? report[col.field]?.descripcion || ''
+              : col.field === 'screenshot'
+              ? report[col.field]
+                ? 'SI'
+                : 'NO'
+              : col.field === 'fechaImportacion' ||
+                col.field === 'fechaModificacion'
+              ? (report[col.field] | date : 'dd/MM/yyyy')
+              : report[col.field]
+          }}"
           tooltipPosition="top"
         >
+          <ng-container *ngIf="col.field === 'roleVersion'">
+            {{ report[col.field]?.descripcion }}
+          </ng-container>
+          <ng-container *ngIf="col.field === 'staffingVersion'">
+            {{ report[col.field]?.descripcion }}
+          </ng-container>
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
@@ -201,12 +253,14 @@
             {{ report[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'screenshot'">
-            {{ report[col.field] === 1 ? "SI" : "NO" }}
+            {{ report[col.field] ? "SI" : "NO" }}
           </ng-container>
           <ng-container
             *ngIf="
               col.field !== 'fechaImportacion' &&
               col.field !== 'fechaModificacion' &&
+              col.field !== 'roleVersion' &&
+              col.field !== 'staffingVersion' &&
               col.field !== 'screenshot'
             "
           >

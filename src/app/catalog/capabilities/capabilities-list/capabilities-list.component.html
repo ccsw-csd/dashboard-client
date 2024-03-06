@@ -190,8 +190,15 @@
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ capability[col.field] }}"
-          tooltipPosition="top"
+          pTooltip="{{
+            col.field === 'fechaImportacion'
+              ? (capability[col.field] | date : 'dd/MM/yyyy')
+              : col.field === 'idTipoInterfaz'
+              ? capability[col.field] === 2
+                ? 'Roles'
+                : capability[col.field]
+              : capability[col.field]
+          }}"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ capability[col.field] | date : "dd/MM/yyyy" }}

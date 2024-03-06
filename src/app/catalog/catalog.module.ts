@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StaffingListComponent } from './staffing/staffing-list/staffing-list.component';
 import { CapabilitiesListComponent } from './capabilities/capabilities-list/capabilities-list.component';
 import { TableModule } from 'primeng/table';
+import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -16,12 +17,18 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { ReportListComponent } from './report/report-list/report-list.component';
+import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/capabilities-upload.component';
+import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upload.component';
+import { ReportGeneratorComponent } from './report/report-generator/report-generator.component';
 
 @NgModule({
   declarations: [
     CapabilitiesListComponent,
     StaffingListComponent,
     ReportListComponent,
+    CapabilitiesUploadComponent,
+    StaffingUploadComponent,
+    ReportGeneratorComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +48,7 @@ import { ReportListComponent } from './report/report-list/report-list.component'
     TabViewModule,
     InputSwitchModule,
     ScrollPanelModule,
+    FileUploadModule,
   ],
 })
 export class CatalogModule {}
