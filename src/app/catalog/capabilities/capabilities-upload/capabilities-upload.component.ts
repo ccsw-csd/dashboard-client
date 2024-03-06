@@ -24,17 +24,7 @@ export class CapabilitiesUploadComponent {
   }
 
   onSelect(event: { currentFiles: File[] }) {
-    const selectedFile = event.currentFiles[0];
-    const fileName = selectedFile.name.toLowerCase();
-    const pattern = /^20241103_roles\.[a-zA-Z0-9]+$/;
-    if (!pattern.test(fileName)) {
-      this.capabilityFile = null;
-      this.snackbarService.error(
-        'El nombre del archivo no cumple con el formato esperado.'
-      );
-    } else {
-      this.capabilityFile = selectedFile;
-    }
+    this.capabilityFile = event.currentFiles[0];
   }
 
   onRemove() {
