@@ -26,36 +26,43 @@ export class MaestroComponent implements OnInit {
   EMData: InformeTotal[];
   EMDataTotal: number;
   EMDataOthersTotal: number;
+  isEMDataTotalOK: boolean;
 
   BAText: string;
   BACol: string[] = [];
   BAData: InformeTotal[];
   BADataTotal: number;
+  isBADataTotalOK: boolean;
 
   ARText: string;
   ARCol: string[] = [];
   ARData: InformeTotal[];
   ARDataTotal: number;
+  idARDataTotalOK: boolean;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
   SEDataTotal: number;
+  isSEDataTotalOK: boolean;
 
   IEText: string;
   IECol: string[] = [];
   IEData: InformeTotal[];
   IEDataTotal: number;
+  isIEDataTotalOK: boolean;
 
   ArSeDevText: string;
   ArSeDevCol: string[] = [];
   ArSeDevData: InformeTotal[];
   ArSeDevDataToal: number;
+  isArSeDevDataToalOK: boolean;
 
   ArSeApiText: string;
   ArSeApiCol: string[] = [];
   ArSeApiData: InformeTotal[];
   ArSeApiDataTotal: number;
+  isArSeApiDataTotalOK: boolean;
 
   rolesCol: string[] = [];
   gradesRoles: InformeTotal[];
@@ -369,7 +376,7 @@ export class MaestroComponent implements OnInit {
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
         this.EMDataTotal = this.EMData[0]['totals'][0];
         console.log('EM Total: ' + this.EMDataTotal);
-        this.EMDataOthersTotal = this.EMData[0]['totals'][1];
+        this.EMDataOthersTotal = this.EMData[1]['totals'][0];
         console.log('EM Others Total: ' + this.EMDataOthersTotal);
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
         this.BADataTotal = this.BAData[0]['totals'][0];
