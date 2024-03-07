@@ -108,6 +108,7 @@
     </h4>
   </div>
   <div class="flex flex-column lg:flex-row">
+    <!-- Enterprise Architects -->
     <div class="card my-3" style="margin-right: 2%">
       <app-table-detail
         [data]="EMData"
@@ -116,6 +117,7 @@
         [isEMDataTotalOK]="isEMDataTotalOK"
       ></app-table-detail>
     </div>
+    <!-- Business Analysts -->
     <div class="card my-3">
       <app-table-detail
         [data]="BAData"
@@ -125,7 +127,7 @@
       ></app-table-detail>
     </div>
   </div>
-
+  <!-- Architects -->
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%">
       <app-table-detail
@@ -135,12 +137,13 @@
         [isARDataTotalOK]="isARDataTotalOK"
       ></app-table-detail>
     </div>
+    <!-- Software Engineers -->
     <div class="card my-3">
       <app-table-detail
         [data]="SEData"
         [columnas]="SECol"
         [text]="SEText"
-        [isTotalOK]="isSEDataTotalOK"
+        [isSEDataTotalOK]="isSEDataTotalOK"
       ></app-table-detail>
     </div>
   </div>

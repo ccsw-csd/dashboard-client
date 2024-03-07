@@ -66,10 +66,11 @@
               fila.profile == 'Sum'
             "
             [class.red-background]="
-              (fila.profile == 'Business Analysts' && !isBADataTotalOK) ||
-              (fila.profile == 'Software Engineers' && !isBADataTotalOK) && i === 0 ||
               (fila.profile == 'Engagement Managers' && !isEMDataTotalOK && i === 0) ||
-              (fila.profile == 'Total' && !isARDataTotalOK && i === 0)
+              (fila.profile == 'Business Analysts' && !isBADataTotalOK) ||
+              (fila.profile == 'Architects' && !isARDataTotalOK) ||
+              (fila.profile == 'Total' && !isARDataTotalOK) && i === 0||
+              (fila.profile == 'Software Engineers' && !isSEDataTotalOK && i === 0)
             "
             class="flex-none"
             style="

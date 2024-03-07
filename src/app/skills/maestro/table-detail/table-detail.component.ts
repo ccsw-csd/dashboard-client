@@ -11,10 +11,10 @@ export class TableDetailComponent {
   @Input() columnas: string[];
   @Input() text: string;
   @Input() extraHeader: string;
-  //@Input() isTotalOK: boolean;
   @Input() isEMDataTotalOK: boolean;
   @Input() isBADataTotalOK: boolean;
   @Input() isARDataTotalOK: boolean;
+  @Input() isSEDataTotalOK: boolean;
 
   ngOnInit() {
     //console.log(this.columnas);
