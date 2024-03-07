@@ -26,43 +26,43 @@ export class MaestroComponent implements OnInit {
   EMData: InformeTotal[];
   EMDataTotal: number;
   EMDataOthersTotal: number;
-  isEMDataTotalOK: boolean;
+  isEMDataTotalOK: boolean = false;
 
   BAText: string;
   BACol: string[] = [];
   BAData: InformeTotal[];
   BADataTotal: number;
-  isBADataTotalOK: boolean;
+  isBADataTotalOK: boolean = false;
 
   ARText: string;
   ARCol: string[] = [];
   ARData: InformeTotal[];
   ARDataTotal: number;
-  idARDataTotalOK: boolean;
+  isARDataTotalOK: boolean = false;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
   SEDataTotal: number;
-  isSEDataTotalOK: boolean;
+  isSEDataTotalOK: boolean = false;
 
   IEText: string;
   IECol: string[] = [];
   IEData: InformeTotal[];
   IEDataTotal: number;
-  isIEDataTotalOK: boolean;
+  isIEDataTotalOK: boolean = false;
 
   ArSeDevText: string;
   ArSeDevCol: string[] = [];
   ArSeDevData: InformeTotal[];
   ArSeDevDataToal: number;
-  isArSeDevDataToalOK: boolean;
+  isArSeDevDataToalOK: boolean = false;
 
   ArSeApiText: string;
   ArSeApiCol: string[] = [];
   ArSeApiData: InformeTotal[];
   ArSeApiDataTotal: number;
-  isArSeApiDataTotalOK: boolean;
+  isArSeApiDataTotalOK: boolean = false;
 
   rolesCol: string[] = [];
   gradesRoles: InformeTotal[];
@@ -375,12 +375,12 @@ export class MaestroComponent implements OnInit {
         this.allProfilesAndGrades = data;
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
         this.EMDataTotal = this.EMData[0]['totals'][0];
-        console.log('EM Total: ' + this.EMDataTotal);
+        //console.log('EM Total: ' + this.EMDataTotal);
         this.EMDataOthersTotal = this.EMData[1]['totals'][0];
-        console.log('EM Others Total: ' + this.EMDataOthersTotal);
+        //console.log('EM Others Total: ' + this.EMDataOthersTotal);
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
         this.BADataTotal = this.BAData[0]['totals'][0];
-        console.log('BA Total: ' + this.BADataTotal);
+        //console.log('BA Total: ' + this.BADataTotal);
         this.ARData = this.allProfilesAndGrades['architects'];
         let sum = [0, 0, 0];
         this.ARData.forEach((el) => {
@@ -395,10 +395,10 @@ export class MaestroComponent implements OnInit {
         });
         this.SEData = this.allProfilesAndGrades['softwareEngineer'];
         this.SEDataTotal = this.SEData[0]['totals'][0];
-        console.log('SE Total: ' + this.SEDataTotal);
+        //console.log('SE Total: ' + this.SEDataTotal);
         this.IEData = this.allProfilesAndGrades['industryExperts'];
         this.IEDataTotal = this.IEData[0]['totals'][0];
-        console.log('IE Total: ' + this.IEDataTotal);
+        //console.log('IE Total: ' + this.IEDataTotal);
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
@@ -424,10 +424,8 @@ export class MaestroComponent implements OnInit {
           this.BADataTotal +
           this.ARDataTotal +
           this.SEDataTotal;
-        console.log('Toal CCA: ' + this.CCATotal);
-        console.log(
-          'Total CCA menos Others: ' + (this.CCATotal - this.EMDataOthersTotal)
-        );
+        //console.log('Toal CCA: ' + this.CCATotal);
+        //console.log(Total CCA menos Others: ' + (this.CCATotal - this.EMDataOthersTotal));
         this.load = true;
       },
       (error) => {

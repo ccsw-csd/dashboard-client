@@ -11,6 +11,15 @@ export class TableDetailComponent {
   @Input() columnas: string[];
   @Input() text: string;
   @Input() extraHeader: string;
+  //@Input() isTotalOK: boolean;
+  @Input() isEMDataTotalOK: boolean;
+  @Input() isBADataTotalOK: boolean;
+  @Input() isARDataTotalOK: boolean;
+
+  ngOnInit() {
+    //console.log(this.columnas);
+    console.log(this.data);
+  }
 
   getTotalIndex(): number {
     let ind = this.columnas.findIndex((e) => e.toLowerCase() == 'total');
