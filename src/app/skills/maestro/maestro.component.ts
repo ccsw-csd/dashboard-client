@@ -26,50 +26,50 @@ export class MaestroComponent implements OnInit {
   EMData: InformeTotal[];
   EMDataTotal: number;
   EMDataOthersTotal: number;
-  isEMDataTotalOK: boolean;
+  isEMDataTotalOK: boolean = true;
 
   BAText: string;
   BACol: string[] = [];
   BAData: InformeTotal[];
   BADataTotal: number;
-  isBADataTotalOK: boolean;
+  isBADataTotalOK: boolean = true;
 
   ARText: string;
   ARCol: string[] = [];
   ARData: InformeTotal[];
   ARDataTotal: number;
-  isARDataTotalOK: boolean;
+  isARDataTotalOK: boolean = true;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
   SEDataTotal: number;
-  isSEDataTotalOK: boolean;
+  isSEDataTotalOK: boolean = true;
 
   IEText: string;
   IECol: string[] = [];
   IEData: InformeTotal[];
   IEDataTotal: number;
-  isIEDataTotalOK: boolean;
+  isIEDataTotalOK: boolean = true;
 
   ArSeDevText: string;
   ArSeDevCol: string[] = [];
   ArSeDevData: InformeTotal[];
   ArSeDevDataToal: number;
-  isArSeDevDataToalOK: boolean = false;
+  isArSeDevDataToalOK: boolean = true;
 
   ArSeApiText: string;
   ArSeApiCol: string[] = [];
   ArSeApiData: InformeTotal[];
   ArSeApiDataTotal: number;
-  isArSeApiDataTotalOK: boolean = false;
+  isArSeApiDataTotalOK: boolean = true;
 
   rolesCol: string[] = [];
   gradesRoles: InformeTotal[];
   gradeRoleText: string;
 
   selectedExcel: string = '';
-  visible: boolean = false;
+  visible: boolean;
   tableList = [
     'All Profiles',
     'Engagement Managers',
@@ -413,23 +413,25 @@ export class MaestroComponent implements OnInit {
           totals: rolesSum,
         });
 
-        //console.log(rolesSum[1]);
-
-        if (this.EMDataTotal != rolesSum[0]){
+        if (this.EMDataTotal + this.EMDataOthersTotal !== rolesSum[0]) {
           this.isEMDataTotalOK = false;
         }
 
-        if (this.BADataTotal != rolesSum[2]){
+        if (this.BADataTotal !== rolesSum[2]) {
           this.isBADataTotalOK = false;
         }
 
-        if (this.ARDataTotal != rolesSum[1]){
+        if (this.ARDataTotal !== rolesSum[1]) {
           this.isARDataTotalOK = false;
         }
 
-        if (this.SEDataTotal != rolesSum[3]){
+        if (this.SEDataTotal !== rolesSum[3]) {
           this.isSEDataTotalOK = false;
         }
+
+        console.log(this.SEDataTotal);
+        console.log(rolesSum[3]);
+        console.log(this.isSEDataTotalOK);
 
         this.CCATotal =
           this.EMDataTotal +

@@ -168,7 +168,7 @@ export class ReportListComponent {
 
   loadData() {
     this.reportService.getAllReportVersions().subscribe((reports) => {
-      console.log(reports);
+      //console.log(reports);
       this.reports = reports;
       this.totalReports = reports.length;
       this.setDefaultFilters();

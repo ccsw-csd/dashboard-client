@@ -18,7 +18,7 @@ export class TableDetailComponent {
 
   ngOnInit() {
     //console.log(this.columnas);
-    console.log(this.data);
+    //console.log(this.data);
   }
 
   getTotalIndex(): number {
