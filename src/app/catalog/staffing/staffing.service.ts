@@ -16,10 +16,10 @@ export class StaffingService {
     return this.http.get<Staffing[]>(`${this.baseUrl}/staffingimports/all`);
   }
 
-  uploadStaffing(formData: FormData): Observable<FormData> {
+  uploadStaffing(formData: FormData): Observable<String> {
     console.log('Archivo staffing subido');
-    return this.http.post<FormData>(
-      environment.server + '/staffingimports',
+    return this.http.post<String>(
+      environment.server + '/import/data',
       formData
     );
   }

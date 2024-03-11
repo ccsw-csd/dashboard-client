@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-staffing-upload',
@@ -11,9 +12,11 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class StaffingUploadComponent {
   staffingFile: File;
   isLoading: boolean;
+  userName: string;
 
   constructor(
     private staffingService: StaffingService,
+    public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private snackbarService: SnackbarService
@@ -21,6 +24,7 @@ export class StaffingUploadComponent {
 
   ngOnInit(): void {
     this.isLoading = false;
+    this.userName = this.authService.userInfoSSO.displayName;
   }
 
   onSelect(event: { currentFiles: File[] }) {
@@ -37,7 +41,10 @@ export class StaffingUploadComponent {
       return;
     }
     let formData = new FormData();
-    formData.append('staffingFile', this.staffingFile);
+    formData.append('documentType', '1');
+    formData.append('fileData', this.staffingFile);
+    formData.append('user', this.userName);
+    formData.append('description', this.staffingFile.name);
     this.isLoading = true;
     this.staffingService.uploadStaffing(formData).subscribe({
       next: (result) => {

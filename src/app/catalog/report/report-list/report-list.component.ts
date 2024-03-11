@@ -12,9 +12,6 @@ import {
 } from 'primeng/dynamicdialog';
 import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
 import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
-import { Capability } from '../../capabilities/model/Capability';
-import { Tooltip } from 'primeng/tooltip';
-import { Staffing } from '../../staffing/model/staffing.model';
 import { ReportGeneratorComponent } from '../report-generator/report-generator.component';
 
 @Component({
