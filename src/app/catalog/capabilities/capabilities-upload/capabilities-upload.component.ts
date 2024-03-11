@@ -50,9 +50,9 @@ export class CapabilitiesUploadComponent {
       next: (result) => {
         if (result)
           this.snackbarService.showMessage(
-            'Archivo subido correctamente. ' + result
+            'Archivo subido correctamente' + result
           );
-        else this.snackbarService.showMessage('Archivo no subido.');
+        else this.snackbarService.showMessage('Archivo subido correctamente.');
         this.isLoading = false;
         this.close(true);
       },
