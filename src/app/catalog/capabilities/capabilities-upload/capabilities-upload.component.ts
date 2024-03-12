@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CapabilitiesService } from '../capabilities.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-capabilities-upload',
@@ -11,9 +13,11 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class CapabilitiesUploadComponent {
   capabilityFile: File;
   isLoading: boolean;
+  userName: string;
 
   constructor(
     private capabilitiesService: CapabilitiesService,
+    public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private snackbarService: SnackbarService
@@ -21,20 +25,12 @@ export class CapabilitiesUploadComponent {
 
   ngOnInit(): void {
     this.isLoading = false;
+    this.userName = this.authService.userInfoSSO.displayName;
   }
 
   onSelect(event: { currentFiles: File[] }) {
-    const selectedFile = event.currentFiles[0];
-    const fileName = selectedFile.name.toLowerCase();
-    const pattern = /^20241103_roles\.[a-zA-Z0-9]+$/;
-    if (!pattern.test(fileName)) {
-      this.capabilityFile = null;
-      this.snackbarService.error(
-        'El nombre del archivo no cumple con el formato esperado.'
-      );
-    } else {
-      this.capabilityFile = selectedFile;
-    }
+    this.capabilityFile = event.currentFiles[0];
+
   }
 
   onRemove() {
@@ -47,13 +43,17 @@ export class CapabilitiesUploadComponent {
       return;
     }
     let formData = new FormData();
-    formData.append('capabilityFile', this.capabilityFile);
+    formData.append('documentType', '2');
+    formData.append('fileData', this.capabilityFile);
+    formData.append('user', this.userName);
+    formData.append('description', this.capabilityFile.name);
+
     this.isLoading = true;
     this.capabilitiesService.uploadCapability(formData).subscribe({
       next: (result) => {
         if (result)
           this.snackbarService.showMessage(
-            'Archivo subido correctamente. ' + result
+            'Archivo subido correctamente' + result
           );
         else this.snackbarService.showMessage('Archivo subido correctamente.');
         this.isLoading = false;

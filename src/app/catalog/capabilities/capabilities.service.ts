@@ -16,10 +16,10 @@ export class CapabilitiesService {
     return this.http.get<Capability[]>(`${this.baseUrl}/roleimports/all`);
   }
 
-  uploadCapability(formData: FormData): Observable<FormData> {
+  uploadCapability(formData: FormData): Observable<String> {
     console.log('Archivo roles subido');
-    return this.http.post<FormData>(
-      environment.server + '/roleimports',
+    return this.http.post<String>(
+      environment.server + '/import/data',
       formData
     );
   }

@@ -2,44 +2,42 @@
   <div class="flex gap-3 justify-content-center m-3">
     <!-- Dropdown para versiones de importaciones de roles -->
     <span class="p-float-label">
-        <p-dropdown
-          [options]="capabilities"
-          [style]="{ width: '300px' }"
-          [(ngModel)]="selectedCapability"
-          optionLabel="descripcion"
-          inputId="capability-dropdown"
-        ></p-dropdown>
-        <label for="capability-dropdown">Capacidades*</label>
+      <p-dropdown
+        [options]="capabilities"
+        [style]="{ width: '300px' }"
+        [(ngModel)]="selectedCapability"
+        optionLabel="descripcion"
+        inputId="capability-dropdown"
+      ></p-dropdown>
+      <label for="capability-dropdown">Capacidades*</label>
     </span>
 
     <!-- Dropdown para versiones de importaciones de personal -->
     <span class="p-float-label">
-        <p-dropdown
-          [options]="staffing"
-          [style]="{ width: '300px' }"
-          [(ngModel)]="selectedStaffing"
-          optionLabel="descripcion"
-          inputId="staffing-dropdown"
-        ></p-dropdown>
-        <label for="staffing-dropdown">Staffing*</label>
+      <p-dropdown
+        [options]="staffing"
+        [style]="{ width: '300px' }"
+        [(ngModel)]="selectedStaffing"
+        optionLabel="descripcion"
+        inputId="staffing-dropdown"
+      ></p-dropdown>
+      <label for="staffing-dropdown">Staffing*</label>
     </span>
 
     <!-- Dropdown para versiones de importaciones de personal -->
     <span class="p-float-label">
-        <p-dropdown
-          [options]="certificates"
-          [style]="{ width: '300px' }"
-          [(ngModel)]="selectedCertificate"
-          optionLabel="descripcion"
-          inputId="certificate-dropdown"
-          [disabled]="true"
-        ></p-dropdown>
-        <label for="certificate-dropdown">Certificaciones*</label>
+      <p-dropdown
+        [options]="certificates"
+        [style]="{ width: '300px' }"
+        [(ngModel)]="selectedCertificate"
+        optionLabel="descripcion"
+        inputId="certificate-dropdown"
+        [disabled]="true"
+      ></p-dropdown>
+      <label for="certificate-dropdown">Certificaciones*</label>
     </span>
-</div>
+  </div>
 
-
-  <div class="m-3" style="height: 200px; background-color: #FFD78D">
     <!-- Mensajes de error -->
   </div>
 </div>

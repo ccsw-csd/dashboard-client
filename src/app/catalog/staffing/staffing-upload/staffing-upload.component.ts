@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-staffing-upload',
@@ -11,9 +13,11 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class StaffingUploadComponent {
   staffingFile: File;
   isLoading: boolean;
+  userName: string;
 
   constructor(
     private staffingService: StaffingService,
+    public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private snackbarService: SnackbarService
@@ -21,20 +25,11 @@ export class StaffingUploadComponent {
 
   ngOnInit(): void {
     this.isLoading = false;
+    this.userName = this.authService.userInfoSSO.displayName;
   }
 
   onSelect(event: { currentFiles: File[] }) {
-    const selectedFile = event.currentFiles[0];
-    const fileName = selectedFile.name.toLowerCase();
-    const pattern = /^20241103_staffing\.[a-zA-Z0-9]+$/;
-    if (!pattern.test(fileName)) {
-      this.staffingFile = null;
-      this.snackbarService.error(
-        'El nombre del archivo no cumple con el formato esperado.'
-      );
-    } else {
-      this.staffingFile = selectedFile;
-    }
+    this.staffingFile = event.currentFiles[0];
   }
 
   onRemove() {
@@ -47,7 +42,11 @@ export class StaffingUploadComponent {
       return;
     }
     let formData = new FormData();
-    formData.append('staffingFile', this.staffingFile);
+    formData.append('documentType', '1');
+    formData.append('fileData', this.staffingFile);
+    formData.append('user', this.userName);
+    formData.append('description', this.staffingFile.name);
+
     this.isLoading = true;
     this.staffingService.uploadStaffing(formData).subscribe({
       next: (result) => {

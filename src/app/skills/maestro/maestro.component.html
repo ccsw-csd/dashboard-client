@@ -108,35 +108,42 @@
     </h4>
   </div>
   <div class="flex flex-column lg:flex-row">
+    <!-- Enterprise Architects -->
     <div class="card my-3" style="margin-right: 2%">
       <app-table-detail
         [data]="EMData"
         [columnas]="EMCol"
         [text]="EMText"
+        [isEMDataTotalOK]="isEMDataTotalOK"
       ></app-table-detail>
     </div>
+    <!-- Business Analysts -->
     <div class="card my-3">
       <app-table-detail
         [data]="BAData"
         [columnas]="BACol"
         [text]="BAText"
+        [isBADataTotalOK]="isBADataTotalOK"
       ></app-table-detail>
     </div>
   </div>
-
+  <!-- Architects -->
   <div class="flex flex-column lg:flex-row">
     <div class="card my-3" style="margin-right: 2%">
       <app-table-detail
         [data]="ARData"
         [columnas]="ARCol"
         [text]="ARText"
+        [isARDataTotalOK]="isARDataTotalOK"
       ></app-table-detail>
     </div>
+    <!-- Software Engineers -->
     <div class="card my-3">
       <app-table-detail
         [data]="SEData"
         [columnas]="SECol"
         [text]="SEText"
+        [isSEDataTotalOK]="isSEDataTotalOK"
       ></app-table-detail>
     </div>
   </div>
@@ -146,6 +153,7 @@
       [data]="IEData"
       [columnas]="IECol"
       [text]="IEText"
+      [isTotalOK]="isIEDataTotalOK"
     ></app-table-detail>
   </div>
 
@@ -157,6 +165,7 @@
       [columnas]="ArSeDevCol"
       [text]="ArSeDevText"
       [extraHeader]="true"
+      [isTotalOK]="isArSeDevDataToalOK"
     ></app-table-detail>
   </div>
 
@@ -165,6 +174,7 @@
       [data]="ArSeApiData"
       [columnas]="ArSeApiCol"
       [text]="ArSeApiText"
+      [isTotalOK]="isArSeApiDataTotalOK"
     ></app-table-detail>
   </div>
 

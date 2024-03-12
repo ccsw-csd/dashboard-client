@@ -1,4 +1,4 @@
-import { Component, OnInit, Version } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ColumnDetails,
   GradesRole,
@@ -24,37 +24,52 @@ export class MaestroComponent implements OnInit {
   EMText: string;
   EMCol: string[] = [];
   EMData: InformeTotal[];
+  EMDataTotal: number;
+  EMDataOthersTotal: number;
+  isEMDataTotalOK: boolean = true;
 
   BAText: string;
   BACol: string[] = [];
   BAData: InformeTotal[];
+  BADataTotal: number;
+  isBADataTotalOK: boolean = true;
 
   ARText: string;
   ARCol: string[] = [];
   ARData: InformeTotal[];
+  ARDataTotal: number;
+  isARDataTotalOK: boolean = true;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
+  SEDataTotal: number;
+  isSEDataTotalOK: boolean = true;
 
   IEText: string;
   IECol: string[] = [];
   IEData: InformeTotal[];
+  IEDataTotal: number;
+  isIEDataTotalOK: boolean = true;
 
   ArSeDevText: string;
   ArSeDevCol: string[] = [];
   ArSeDevData: InformeTotal[];
+  ArSeDevDataToal: number;
+  isArSeDevDataToalOK: boolean = true;
 
   ArSeApiText: string;
   ArSeApiCol: string[] = [];
   ArSeApiData: InformeTotal[];
+  ArSeApiDataTotal: number;
+  isArSeApiDataTotalOK: boolean = true;
 
   rolesCol: string[] = [];
   gradesRoles: InformeTotal[];
   gradeRoleText: string;
 
   selectedExcel: string = '';
-  visible: boolean = false;
+  visible: boolean;
   tableList = [
     'All Profiles',
     'Engagement Managers',
@@ -103,6 +118,8 @@ export class MaestroComponent implements OnInit {
   allProfilesAndGrades: ProfilesAndGrades[];
   dataGradesRoles: GradesRole[];
   literals: ColumnDetails[];
+
+  CCATotal: number;
 
   constructor(
     private skillsService: SkillsService,
@@ -357,7 +374,10 @@ export class MaestroComponent implements OnInit {
       (data: ProfilesAndGrades[]) => {
         this.allProfilesAndGrades = data;
         this.EMData = this.allProfilesAndGrades['engagementManagers'];
+        this.EMDataTotal = this.EMData[0]['totals'][0];
+        this.EMDataOthersTotal = this.EMData[1]['totals'][0];
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
+        this.BADataTotal = this.BAData[0]['totals'][0];
         this.ARData = this.allProfilesAndGrades['architects'];
         let sum = [0, 0, 0];
         this.ARData.forEach((el) => {
@@ -365,12 +385,15 @@ export class MaestroComponent implements OnInit {
             sum[i] += t;
           });
         });
+        this.ARDataTotal = sum[0];
         this.ARData.push({
           profile: 'Total',
           totals: sum,
         });
         this.SEData = this.allProfilesAndGrades['softwareEngineer'];
+        this.SEDataTotal = this.SEData[0]['totals'][0];
         this.IEData = this.allProfilesAndGrades['industryExperts'];
+        this.IEDataTotal = this.IEData[0]['totals'][0];
         this.ArSeDevData = this.allProfilesAndGrades['architectsCustomApps'];
         this.ArSeApiData = this.allProfilesAndGrades['architectsIntegration'];
         this.dataGradesRoles = this.allProfilesAndGrades['gradeTotal'];
@@ -389,6 +412,34 @@ export class MaestroComponent implements OnInit {
           profile: 'Sum',
           totals: rolesSum,
         });
+
+        if (this.EMDataTotal + this.EMDataOthersTotal !== rolesSum[0]) {
+          this.isEMDataTotalOK = false;
+        }
+
+        if (this.BADataTotal !== rolesSum[2]) {
+          this.isBADataTotalOK = false;
+        }
+
+        if (this.ARDataTotal !== rolesSum[1]) {
+          this.isARDataTotalOK = false;
+        }
+
+        if (this.SEDataTotal !== rolesSum[3]) {
+          this.isSEDataTotalOK = false;
+        }
+
+        console.log(this.SEDataTotal);
+        console.log(rolesSum[3]);
+        console.log(this.isSEDataTotalOK);
+
+        this.CCATotal =
+          this.EMDataTotal +
+          this.EMDataOthersTotal +
+          this.BADataTotal +
+          this.ARDataTotal +
+          this.SEDataTotal;
+
         this.load = true;
       },
       (error) => {
