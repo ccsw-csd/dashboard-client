@@ -4,6 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
+
 @Component({
   selector: 'app-capabilities-upload',
   templateUrl: './capabilities-upload.component.html',
@@ -29,6 +30,7 @@ export class CapabilitiesUploadComponent {
 
   onSelect(event: { currentFiles: File[] }) {
     this.capabilityFile = event.currentFiles[0];
+
   }
 
   onRemove() {
@@ -45,6 +47,7 @@ export class CapabilitiesUploadComponent {
     formData.append('fileData', this.capabilityFile);
     formData.append('user', this.userName);
     formData.append('description', this.capabilityFile.name);
+
     this.isLoading = true;
     this.capabilitiesService.uploadCapability(formData).subscribe({
       next: (result) => {
