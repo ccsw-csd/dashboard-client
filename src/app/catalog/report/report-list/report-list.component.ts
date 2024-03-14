@@ -151,7 +151,8 @@ export class ReportListComponent {
     console.log('Botón importar staffing');
     const dialogRef = this.dialogService.open(ReportGeneratorComponent, {
       header: 'Generar Dashboard',
-      width: '50%',
+      width: '75%',
+      height:'60%',
       closable: false,
     });
     dialogRef.onClose.subscribe((result) => {
