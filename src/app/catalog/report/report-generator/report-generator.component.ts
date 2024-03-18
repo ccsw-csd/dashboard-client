@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
-import { DialogService } from 'primeng/dynamicdialog';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Capability } from '../../capabilities/model/Capability';
 import { Staffing } from '../../staffing/model/staffing.model';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @Component({
   selector: 'app-report-generator',
@@ -21,7 +22,6 @@ export class ReportGeneratorComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
-    private dialogService: DialogService,
     public dialogRef: DynamicDialogRef
   ) {}
 
