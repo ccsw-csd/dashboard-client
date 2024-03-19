@@ -23,4 +23,26 @@ export class CapabilitiesService {
       formData
     );
   }
+
+  downloadFile(id: string, filename: string): void {
+    const url = `${this.baseUrl}/version-rols/download-file/${id}`;
+
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+
+    this.http.get(url, httpOptions).subscribe((response: Blob) => {
+      const blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      link.click();
+
+      window.URL.revokeObjectURL(downloadUrl);
+    });
+  }
 }

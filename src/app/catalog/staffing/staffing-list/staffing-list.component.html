@@ -182,57 +182,70 @@
         <div class="flex flex-row w-full top-header"></div>
         <div class="w-full foot-header"></div>
       </th>
+      <th class="buttons flex flex-column">
+        <div class="flex flex-row w-full top-header"></div>
+        <div class="w-full foot-header"></div>
+      </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-capability let-columns="columns">
-    <tr [pSelectableRow]="capability">
+  <ng-template pTemplate="body" let-staffing let-columns="columns">
+    <tr [pSelectableRow]="staffing">
       <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           [pTooltip]="
             col.field === 'fechaImportacion'
-              ? (capability[col.field] | date : 'dd/MM/yyyy')
+              ? (staffing[col.field] | date : 'dd/MM/yyyy')
               : col.field === 'idTipoInterfaz'
-              ? capability[col.field] === 2
+              ? staffing[col.field] === 2
                 ? 'Staffing'
-                : capability[col.field]
-              : capability[col.field]
+                : staffing[col.field]
+              : staffing[col.field]
           "
           tooltipPosition="top"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
-            {{ capability[col.field] | date : "dd/MM/yyyy" }}
+            {{ staffing[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{
-              capability[col.field] === 1 ? "Staffing" : capability[col.field]
-            }}
+            {{ staffing[col.field] === 1 ? "Staffing" : staffing[col.field] }}
           </ng-container>
           <ng-container
             *ngIf="
               col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
             "
           >
-            {{ capability[col.field] }}
+            {{ staffing[col.field] }}
           </ng-container>
         </div>
         <div
           *ngIf="col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          [pTooltip]="capability[col.field]?.[col.fieldExtra]"
+          [pTooltip]="staffing[col.field]?.[col.fieldExtra]"
           tooltipPosition="top"
         >
-          {{ capability[col.field]?.[col.fieldExtra] }}
+          {{ staffing[col.field]?.[col.fieldExtra] }}
         </div>
         <div
           *ngIf="col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          [pTooltip]="col.parse(capability[col.field])"
+          [pTooltip]="col.parse(staffing[col.field])"
           tooltipPosition="top"
         >
-          {{ col.parse(capability[col.field]) }}
+          {{ col.parse(staffing[col.field]) }}
         </div>
+      </td>
+      <td class="buttons">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-download"
+          class="p-button-secondary"
+          style="font-size: 1rem; background-color: transparent; color: gray"
+          tooltip="Descargar"
+          (click)="downloadStaffing(staffing.id)"
+        ></button>
       </td>
     </tr>
   </ng-template>

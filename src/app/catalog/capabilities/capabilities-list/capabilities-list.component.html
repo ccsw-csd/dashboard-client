@@ -182,6 +182,10 @@
         <div class="flex flex-row w-full top-header"></div>
         <div class="w-full foot-header"></div>
       </th>
+      <th class="buttons flex flex-column">
+        <div class="flex flex-row w-full top-header"></div>
+        <div class="w-full foot-header"></div>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-capability let-columns="columns">
@@ -231,6 +235,17 @@
           {{ col.parse(capability[col.field]) }}
         </div>
       </td>
+      <td class="buttons">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-download"
+        class="p-button-secondary"
+        style="font-size: 1rem; background-color: transparent; color: gray;"
+        tooltip="Descargar"
+        (click)="downloadCapability(capability.id)"
+      ></button>
+    </td>
     </tr>
   </ng-template>
 </p-table>

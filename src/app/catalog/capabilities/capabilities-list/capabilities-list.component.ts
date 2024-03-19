@@ -205,11 +205,20 @@ export class CapabilitiesListComponent implements OnInit {
       if (value1 == null && value2 != null) result = -1;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
+      else if (typeof value1 === 'string' && typeof value2 === 'string')
+        result = value1.localeCompare(value2);
       else if (Array.isArray(value1) && Array.isArray(value2)) {
-        result = value1.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', ').localeCompare(value2.sort((a, b) => a.name.localeCompare(b.name)).map((t) => t.name).join(', '));
-      }
-      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+        result = value1
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((t) => t.name)
+          .join(', ')
+          .localeCompare(
+            value2
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((t) => t.name)
+              .join(', ')
+          );
+      } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
     });
@@ -225,5 +234,22 @@ export class CapabilitiesListComponent implements OnInit {
       }
     });
     return data;
+  }
+
+  downloadCapability(id: string): void {
+    const capability = this.capabilities.find(
+      (capability) => capability.id === Number(id)
+    );
+
+    if (capability && capability.descripcion) {
+      const fileName = `${capability.descripcion.replace(
+        /[^a-zA-Z0-9]/g,
+        '_'
+      )}.xlsx`;
+      this.capabilitiesService.downloadFile(id, fileName);
+    } else {
+      const defaultFileName = 'Archivo_Roles_id_' + id + '.xlsx';
+      this.capabilitiesService.downloadFile(id, defaultFileName);
+    }
   }
 }
