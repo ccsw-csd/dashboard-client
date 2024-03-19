@@ -20,6 +20,7 @@ import { ReportListComponent } from './report/report-list/report-list.component'
 import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/capabilities-upload.component';
 import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upload.component';
 import { ReportGeneratorComponent } from './report/report-generator/report-generator.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ReportGeneratorComponent } from './report/report-generator/report-gener
     InputSwitchModule,
     ScrollPanelModule,
     FileUploadModule,
+    DropdownModule
   ],
 })
 export class CatalogModule {}
