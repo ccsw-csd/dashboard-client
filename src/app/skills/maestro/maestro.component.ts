@@ -300,7 +300,7 @@ export class MaestroComponent implements OnInit {
 
     this.skillsService.updateReport(this.selectedReport).subscribe(
       (updatedReport) => {
-        console.log('Informe actualizado');
+        //console.log('Informe actualizado');
       },
       (error) => {
         console.error('Error al actualizar el informe', error);
@@ -429,9 +429,9 @@ export class MaestroComponent implements OnInit {
           this.isSEDataTotalOK = false;
         }
 
-        console.log(this.SEDataTotal);
-        console.log(rolesSum[3]);
-        console.log(this.isSEDataTotalOK);
+        //console.log(this.SEDataTotal);
+        //console.log(rolesSum[3]);
+        //console.log(this.isSEDataTotalOK);
 
         this.CCATotal =
           this.EMDataTotal +
