@@ -53,8 +53,13 @@ export class ReportGeneratorComponent implements OnInit {
 
   onGenerate() {
     const today = new Date();
-    const formattedDate = today.toISOString().slice(0, 10).replace(/-/g, '');
-    const reportDescription = `Informe_capacidades_${formattedDate}`;
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    } as const;
+    const formattedDate = today.toLocaleDateString('es-ES', options);
+    const reportDescription = `Informe capacidades ${formattedDate}`;
 
     const reportVersion = {
       idRoleVersion: this.selectedCapability.id,
