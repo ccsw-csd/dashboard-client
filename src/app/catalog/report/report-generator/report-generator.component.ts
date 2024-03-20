@@ -4,8 +4,10 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Capability } from '../../capabilities/model/Capability';
 import { Staffing } from '../../staffing/model/staffing.model';
 import { DropdownModule } from 'primeng/dropdown';
+
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+
 
 @Component({
   selector: 'app-report-generator',
@@ -28,6 +30,7 @@ export class ReportGeneratorComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     public authService: AuthService,
     private snackbarService: SnackbarService
+
   ) {}
 
   ngOnInit() {
