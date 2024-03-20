@@ -5,6 +5,9 @@ import { Capability } from '../../capabilities/model/Capability';
 import { Staffing } from '../../staffing/model/staffing.model';
 import { DropdownModule } from 'primeng/dropdown';
 
+import { AuthService } from 'src/app/core/services/auth.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+
 
 @Component({
   selector: 'app-report-generator',
@@ -19,14 +22,20 @@ export class ReportGeneratorComponent implements OnInit {
   selectedCapability: Capability;
   selectedStaffing: Staffing;
   selectedCertificate: string;
+  reportComment: string = '';
+  userName: string;
 
   constructor(
     private reportService: ReportService,
-    public dialogRef: DynamicDialogRef
+    public dialogRef: DynamicDialogRef,
+    public authService: AuthService,
+    private snackbarService: SnackbarService
+
   ) {}
 
   ngOnInit() {
     this.loadData();
+    this.userName = this.authService.userInfoSSO.displayName;
   }
 
   loadData() {
@@ -46,7 +55,35 @@ export class ReportGeneratorComponent implements OnInit {
   }
 
   onGenerate() {
-    console.log('Generado');
+    const today = new Date();
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    } as const;
+    const formattedDate = today.toLocaleDateString('es-ES', options);
+    const reportDescription = `Informe capacidades ${formattedDate}`;
+
+    const reportVersion = {
+      idRoleVersion: this.selectedCapability.id,
+      idStaffingVersion: this.selectedStaffing.id,
+      description: reportDescription,
+      user: this.userName,
+      comments: this.reportComment,
+    };
+
+    this.isLoading = true;
+    this.reportService.generateReport(reportVersion).subscribe({
+      next: (result) => {
+        this.snackbarService.showMessage('Informe generado correctamente');
+        this.isLoading = false;
+        this.close(true);
+      },
+      error: (error) => {
+        this.snackbarService.error(error);
+        this.isLoading = false;
+      },
+    });
   }
 
   onCancel() {

@@ -148,7 +148,6 @@ export class ReportListComponent {
   }
 
   generateReport(): void {
-    console.log('Botón importar staffing');
     const dialogRef = this.dialogService.open(ReportGeneratorComponent, {
       header: 'Generar Dashboard',
       width: '1000px',
@@ -157,7 +156,8 @@ export class ReportListComponent {
     });
     dialogRef.onClose.subscribe((result) => {
       if (result) {
-        console.log('Archivo generado:', result);
+        console.log('Archivo generado correctamente:', result);
+        this.loadData();
       } else {
         console.log('Archivo no generado.');
       }
@@ -166,7 +166,6 @@ export class ReportListComponent {
 
   loadData() {
     this.reportService.getAllReportVersions().subscribe((reports) => {
-      //console.log(reports);
       this.reports = reports;
       this.totalReports = reports.length;
       this.setDefaultFilters();

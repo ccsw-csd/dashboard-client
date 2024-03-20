@@ -1,9 +1,4 @@
-import {
-  Component,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api';
@@ -11,9 +6,7 @@ import {} from 'primeng/dynamicdialog';
 import { Staffing } from '../model/staffing.model';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
-import {
-  DialogService,
-} from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-staffing-list',
@@ -217,6 +210,23 @@ export class StaffingListComponent {
       this.tableWidth = 'calc(100vw - 255px)';
     } else {
       this.tableWidth = 'calc(100vw - 55px)';
+    }
+  }
+
+  downloadStaffing(id: string): void {
+    const staffing = this.staffing.find(
+      (staffing) => staffing.id === Number(id)
+    );
+
+    if (staffing && staffing.descripcion) {
+      const fileName = `${staffing.descripcion.replace(
+        /[^a-zA-Z0-9]/g,
+        '_'
+      )}.xlsx`;
+      this.staffingService.downloadFile(id, fileName);
+    } else {
+      const defaultFileName = 'Archivo_Staffing_id_' + id + '.xlsx';
+      this.staffingService.downloadFile(id, defaultFileName);
     }
   }
 }

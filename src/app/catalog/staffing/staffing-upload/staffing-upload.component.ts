@@ -4,7 +4,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-
 @Component({
   selector: 'app-staffing-upload',
   templateUrl: './staffing-upload.component.html',
@@ -51,9 +50,7 @@ export class StaffingUploadComponent {
     this.staffingService.uploadStaffing(formData).subscribe({
       next: (result) => {
         if (result)
-          this.snackbarService.showMessage(
-            'Archivo subido correctamente'
-          );
+          this.snackbarService.showMessage('Archivo subido correctamente');
         else this.snackbarService.showMessage('Archivo subido correctamente.');
         this.isLoading = false;
         this.close(true);
