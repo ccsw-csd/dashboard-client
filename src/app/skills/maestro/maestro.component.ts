@@ -38,13 +38,13 @@ export class MaestroComponent implements OnInit {
   ARCol: string[] = [];
   ARData: InformeTotal[];
   ARDataTotal: number;
-  isARDataTotalOK: boolean = true;
+  isARDataTotalOK: boolean = false;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
   SEDataTotal: number;
-  isSEDataTotalOK: boolean = true;
+  isSEDataTotalOK: boolean = false;
 
   IEText: string;
   IECol: string[] = [];
@@ -67,6 +67,7 @@ export class MaestroComponent implements OnInit {
   rolesCol: string[] = [];
   gradesRoles: InformeTotal[];
   gradeRoleText: string;
+  rolesSum: number[];
 
   selectedExcel: string = '';
   visible: boolean;
@@ -145,6 +146,9 @@ export class MaestroComponent implements OnInit {
     ];
 
     this.userName = this.authService.userInfoSSO.displayName;
+
+    
+
   }
 
   loadAllReports() {
@@ -429,9 +433,10 @@ export class MaestroComponent implements OnInit {
           this.isSEDataTotalOK = false;
         }
 
-        //console.log(this.SEDataTotal);
-        //console.log(rolesSum[3]);
-        //console.log(this.isSEDataTotalOK);
+        console.log(this.isEMDataTotalOK);
+        console.log(this.isBADataTotalOK);
+        console.log(this.isARDataTotalOK);
+        console.log(this.isSEDataTotalOK);
 
         this.CCATotal =
           this.EMDataTotal +
