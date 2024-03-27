@@ -38,13 +38,13 @@ export class MaestroComponent implements OnInit {
   ARCol: string[] = [];
   ARData: InformeTotal[];
   ARDataTotal: number;
-  isARDataTotalOK: boolean = false;
+  isARDataTotalOK: boolean = true;
 
   SEText: string;
   SECol: string[] = [];
   SEData: InformeTotal[];
   SEDataTotal: number;
-  isSEDataTotalOK: boolean = false;
+  isSEDataTotalOK: boolean = true;
 
   IEText: string;
   IECol: string[] = [];
